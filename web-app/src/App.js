@@ -6,7 +6,11 @@ class App extends Component {
     return (
       <div className="app">
         <header className="app__header">
-          <nav className="header__nav"></nav>
+          <nav className="header__nav">
+            <a href="" className="header__nav__calendar header__nav__item--active">Calendar</a>
+            <a href="" className="header__nav__clients">Clients</a>
+            <a href="" className="header__nav__staff">Staff</a>
+          </nav>
         </header>
         <aside className="app__left-pane">
         </aside>

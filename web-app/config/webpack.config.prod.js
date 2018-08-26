@@ -198,7 +198,7 @@ module.exports = {
                               '>1%',
                               'last 4 versions',
                               'Firefox ESR',
-                              'not ie < 9', // React doesn't support IE8 anyway
+                              'not ie <= 11', // React doesn't support IE8 anyway
                             ],
                             flexbox: 'no-2009',
                           }),
@@ -211,6 +211,10 @@ module.exports = {
               )
             ),
             // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
+          },
+          {
+            test: /\.svg$/,
+            loader: 'svg-inline-loader',
           },
           // "file" loader makes sure assets end up in the `build` folder.
           // When you `import` an asset, you get its filename.
