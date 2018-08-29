@@ -1,0 +1,64 @@
+.calendar {
+  display: grid;
+  grid-template-areas: 
+    "month month"
+    "weeks days";
+  grid-template-columns: 3rem 1fr;
+}
+
+.calendar__days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: 3rem;
+  grid-gap: 0rem 0.5rem;
+  grid-area: days;
+}
+
+.calendar__month {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  justify-content: center;
+  grid-gap: 2rem;
+  margin: 2rem 0 2rem 0;
+  grid-area: month;
+}
+
+.calendar__weeks {
+  display: grid;
+  grid-area: weeks;
+}
+
+.calendar__week {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  color: var(--font-color-secondary);
+  font-size: 1rem;
+}
+
+.calendar__month__title {
+  font-size: 2rem;
+}
+
+.calendar__day__name {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  color: var(--font-color-secondary);
+}
+
+.calendar__day {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar__day--today {
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  background-color: #EBA31E;
+  color: #FFF;
+}
