@@ -1,7 +1,8 @@
 import * as classNames from 'classnames';
-import { addDays, getDay, getDaysInMonth, getISOWeek } from 'date-fns';
+import { addDays, getDay, getDaysInMonth, getISOWeek, subMonths } from 'date-fns';
 import * as React from 'react';
 import './calendar.css';
+import { addMonths } from 'date-fns/esm';
 
 const range = (count: number, start: number = 1) =>
   Array.from({ length: count }, (v, i) => start + i);
@@ -9,7 +10,12 @@ const range = (count: number, start: number = 1) =>
 const LeftPane = () => {
   const date = new Date();
   const firstDayInMonth = new Date(date.getFullYear(), date.getMonth());
+  const prevMonth = subMonths(firstDayInMonth, 1);
+  const nextMonth = addMonths(firstDayInMonth, 1);
   const firstWeekInMonth = getISOWeek(firstDayInMonth);
+  const daysInMonth = getDaysInMonth(firstDayInMonth);
+  const firstDayWeekOffset = getDay(firstDayInMonth);
+  
   const numberOfWeeks = 5;
   return (
     <aside className="app__left-pane">
