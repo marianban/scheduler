@@ -20,14 +20,18 @@ it('for 1.1.2018 the first week has 7 days ', () => {
 });
 
 const expectWeekToHaveBounds = (week, start, end) => {
-  expect(week.days[0].date).toEqual(start);
-  expect(week.days[6].date).toEqual(end);
+  expect(week.days[0].num).toEqual(start);
+  expect(week.days[6].num).toEqual(end);
 };
 
-test.each`
-  date          | firstWeekNumber | firstWeekFirstDay | firstWeekLastDay | lastWeekFirstDay | lastWeekLastDay
-  ${'2018-1-1'} | ${1}            | ${1}              | ${7}             | ${5}             | ${11}
-  ${'2017-1-1'} | ${52}           | ${26}             | ${1}             | ${30}            | ${5}
+test.only.each`
+  date            | firstWeekNumber | firstWeekFirstDay | firstWeekLastDay | lastWeekFirstDay | lastWeekLastDay | weekNumbering
+  ${'2018-1-1'}   | ${1}            | ${1}              | ${7}             | ${5}             | ${11}           | ${'iso'}
+  ${'2017-1-1'}   | ${52}           | ${26}             | ${1}             | ${30}            | ${5}            | ${'iso'}
+  ${'2009-12-1'}  | ${49}           | ${30}             | ${6}             | ${4}             | ${10}           | ${'iso'}
+  ${'2018-1-1'}   | ${1}            | ${31}             | ${6}             | ${4}             | ${10}           | ${'us'}
+  ${'2017-1-1'}   | ${1}            | ${1}              | ${7}             | ${5}             | ${11}           | ${'us'}
+  ${'2009-12-1'}  | ${49}           | ${29}             | ${5}             | ${3}             | ${9}            | ${'us'}
 `(
   'for $date the first week #$firstWeekNumber is from $firstWeekFirstDay to $firstWeekLastDay and the last week is from $lastWeekFirstDay to $lastWeekLastDay',
   ({
@@ -36,9 +40,10 @@ test.each`
     firstWeekFirstDay,
     firstWeekLastDay,
     lastWeekFirstDay,
-    lastWeekLastDay
+    lastWeekLastDay,
+    weekNumbering,
   }) => {
-    const calendar = new Calendar(new Date(date));
+    const calendar = new Calendar(new Date(date), weekNumbering);
     const firstWeek = calendar.getWeeks()[0];
     expect(firstWeek.num).toEqual(firstWeekNumber);
     expectWeekToHaveBounds(firstWeek, firstWeekFirstDay, firstWeekLastDay);

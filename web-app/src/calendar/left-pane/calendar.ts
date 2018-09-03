@@ -1,8 +1,8 @@
 import {
-  addDays,
   getDay,
   getDaysInMonth,
   getISOWeek,
+  getWeek,
   subMonths,
   addMonths
 } from 'date-fns';
@@ -11,9 +11,11 @@ const range = (count: number, start: number = 1) =>
   Array.from({ length: count }, (v, i) => start + i);
 
 class Day {
-  readonly date: number;
+  readonly num: number;
+  readonly date: Date;
 
-  constructor(date: number) {
+  constructor(num: number, date: Date) {
+    this.num = num;
     this.date = date;
   }
 }
@@ -30,18 +32,26 @@ class Week {
 
 export class Calendar {
   private date: Date;
+  private weekNumbering: string;
 
-  constructor(date: Date) {
+  constructor(date: Date, weekNumbering = 'iso') {
     this.date = date;
+    this.weekNumbering = weekNumbering;
   }
 
-  getWeeks() {       
+  getWeeks() {
     const days = [
       ...this.getPrevMonthDays(),
       ...this.getCurrentMonthDays(),
-      ...this.getNextMonthDays(),
+      ...this.getNextMonthDays()
     ];
     return this.groupDaysToWeeks(days);
+  }
+
+  getWeekDays() {
+    return this.weekNumbering === 'iso'
+      ? ['Mo', 'Tu', 'We', 'Th', 'Fi', 'Sa', 'Su']
+      : ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fi', 'Sa'];
   }
 
   private getPrevMonthDays() {
@@ -54,11 +64,17 @@ export class Calendar {
 
   private getDay() {
     const dayOfWeek = getDay(this.date);
-    return dayOfWeek === 0 ? 7 : dayOfWeek;
+    if (this.weekNumbering === 'iso') {
+      return dayOfWeek === 0 ? 7 : dayOfWeek;
+    } else if (this.weekNumbering === 'us') {
+      return dayOfWeek + 1;
+    } else {
+      throw new Error('Unsupported week numbering');
+    }
   }
 
   private getCurrentMonthDays() {
-    return this.calendarDateToDays(this.date)
+    return this.calendarDateToDays(this.date);
   }
 
   private getNextMonthDays() {
@@ -69,22 +85,27 @@ export class Calendar {
 
   private calendarDateToDays(date: Date) {
     const daysInMonth = getDaysInMonth(date);
-    return range(daysInMonth).map(day => new Day(day));
+    return range(daysInMonth).map(
+      day => new Day(day, new Date(date.getFullYear(), date.getMonth(), day))
+    );
   }
 
   private groupDaysToWeeks(days: Array<Day>) {
-    const weekNumber = getISOWeek(this.date);
     const daysPerWeek = Array<Array<Day>>();
     let weekDays: Array<Day> = [];
+    const weekNumbers: Array<number> = [];
     days.forEach((day, i) => {
       weekDays.push(day);
       if ((i + 1) % 7 === 0) {
         daysPerWeek.push(weekDays);
+        weekNumbers.push(this.getWeek(day.date));
         weekDays = [];
       }
     });
-    return range(6, weekNumber).map(
-      (weekNum, i) => new Week(weekNum, daysPerWeek[i])
-    );
+    return weekNumbers.map((weekNum, i) => new Week(weekNum, daysPerWeek[i]));
+  }
+
+  private getWeek(date: Date) {
+    return this.weekNumbering === 'iso' ? getISOWeek(date) : getWeek(date);
   }
 }
