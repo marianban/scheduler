@@ -1,51 +1,48 @@
-import * as classNames from 'classnames';
-import { addDays, getDay, getDaysInMonth, getISOWeek, subMonths } from 'date-fns';
+import classNames from 'classnames';
 import * as React from 'react';
+import { Calendar } from './calendar';
 import './calendar.css';
-import { addMonths } from 'date-fns/esm';
-
-const range = (count: number, start: number = 1) =>
-  Array.from({ length: count }, (v, i) => start + i);
 
 const LeftPane = () => {
   const date = new Date();
-  const firstDayInMonth = new Date(date.getFullYear(), date.getMonth());
-  const prevMonth = subMonths(firstDayInMonth, 1);
-  const nextMonth = addMonths(firstDayInMonth, 1);
-  const firstWeekInMonth = getISOWeek(firstDayInMonth);
-  const daysInMonth = getDaysInMonth(firstDayInMonth);
-  const firstDayWeekOffset = getDay(firstDayInMonth);
-  
-  const numberOfWeeks = 5;
+  const calendar = new Calendar(
+    new Date(date.getFullYear(), date.getMonth(), 1)
+  );
+  const weeks = calendar.getWeeks();
+  const weekDays = calendar.getWeekDays();
   return (
     <aside className="app__left-pane">
       <div className="calendar">
         <div className="calendar__month">
           <div>&lt;</div>
-          <div className="calendar__month__title">August 2018</div>
+          <div className="calendar__month__title">
+            {calendar.getMonthName()} {calendar.getYear()}
+          </div>
           <div>&gt;</div>
         </div>
         <div className="calendar__weeks">
-          <div className="calendar__week" />
-          {range(numberOfWeeks, firstWeekInMonth).map((week: number) => (
-            <div className="calendar__week" key={week}>
-              {week}
-            </div>
-          ))}
-        </div>
-        <div className="calendar__days">
-          {['Mo', 'Tu', 'We', 'Th', 'Fi', 'Sa', 'Su'].map((dayName: string) => (
-            <div className="calendar__day__name">{dayName}</div>
-          ))}
-          {range(getDaysInMonth(firstDayInMonth)).map((day: number) => (
+          <div className="calendar__week">
+            {weekDays.map(weekDay => (
+              <div className="calendar__week__name">{weekDay}</div>
+            ))}
+          </div>
+          {weeks.map(week => (
             <div
-              className={classNames('calendar__day', {
-                'calendar__day--today': date.getDate() === day
+              className={classNames('calendar__week', {
+                'calendar__week--current': week.includes(date)
               })}
-              key={day}
-              style={{ gridColumn: getDay(addDays(firstDayInMonth, day - 1)) }}
             >
-              {day}
+              <div className="calendar__week__num">{week.num}</div>
+              {week.days.map(day => (
+                <div
+                  className={classNames('calendar__week__day', {
+                    'calendar__day--today': day.isSameDayAs(date),
+                    'calendar__day--another-month': !day.isActiveMonth
+                  })}
+                >
+                  {day.num}
+                </div>
+              ))}
             </div>
           ))}
         </div>

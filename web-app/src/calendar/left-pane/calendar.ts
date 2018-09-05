@@ -1,34 +1,16 @@
 import {
+  addMonths,
   getDay,
   getDaysInMonth,
   getISOWeek,
   getWeek,
-  subMonths,
-  addMonths
+  subMonths
 } from 'date-fns';
+import { Day } from './day';
+import { Week } from './week';
 
 const range = (count: number, start: number = 1) =>
   Array.from({ length: count }, (v, i) => start + i);
-
-class Day {
-  readonly num: number;
-  readonly date: Date;
-
-  constructor(num: number, date: Date) {
-    this.num = num;
-    this.date = date;
-  }
-}
-
-class Week {
-  readonly num: number;
-  readonly days: Array<Day>;
-
-  constructor(num: number, days: Array<Day>) {
-    this.num = num;
-    this.days = days;
-  }
-}
 
 export class Calendar {
   private date: Date;
@@ -39,7 +21,29 @@ export class Calendar {
     this.weekNumbering = weekNumbering;
   }
 
-  getWeeks() {
+  public getYear() {
+    return this.date.getFullYear();
+  }
+
+  public getMonthName() {
+    const months = [
+      'Janurary',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ];
+    return months[this.date.getMonth()];
+  }
+
+  public getWeeks() {
     const days = [
       ...this.getPrevMonthDays(),
       ...this.getCurrentMonthDays(),
@@ -48,7 +52,7 @@ export class Calendar {
     return this.groupDaysToWeeks(days);
   }
 
-  getWeekDays() {
+  public getWeekDays() {
     return this.weekNumbering === 'iso'
       ? ['Mo', 'Tu', 'We', 'Th', 'Fi', 'Sa', 'Su']
       : ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fi', 'Sa'];
@@ -74,7 +78,7 @@ export class Calendar {
   }
 
   private getCurrentMonthDays() {
-    return this.calendarDateToDays(this.date);
+    return this.calendarDateToDays(this.date, true);
   }
 
   private getNextMonthDays() {
@@ -83,20 +87,25 @@ export class Calendar {
     return nextMonthDays;
   }
 
-  private calendarDateToDays(date: Date) {
+  private calendarDateToDays(date: Date, isActiveMonth = false) {
     const daysInMonth = getDaysInMonth(date);
     return range(daysInMonth).map(
-      day => new Day(day, new Date(date.getFullYear(), date.getMonth(), day))
+      day =>
+        new Day(
+          day,
+          new Date(date.getFullYear(), date.getMonth(), day),
+          isActiveMonth
+        )
     );
   }
 
-  private groupDaysToWeeks(days: Array<Day>) {
-    const daysPerWeek = Array<Array<Day>>();
-    let weekDays: Array<Day> = [];
-    const weekNumbers: Array<number> = [];
+  private groupDaysToWeeks(days: Day[]) {
+    const daysPerWeek = Array<Day[]>();
+    let weekDays: Day[] = [];
+    const weekNumbers: number[] = [];
     days.forEach((day, i) => {
       weekDays.push(day);
-      if ((i + 1) % 7 === 0) {
+      if ((i + 1) % 7 === 0 && daysPerWeek.length < 6) {
         daysPerWeek.push(weekDays);
         weekNumbers.push(this.getWeek(day.date));
         weekDays = [];

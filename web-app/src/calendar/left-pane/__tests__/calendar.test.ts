@@ -1,12 +1,21 @@
 import { Calendar } from '../calendar';
+import { Week } from '../week';
 
 it('it is initializes without crashing', () => {
-  new Calendar();
+    const calendar = new Calendar(new Date());
+    expect(calendar).toBeDefined();
 });
 
 it('returns 6 weeks for 1.1.2018', () => {
-  const calendar = new Calendar(new Date(2018, 1, 1));
+  const calendar = new Calendar(new Date(2018, 0, 1));
   expect(calendar.getWeeks().length).toBe(6);
+});
+
+it('first week in calendar for 1.1.2018 is in current month', () => {
+  const calendar = new Calendar(new Date(2018, 0, 1));
+  const weeks = calendar.getWeeks()
+  expect(weeks[0].days.every(day => day.isActiveMonth)).toBeTruthy();
+  expect(weeks[weeks.length - 1].days.every(day => day.isActiveMonth)).toBeFalsy();
 });
 
 it('for 1.1.2018 the first week has number 1 ', () => {
@@ -19,12 +28,12 @@ it('for 1.1.2018 the first week has 7 days ', () => {
   expect(calendar.getWeeks()[0].days.length).toBe(7);
 });
 
-const expectWeekToHaveBounds = (week, start, end) => {
+const expectWeekToHaveBounds = (week: Week, start: number, end: number) => {
   expect(week.days[0].num).toEqual(start);
   expect(week.days[6].num).toEqual(end);
 };
 
-test.only.each`
+it.each`
   date            | firstWeekNumber | firstWeekFirstDay | firstWeekLastDay | lastWeekFirstDay | lastWeekLastDay | weekNumbering
   ${'2018-1-1'}   | ${1}            | ${1}              | ${7}             | ${5}             | ${11}           | ${'iso'}
   ${'2017-1-1'}   | ${52}           | ${26}             | ${1}             | ${30}            | ${5}            | ${'iso'}
