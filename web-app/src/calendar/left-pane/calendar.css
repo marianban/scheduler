@@ -69,8 +69,8 @@
   border-radius: 50%;
   background-color: #eba31e;
   color: #fff;
-  width: 3rem;
-  height: 3rem;
+  width: 2.8rem;
+  height: 2.8rem;
 }
 
 .calendar__day--another-month {
@@ -87,5 +87,5 @@
 
 .calendar__week--current .calendar__week__day,
 .calendar__week--current .calendar__week__num {
-  transform: translateY(calc(-0.5rem - 1px));
+  transform: translateY(calc(-0.4rem - 1px));
 }

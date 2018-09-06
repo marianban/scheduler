@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import * as React from 'react';
+import Arrow from './Arrow.svg';
 import { Calendar } from './calendar';
 import './calendar.css';
 
@@ -14,11 +15,13 @@ const LeftPane = () => {
     <aside className="app__left-pane">
       <div className="calendar">
         <div className="calendar__month">
-          <div>&lt;</div>
+          <div>
+            <Arrow style={{ transform: 'rotate(180deg)' }} />
+          </div>
           <div className="calendar__month__title">
             {calendar.getMonthName()} {calendar.getYear()}
           </div>
-          <div>&gt;</div>
+          <div><Arrow /></div>
         </div>
         <div className="calendar__weeks">
           <div className="calendar__week">
