@@ -1,8 +1,7 @@
 import * as React from 'react';
-
-import LeftPane from './calendar/left-pane/left-pane';
-
+import { Button } from 'src/components/Button';
 import './App.css';
+import LeftPane from './calendar/left-pane/LeftPane';
 
 class App extends React.Component {
   public render() {
@@ -18,7 +17,8 @@ class App extends React.Component {
         <LeftPane />
         <aside className="app__right-pane" />
         <main className="app__main-pane">
-          <p className="App-intro">
+          <Button>Today</Button>
+          <p>
             To get started, edit <code>src/App.js</code> and save to reload.
           </p>
         </main>

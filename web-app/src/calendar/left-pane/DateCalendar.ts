@@ -6,13 +6,13 @@ import {
   getWeek,
   subMonths
 } from 'date-fns';
-import { Day } from './day';
-import { Week } from './week';
+import { Day } from './Day';
+import { Week } from './Week';
 
 const range = (count: number, start: number = 1) =>
   Array.from({ length: count }, (v, i) => start + i);
 
-export class Calendar {
+export class DateCalendar {
   private date: Date;
   private weekNumbering: string;
 
