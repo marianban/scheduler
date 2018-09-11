@@ -93,38 +93,3 @@
 .app__main-pane__content {
   grid-area: mainContent;
 }
-
-.shedule__week {
-  display: grid;
-  grid-template-columns: 60px repeat(7, 1fr);
-  grid-template-rows: repeat(16, 4rem);
-  border-radius: 5px;
-  border: 1px solid transparent;
-  position: relative;
-}
-
-.shedule__week div {
-  border-bottom: 1px solid #E9E9E9;
-  border-right: 1px solid #E9E9E9;
-  background-color: #FFF;
-  z-index: 0;
-}
-
-.shedule__week .shedule__week__day--last {
-  border-right: none;
-}
-
-.shedule__week .shedule__week__hour {
-  background-color: transparent;
-  border: none;
-}
-
-.shedule__week .apointment {
-  border: none;
-  grid-column: 3 / span 1; 
-  grid-row: 9 / span 3; 
-  z-index: 1; 
-  position: absolute;
-  width: 100%; 
-  height: 100%;
-}
