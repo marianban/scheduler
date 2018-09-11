@@ -11,7 +11,7 @@
 
 .app__header {
   grid-area: header;
-  background-color: #7764CA;
+  background-color: var(--color-primary);
   display: flex;
   align-items: center;
 }
@@ -61,7 +61,7 @@
   grid-area: leftPane;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
   z-index: 2;
-  padding: 1rem;
+  padding: 3rem 1rem 0 1rem;
 }
 
 .app__right-pane {
@@ -73,4 +73,58 @@
 .app__main-pane {
   grid-area: mainPane;
   background-color: #FAFAFA;
+}
+
+.app__main-pane {
+  display: grid;
+  grid-template-areas:  
+    "mainControls"
+    "mainContent";
+  grid-gap: 3rem;
+  align-content: flex-start;
+  padding: 0 3rem;
+}
+
+.app__main-pane__controls {
+  grid-area: mainControls;
+  padding-top: 3rem;
+}
+
+.app__main-pane__content {
+  grid-area: mainContent;
+}
+
+.shedule__week {
+  display: grid;
+  grid-template-columns: 60px repeat(7, 1fr);
+  grid-template-rows: repeat(16, 4rem);
+  border-radius: 5px;
+  border: 1px solid transparent;
+  position: relative;
+}
+
+.shedule__week div {
+  border-bottom: 1px solid #E9E9E9;
+  border-right: 1px solid #E9E9E9;
+  background-color: #FFF;
+  z-index: 0;
+}
+
+.shedule__week .shedule__week__day--last {
+  border-right: none;
+}
+
+.shedule__week .shedule__week__hour {
+  background-color: transparent;
+  border: none;
+}
+
+.shedule__week .apointment {
+  border: none;
+  grid-column: 3 / span 1; 
+  grid-row: 9 / span 3; 
+  z-index: 1; 
+  position: absolute;
+  width: 100%; 
+  height: 100%;
 }
