@@ -1,11 +1,5 @@
-import {
-  addMonths,
-  getDay,
-  getDaysInMonth,
-  getISOWeek,
-  getWeek,
-  subMonths
-} from 'date-fns';
+import { WeekNumbering } from 'calendar/WeekNumbering';
+import { addMonths, getDay, getDaysInMonth, getISOWeek, getWeek, subMonths } from 'date-fns';
 import { Day } from './Day';
 import { Week } from './Week';
 
@@ -14,9 +8,9 @@ const range = (count: number, start: number = 1) =>
 
 export class DateCalendar {
   private date: Date;
-  private weekNumbering: string;
+  private weekNumbering: WeekNumbering;
 
-  constructor(date: Date, weekNumbering = 'iso') {
+  constructor(date: Date, weekNumbering = WeekNumbering.ISO) {
     this.date = date;
     this.weekNumbering = weekNumbering;
   }
@@ -53,7 +47,7 @@ export class DateCalendar {
   }
 
   public getWeekDays() {
-    return this.weekNumbering === 'iso'
+    return this.weekNumbering === WeekNumbering.ISO
       ? ['Mo', 'Tu', 'We', 'Th', 'Fi', 'Sa', 'Su']
       : ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fi', 'Sa'];
   }
@@ -68,12 +62,13 @@ export class DateCalendar {
 
   private getDay() {
     const dayOfWeek = getDay(this.date);
-    if (this.weekNumbering === 'iso') {
-      return dayOfWeek === 0 ? 7 : dayOfWeek;
-    } else if (this.weekNumbering === 'us') {
-      return dayOfWeek + 1;
-    } else {
-      throw new Error('Unsupported week numbering');
+    switch(this.weekNumbering) {
+      case WeekNumbering.ISO:
+        return dayOfWeek === 0 ? 7 : dayOfWeek;
+      case WeekNumbering.NorthAmerican:
+        return dayOfWeek + 1;
+      default:
+        throw new Error('Unsupported week numbering');
     }
   }
 
@@ -115,6 +110,6 @@ export class DateCalendar {
   }
 
   private getWeek(date: Date) {
-    return this.weekNumbering === 'iso' ? getISOWeek(date) : getWeek(date);
+    return this.weekNumbering === WeekNumbering.ISO ? getISOWeek(date) : getWeek(date);
   }
 }

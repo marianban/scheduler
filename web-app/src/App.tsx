@@ -1,5 +1,5 @@
+import { Button } from 'components/Button';
 import * as React from 'react';
-import { Button } from 'src/components/Button';
 import './App.css';
 import LeftPane from './calendar/left-pane/LeftPane';
 import Schedule from './calendar/schedule/Schedule';

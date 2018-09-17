@@ -19,6 +19,9 @@
     "noUnusedLocals": true,
     "alwaysStrict": true,
     "strictPropertyInitialization": true,
+    "paths": {
+      "*": ["src/*"]
+    }
   },
   "exclude": [
     "node_modules",

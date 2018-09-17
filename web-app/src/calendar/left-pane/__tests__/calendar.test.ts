@@ -1,3 +1,4 @@
+import { WeekNumbering } from 'calendar/WeekNumbering';
 import { DateCalendar } from '../DateCalendar';
 import { Week } from '../Week';
 
@@ -35,12 +36,12 @@ const expectWeekToHaveBounds = (week: Week, start: number, end: number) => {
 
 it.each`
   date            | firstWeekNumber | firstWeekFirstDay | firstWeekLastDay | lastWeekFirstDay | lastWeekLastDay | weekNumbering
-  ${'2018-1-1'}   | ${1}            | ${1}              | ${7}             | ${5}             | ${11}           | ${'iso'}
-  ${'2017-1-1'}   | ${52}           | ${26}             | ${1}             | ${30}            | ${5}            | ${'iso'}
-  ${'2009-12-1'}  | ${49}           | ${30}             | ${6}             | ${4}             | ${10}           | ${'iso'}
-  ${'2018-1-1'}   | ${1}            | ${31}             | ${6}             | ${4}             | ${10}           | ${'us'}
-  ${'2017-1-1'}   | ${1}            | ${1}              | ${7}             | ${5}             | ${11}           | ${'us'}
-  ${'2009-12-1'}  | ${49}           | ${29}             | ${5}             | ${3}             | ${9}            | ${'us'}
+  ${'2018-1-1'}   | ${1}            | ${1}              | ${7}             | ${5}             | ${11}           | ${WeekNumbering.ISO}
+  ${'2017-1-1'}   | ${52}           | ${26}             | ${1}             | ${30}            | ${5}            | ${WeekNumbering.ISO}
+  ${'2009-12-1'}  | ${49}           | ${30}             | ${6}             | ${4}             | ${10}           | ${WeekNumbering.ISO}
+  ${'2018-1-1'}   | ${1}            | ${31}             | ${6}             | ${4}             | ${10}           | ${WeekNumbering.NorthAmerican}
+  ${'2017-1-1'}   | ${1}            | ${1}              | ${7}             | ${5}             | ${11}           | ${WeekNumbering.NorthAmerican}
+  ${'2009-12-1'}  | ${49}           | ${29}             | ${5}             | ${3}             | ${9}            | ${WeekNumbering.NorthAmerican}
 `(
   'for $date the first week #$firstWeekNumber is from $firstWeekFirstDay to $firstWeekLastDay and the last week is from $lastWeekFirstDay to $lastWeekLastDay',
   ({
@@ -70,5 +71,12 @@ it('each week has 7 days', () => {
   const calendar = new DateCalendar(new Date(2018, 1, 1));
   expect(
     calendar.getWeeks().every(week => week.days.length === 7)
+  ).toBeTruthy();
+});
+
+it('has 7 weekdays', () => {
+  const calendar = new DateCalendar(new Date(2018, 1, 1));
+  expect(
+    calendar.getWeekDays().length === 7
   ).toBeTruthy();
 });

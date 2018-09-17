@@ -21,6 +21,7 @@
 .schedule__week .schedule__week__hour {
   background-color: transparent;
   border: none;
+  color: var(--font-color-secondary);
 }
 
 .schedule__week .apointment {
