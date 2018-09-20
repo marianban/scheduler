@@ -9,7 +9,7 @@ export const Calendar = () => {
     new Date(date.getFullYear(), date.getMonth(), 1)
   );
   const weeks = calendar.getWeeks();
-  const weekDays = calendar.getWeekDays();
+  const weekDays = calendar.getWeekDays().map(d => d.twoLetterName);
   return (
     <div className="calendar">
       <div className="calendar__month">

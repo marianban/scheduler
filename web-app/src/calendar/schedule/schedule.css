@@ -1,13 +1,13 @@
 .schedule__week {
   display: grid;
   grid-template-columns: 60px repeat(7, 1fr);
-  grid-template-rows: repeat(16, 4rem);
+  grid-template-rows: repeat(17, 4rem);
   border-radius: 5px;
   border: 1px solid transparent;
   position: relative;
 }
 
-.schedule__week div {
+.schedule__week .schedule__week__day {
   border-bottom: 1px solid #E9E9E9;
   border-right: 1px solid #E9E9E9;
   background-color: #FFF;
@@ -16,6 +16,21 @@
 
 .schedule__week .schedule__week__day--last {
   border-right: none;
+}
+
+.schedule__week .schedule__week__day__name {
+  color: var(--font-color-secondary);
+  background-color: transparent;
+  border: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  margin-right: 0.5rem;
+  flex-direction: column;
+}
+
+.schedule__week .schedule__week__day__name .day__number {
+  font-size: 3rem;
 }
 
 .schedule__week .schedule__week__hour {

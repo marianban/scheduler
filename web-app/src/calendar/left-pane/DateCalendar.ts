@@ -1,3 +1,4 @@
+import { getWeekDays } from 'calendar/getWeekDays';
 import { WeekNumbering } from 'calendar/WeekNumbering';
 import { addMonths, getDay, getDaysInMonth, getISOWeek, getWeek, subMonths } from 'date-fns';
 import { Day } from './Day';
@@ -47,9 +48,7 @@ export class DateCalendar {
   }
 
   public getWeekDays() {
-    return this.weekNumbering === WeekNumbering.ISO
-      ? ['Mo', 'Tu', 'We', 'Th', 'Fi', 'Sa', 'Su']
-      : ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fi', 'Sa'];
+    return getWeekDays(this.weekNumbering)
   }
 
   private getPrevMonthDays() {
