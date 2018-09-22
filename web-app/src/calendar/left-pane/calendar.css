@@ -67,7 +67,7 @@
 
 .calendar__day--today {
   border-radius: 50%;
-  background-color: #eba31e;
+  background-color: var(--color-highlight);
   color: #fff;
   width: 2.8rem;
   height: 2.8rem;

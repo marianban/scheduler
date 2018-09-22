@@ -19,18 +19,27 @@
 }
 
 .schedule__week .schedule__week__day__name {
-  color: var(--font-color-secondary);
+  color: #969696;
   background-color: transparent;
   border: none;
   display: flex;
   justify-content: space-around;
   align-items: flex-end;
-  margin-right: 0.5rem;
+  margin-right: 0.2rem;
+  margin-bottom: 0.5rem;
   flex-direction: column;
 }
 
+.schedule__week .schedule__week__day__name--selected {
+  color: var(--color-highlight);
+}
+
 .schedule__week .schedule__week__day__name .day__number {
-  font-size: 3rem;
+  font-size: 2rem;
+}
+
+.schedule__week .schedule__week__day__name .day__name {
+  text-transform: uppercase;
 }
 
 .schedule__week .schedule__week__hour {

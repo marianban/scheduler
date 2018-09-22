@@ -1,8 +1,10 @@
 import { getWeekDays } from 'calendar/getWeekDays';
 import { WeekNumbering } from 'calendar/WeekNumbering';
 import classNames from 'classnames';
+import * as addDays from 'date-fns/addDays';
 import * as addMinutes from 'date-fns/addMinutes';
 import * as format from 'date-fns/format';
+import * as getStartOfWeek from 'date-fns/startOfWeek'
 import * as React from 'react';
 import './schedule.css';
 
@@ -16,22 +18,27 @@ const Schedule = () => {
     0,
     0
   );
+
+  const startOfWeek = getStartOfWeek(now, { weekStartsOn: 1 })
+  
   const weekDays = [
     { name: '', day: '' },
-    ...getWeekDays(WeekNumbering.ISO).map(d => ({
+    ...getWeekDays(WeekNumbering.ISO).map((d, i) => ({
       name: d.threeLetterName,
-      day: 1
+      day: addDays(startOfWeek, i).getDate()
     }))
   ];
   return (
     <div className="schedule__week">
-      {weekDays.map(weekDay => (
+      {weekDays.map((weekDay, i) => (
         <div
           key={weekDay.name}
-          className="schedule__week__day__name"
+          className={classNames('schedule__week__day__name', {
+            'schedule__week__day__name--selected': i === 4
+          })}
           style={{ gridRow: 1 }}
         >
-          {weekDay.name}
+          <div className="day__name">{weekDay.name}</div>
           <div className="day__number">{weekDay.day}</div>
         </div>
       ))}
