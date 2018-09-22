@@ -2,6 +2,7 @@ import { Button } from 'components/Button';
 import * as React from 'react';
 import './App.css';
 import LeftPane from './calendar/left-pane/LeftPane';
+import RightPane from './calendar/right-pane/RightPane';
 import Schedule from './calendar/schedule/Schedule';
 
 class App extends React.Component {
@@ -25,7 +26,7 @@ class App extends React.Component {
           </nav>
         </header>
         <LeftPane />
-        <aside className="app__right-pane" />
+        <RightPane />
         <main className="app__main-pane">
           <div className="app__main-pane__controls">
             <Button>Today</Button>

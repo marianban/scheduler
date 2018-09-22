@@ -68,6 +68,7 @@
   grid-area: rightPane;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
   z-index: 2;
+  padding: 2rem;
 }
 
 .app__main-pane {
@@ -92,4 +93,14 @@
 
 .app__main-pane__content {
   grid-area: mainContent;
+}
+
+.text-box {
+  border: 1px solid #E2E2E7;
+  border-radius: 3px;
+  font-size: 1.5rem;
+  line-height: 2.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  color: var(--font-color);
 }
