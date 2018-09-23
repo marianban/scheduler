@@ -61,7 +61,7 @@ export const Schedule = () => {
           )}
         </div>
       ))}
-      <div className="apointment">Appointment</div>
+      <div className="apointment">Annamaria Banova</div>
     </div>
   );
 };
