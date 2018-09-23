@@ -1,0 +1,8 @@
+.label {
+  display: grid;
+  margin-top: 2rem;
+}
+
+.label__title {
+  padding-bottom: 0.3rem;
+} 

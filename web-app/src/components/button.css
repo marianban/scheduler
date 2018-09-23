@@ -13,3 +13,14 @@
 .btn:hover {
   background-color: #5DB4F2;
 }
+
+.btn--secondary {
+  background-color: transparent;
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  font-weight: 300;
+}
+
+.btn--secondary:hover {
+  background-color: #5DB4F233;
+}

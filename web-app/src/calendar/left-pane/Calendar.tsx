@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import Arrow from './Arrow.svg';
+import './Calendar.css';
 import { DateCalendar } from './DateCalendar';
 
 export const Calendar = () => {

@@ -11,6 +11,7 @@ html {
 h2 {
   font-size: 2rem;
   font-weight: 400;
-  padding-top: 2rem;
-  padding-bottom: 1rem;
+  padding-top: 3rem;
+  /* bottom padding is handled by next form element */
+  padding-bottom: 0rem;
 }

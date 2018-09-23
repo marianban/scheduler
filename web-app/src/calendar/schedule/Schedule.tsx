@@ -6,7 +6,7 @@ import * as addMinutes from 'date-fns/addMinutes';
 import * as format from 'date-fns/format';
 import * as getStartOfWeek from 'date-fns/startOfWeek'
 import * as React from 'react';
-import './schedule.css';
+import './Schedule.css';
 
 const Schedule = () => {
   const now = new Date();
