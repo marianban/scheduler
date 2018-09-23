@@ -8,7 +8,7 @@ import * as getStartOfWeek from 'date-fns/startOfWeek'
 import * as React from 'react';
 import './Schedule.css';
 
-const Schedule = () => {
+export const Schedule = () => {
   const now = new Date();
   const startOfDay = new Date(
     now.getFullYear(),

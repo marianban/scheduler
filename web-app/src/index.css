@@ -12,6 +12,6 @@ h2 {
   font-size: 2rem;
   font-weight: 400;
   padding-top: 3rem;
-  /* bottom padding is handled by next form element */
+  /* bottom padding is handled by next form element (it has margin top) */
   padding-bottom: 0rem;
 }
