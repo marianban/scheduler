@@ -1,7 +1,8 @@
 import { TextBox } from 'components/TextBox';
 import * as React from 'react';
-import Bell from './bell-regular.svg'
+import BellIcon from './bell-regular.svg';
 import './Header.css';
+import SearchIcon from './search-solid.svg';
 
 const Header = () => (
   <header className="app__header">
@@ -20,8 +21,8 @@ const Header = () => (
       </a>
     </nav>
     <div className="header__utils">
-      <TextBox />
-      <Bell />
+      <TextBox suffix={<SearchIcon className="appointment__calendar-icon" />} />
+      <BellIcon />
       <div className="dropdown">Majo</div>
     </div>
   </header>

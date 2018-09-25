@@ -1,4 +1,10 @@
+.text-box__container {
+  position: relative;
+  height: calc(2.5rem + 4px);
+}
+
 .text-box {
+  position: absolute;
   border: 1px solid #E2E2E7;
   border-radius: 3px;
   font-size: 1.5rem;
@@ -6,10 +12,20 @@
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   color: var(--font-color);
-  min-width: 0px;
+  transition: box-shadow 100ms linear;
+  width: 100%;
 }
 
 .text-box:focus {
   box-shadow: 0 0 2pt 0pt var(--color-highlight);
   outline: none;
 }
+
+.text-box__suffix {
+  position: absolute;
+  right: 0.5rem;
+  height: calc(2.5rem + 4px);
+  display: flex;
+  align-items: center;
+}
+

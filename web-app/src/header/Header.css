@@ -57,3 +57,18 @@
 .header__utils .dropdown {
   color: #FFF;
 }
+
+.app__header .text-box {
+  background-color: #ADA2DF;
+  border-color: #ADA2DF;
+  transition: background-color 100ms linear;
+}
+
+.app__header .text-box__container {
+  width: 200px;
+}
+
+.app__header .text-box:focus {
+  background-color: #FFF;
+  box-shadow: none;
+}

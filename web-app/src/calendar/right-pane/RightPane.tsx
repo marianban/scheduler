@@ -1,6 +1,8 @@
 import { Button } from 'components/Button';
-import { Field, FieldType } from 'components/Field';
+import { TextField } from 'components/Field';
 import * as React from 'react';
+import CalendarIcon from './calendar-alt-regular.svg';
+import ClockIcon from './clock-regular.svg'
 import './RightPane.css';
 
 const RightPane = () => {
@@ -10,14 +12,14 @@ const RightPane = () => {
         <Button className="btn--secondary">Delete</Button>
       </div>
       <h2 className="grid-col-span-2">Client</h2>
-      <Field title="First Name" type={FieldType.Text} />
-      <Field title="Last Name" type={FieldType.Text} />
-      <Field title="Email" type={FieldType.Text} />
-      <Field title="Telephone" type={FieldType.Text} />
+      <TextField title="First Name" />
+      <TextField title="Last Name" />
+      <TextField title="Email" />
+      <TextField title="Telephone" />
       <h2 className="grid-col-span-2">Appointment</h2>
-      <Field title="Date" type={FieldType.Text} />
-      <Field title="Time" type={FieldType.Text} />
-      <Field title="Services" type={FieldType.Text} />
+      <TextField title="Date" suffix={<CalendarIcon className="appointment__calendar-icon" />} />
+      <TextField title="Time" suffix={<ClockIcon className="appointment__calendar-icon" />} />
+      <TextField title="Services" />
     </aside>
   );
 };

@@ -2,3 +2,12 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.appointment__calendar-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.appointment__calendar-icon path {
+  fill: var(--font-color);
+}
