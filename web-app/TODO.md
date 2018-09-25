@@ -1,0 +1,1 @@
+- move all icons into one folder (calendar icon used in css and date picker).
