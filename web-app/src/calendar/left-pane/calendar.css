@@ -48,6 +48,9 @@
 
 .calendar__month__title {
   font-size: 2rem;
+  width: 160px;
+  display: grid;
+  justify-content: center;
 }
 
 .calendar__day__name {

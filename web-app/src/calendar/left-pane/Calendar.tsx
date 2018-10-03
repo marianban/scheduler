@@ -1,27 +1,34 @@
 import classNames from 'classnames';
+import { inject, observer } from 'mobx-react';
 import * as React from 'react';
+import { CalendarStore } from '../CalendarStore';
 import Arrow from './Arrow.svg';
 import './Calendar.css';
 import { DateCalendar } from './DateCalendar';
 
-export const Calendar = () => {
-  const date = new Date();
-  const calendar = new DateCalendar(
+interface IProps {
+  calendar?: CalendarStore,
+}
+
+export const Calendar = inject('calendar')(observer((props: IProps) => {
+  const calendar = props.calendar!;
+  const date = calendar.date;
+  const dateCalendar = new DateCalendar(
     new Date(date.getFullYear(), date.getMonth(), 1)
   );
-  const weeks = calendar.getWeeks();
-  const weekDays = calendar.getWeekDays().map(d => d.twoLetterName);
+  const weeks = dateCalendar.getWeeks();
+  const weekDays = dateCalendar.getWeekDays().map(d => d.twoLetterName);
   return (
     <div className="calendar">
       <div className="calendar__month">
         <div>
-          <Arrow style={{ transform: 'rotate(180deg)' }} />
+          <Arrow style={{ transform: 'rotate(180deg)' }} onClick={calendar.prevMonth} />
         </div>
         <div className="calendar__month__title">
-          {calendar.getMonthName()} {calendar.getYear()}
+          {dateCalendar.getMonthName()} {dateCalendar.getYear()}
         </div>
         <div>
-          <Arrow />
+          <Arrow onClick={calendar!.prevMonth} />
         </div>
       </div>
       <div className="calendar__weeks">
@@ -52,4 +59,4 @@ export const Calendar = () => {
       </div>
     </div>
   );
-};
+}));
