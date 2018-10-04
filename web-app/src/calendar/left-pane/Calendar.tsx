@@ -1,19 +1,20 @@
 import classNames from 'classnames';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { CalendarStore } from '../CalendarStore';
+import { RootStore } from 'RootStore';
 import Arrow from './Arrow.svg';
 import './Calendar.css';
 import { DateCalendar } from './DateCalendar';
 
 interface IProps {
-  calendar?: CalendarStore;
+  rootStore?: RootStore;
 }
 
-export const Calendar = inject('calendar')(
+export const Calendar = inject('rootStore')(
   observer((props: IProps) => {
-    const calendar = props.calendar!;
-    const date = calendar.date;
+    const rootStore = props.rootStore!;
+    const calendarStore = rootStore.calendarStore;
+    const date = calendarStore.date;
     const dateCalendar = new DateCalendar(
       new Date(date.getFullYear(), date.getMonth(), 1)
     );
@@ -24,7 +25,7 @@ export const Calendar = inject('calendar')(
         <div className="calendar__month">
           <div
             className="calendar__month__btn calendar__month__btn--left"
-            onClick={calendar.prevMonth}
+            onClick={calendarStore.prevMonth}
           >
             <Arrow style={{ transform: 'rotate(180deg)' }} />
           </div>
@@ -33,7 +34,7 @@ export const Calendar = inject('calendar')(
           </div>
           <div
             className="calendar__month__btn calendar__month__btn--right"
-            onClick={calendar.prevMonth}
+            onClick={calendarStore.prevMonth}
           >
             <Arrow />
           </div>
