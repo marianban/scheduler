@@ -7,7 +7,7 @@
   font-weight: 600;
   font-size: 1.5rem;
   padding: 0.5rem 1rem;
-  transition: background-color 100ms linear;
+  transition: background-color var(--hover-transition-duration) linear;
 }
 
 .btn:hover {
@@ -22,5 +22,5 @@
 }
 
 .btn--secondary:hover {
-  background-color: #5DB4F233;
+  background-color: var(--color-bg-secondary);
 }

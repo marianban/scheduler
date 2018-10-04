@@ -51,6 +51,33 @@
   width: 160px;
   display: grid;
   justify-content: center;
+  align-items: center;
+}
+
+.calendar__month__btn {
+  width: 30px;
+  display: grid;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  transition: background-color var(--hover-transition-duration) linear;
+  user-select: none;
+}
+
+.calendar__month__btn:hover {
+  background-color: var(--color-bg-secondary);
+  border-radius: 3px;
+}
+
+.calendar__month__btn--left {
+  justify-items: flex-end;
+  margin-right: -10px;
+  padding-right: 10px;
+}
+
+.calendar__month__btn--right {
+  justify-items: flex-start;
+  margin-left: -10px;
+  padding-left: 10px;
 }
 
 .calendar__day__name {
