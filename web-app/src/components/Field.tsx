@@ -4,6 +4,7 @@ import { ITextBoxProps, TextBox } from './TextBox';
 
 interface IProps {
   title: string;
+  name?: string;
 }
 
 export const TextField = ({ title, ...rest } : IProps & ITextBoxProps) => {

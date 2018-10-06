@@ -11,7 +11,7 @@ html {
 h2 {
   font-size: 2rem;
   font-weight: 400;
-  padding-top: 3rem;
+  margin-top: 3rem;
   /* bottom padding is handled by next form element (it has margin top) */
   padding-bottom: 0rem;
 }
@@ -19,7 +19,7 @@ h2 {
 h3 {
   font-size: 1.7rem;
   font-weight: 400;
-  padding-top: 3rem;
+  margin-top: 3rem;
   /* bottom padding is handled by next form element (it has margin top) */
   padding-bottom: 0rem;
 }

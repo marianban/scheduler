@@ -3,7 +3,7 @@
   grid-template-areas: 
     "header header header"
     "leftPane mainPane rightPane";
-  grid-template-columns: 280px 1fr 400px;
+  grid-template-columns: 280px 1fr 280px;
   grid-template-rows: 60px 1fr;
   height: 100vh;
   font-size: 1.4rem;

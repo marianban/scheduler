@@ -59,7 +59,7 @@
   display: grid;
   padding-top: 5px;
   padding-bottom: 5px;
-  transition: background-color var(--hover-transition-duration) linear;
+  transition: background-color var(--hover-transition-duration) ease-in-out;
   user-select: none;
 }
 

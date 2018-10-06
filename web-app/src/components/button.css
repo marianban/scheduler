@@ -7,7 +7,7 @@
   font-weight: 600;
   font-size: 1.5rem;
   padding: 0.5rem 1rem;
-  transition: background-color var(--hover-transition-duration) linear;
+  transition: background-color var(--hover-transition-duration) ease-in-out;
 }
 
 .btn:hover {
