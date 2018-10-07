@@ -1,3 +1,4 @@
+import { ClientModel } from 'clients/ClientModel';
 import { Button } from 'components/Button';
 import { TextField } from 'components/Field';
 import { inject, observer } from 'mobx-react';
@@ -11,12 +12,31 @@ interface IProps {
   rootStore?: RootStore;
 }
 
+interface IState {
+  form: {
+    fullName: string;
+    phoneNumber: string;
+    email: string;
+  };
+  client?: ClientModel;
+}
+
 @inject('rootStore')
 @observer
-export class RightPane extends React.Component<
-  IProps,
-  { client: { fullName: string; phoneNumber: string; email: string } }
-> {
+export class RightPane extends React.Component<IProps, IState> {
+  public readonly state: IState = {
+    form: {
+      fullName: '',
+      phoneNumber: '',
+      email: ''
+    },
+  };
+
+  constructor(props: IProps) {
+    super(props);
+    this.state.form = { fullName: '', phoneNumber: '', email: '' };
+  }
+
   public render() {
     return (
       <aside className="app__right-pane">
@@ -24,9 +44,18 @@ export class RightPane extends React.Component<
           <Button className="btn--secondary">Delete</Button>
         </div>
         <h2>Client</h2>
-        <TextField title="Full Name" name="fullName" />
-        <TextField title="Email" name="email" />
-        <TextField title="Phone Number" name="phoneNumber" />
+        <TextField
+          title="Full Name"
+          name="fullName"
+          onChange={this.handleOnChange}
+        />
+        <TextField title="Email" name="email" onChange={this.handleOnChange} />
+        <TextField
+          title="Phone Number"
+          name="phoneNumber"
+          onChange={this.handleOnChange}
+          onBlur={this.handleOnBlur}
+        />
         <h2>Appointment</h2>
         <div className="grid-col-2">
           <TextField
@@ -41,6 +70,21 @@ export class RightPane extends React.Component<
         <TextField title="Services" />
       </aside>
     );
+  }
+
+  private handleOnChange(event: React.ChangeEvent<HTMLInputElement>) {
+    if (name) {
+      this.setState({
+        form: { [event.target.name]: event.target.value }
+      } as Pick<IState, keyof IState>);
+    }
+  }
+
+  private handleOnBlur() {
+    const rootStore = this.props.rootStore!;
+    const { clientStore } = rootStore;
+    const { fullName, email, phoneNumber } = this.state.form;
+    clientStore.create(new ClientModel(fullName, phoneNumber, email));
   }
 }
 
