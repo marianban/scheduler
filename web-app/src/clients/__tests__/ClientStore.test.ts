@@ -19,7 +19,9 @@ it("cant't create clients with duplicate ids", () => {
   expect(store.clients.length).toBe(0);
   const client = new ClientModel('Jimmy', '1234', 'jimmy@gmail.com');
   store.create(client);
-  expect(() => { store.create(client); }).toThrowErrorMatchingSnapshot();
+  expect(() => {
+    store.create(client);
+  }).toThrowErrorMatchingSnapshot();
 });
 
 it('updates client if already exists', () => {
@@ -40,11 +42,20 @@ it('can set field to empty string', () => {
   expect(store.clients[0].phoneNumber).toBe('');
 });
 
-it("can delete client", () => {
+it('can delete client', () => {
   const store = new ClientStore();
   expect(store.clients.length).toBe(0);
   const client = new ClientModel('Jimmy', '1234', 'jimmy@gmail.com');
   store.create(client);
   store.deleteById(client.id);
   expect(store.clients.length).toBe(0);
+});
+
+it('can identify existing client', () => {
+  const store = new ClientStore();
+  expect(store.clients.length).toBe(0);
+  const client = new ClientModel('Jimmy', '1234', 'jimmy@gmail.com');
+  store.create(client);
+  expect(store.exists({ fullName: 'Jimmy' })).toBe(true);
+  expect(store.exists({ fullName: 'Jimm' })).toBe(false);
 });

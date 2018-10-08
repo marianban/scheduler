@@ -1,4 +1,5 @@
 import { Provider } from 'mobx-react';
+import DevTools from 'mobx-react-devtools';
 import * as React from 'react';
 import './App.css';
 import { Calendar } from './calendar/Calendar';
@@ -14,6 +15,7 @@ class App extends React.Component {
         <div className="app">
           <Header />
           <Calendar />
+          <DevTools />
         </div>
       </Provider>
     );

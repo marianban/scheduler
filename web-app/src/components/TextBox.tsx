@@ -10,11 +10,6 @@ export interface ITextBoxProps {
 }
 
 export class TextBox extends React.Component<ITextBoxProps, {}> {
-  constructor(props: ITextBoxProps) {
-    super(props);
-    this.handleOnChange = this.handleOnChange.bind(this);
-  }
-
   public render() {
     const { className, suffix, ...rest } = this.props;
     return (
@@ -31,17 +26,17 @@ export class TextBox extends React.Component<ITextBoxProps, {}> {
     );
   }
 
-  public handleOnChange(event: React.ChangeEvent<HTMLInputElement>) {
+  public handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { onChange } = this.props;
     if (onChange) {
       onChange(event);
     }
-  }
+  };
 
-  public handleOnBlur(event: React.SyntheticEvent) {
+  public handleOnBlur = (event: React.SyntheticEvent) => {
     const { onBlur } = this.props;
     if (onBlur) {
       onBlur(event);
     }
-  }
+  };
 }

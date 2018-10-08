@@ -1,7 +1,8 @@
 import { action, observable } from 'mobx';
 import { v4 } from 'uuid';
+import { IClient } from './IClient';
 
-export class ClientModel {
+export class ClientModel implements IClient {
   @observable
   public id!: string;
   @observable
@@ -39,6 +40,10 @@ export class ClientModel {
     if (email || email === '') {
       this.email = email;
     }
+  }
+
+  public equals(client: IClient) {
+    return this.fullName === client.fullName;
   }
 
   @action

@@ -3,7 +3,7 @@ import * as subMonths from 'date-fns/subMonths';
 import { action, observable } from 'mobx';
 
 export class CalendarStore {
-  @observable 
+  @observable
   public date: Date = new Date();
   private currentDate: Date;
 
@@ -15,12 +15,12 @@ export class CalendarStore {
   @action
   public nextMonth = () => {
     this.date = addMonths(this.date, 1);
-  }
+  };
 
   @action
   public prevMonth = () => {
     this.date = subMonths(this.date, 1);
-  }
+  };
 
   @action
   private initDate = () => {
@@ -29,5 +29,5 @@ export class CalendarStore {
       this.currentDate.getMonth(),
       1
     );
-  }
+  };
 }

@@ -1,4 +1,5 @@
 import { ClientModel } from 'clients/ClientModel';
+import { IClient } from 'clients/IClient';
 import { Button } from 'components/Button';
 import { TextField } from 'components/Field';
 import { inject, observer } from 'mobx-react';
@@ -13,12 +14,7 @@ interface IProps {
 }
 
 interface IState {
-  form: {
-    fullName: string;
-    phoneNumber: string;
-    email: string;
-  };
-  client?: ClientModel;
+  form: Pick<IClient, keyof IClient>;
 }
 
 @inject('rootStore')
@@ -29,27 +25,30 @@ export class RightPane extends React.Component<IProps, IState> {
       fullName: '',
       phoneNumber: '',
       email: ''
-    },
+    }
   };
 
-  constructor(props: IProps) {
-    super(props);
-    this.state.form = { fullName: '', phoneNumber: '', email: '' };
-  }
+  private client?: ClientModel;
 
   public render() {
     return (
       <aside className="app__right-pane">
         <div className="app__right-pane__controls">
-          <Button className="btn--secondary">Delete</Button>
+          <Button className="btn--secondary">Cancel Appointment</Button>
         </div>
-        <h2>Client</h2>
+        <h2>Client - clear</h2>
         <TextField
           title="Full Name"
           name="fullName"
           onChange={this.handleOnChange}
+          onBlur={this.handleOnBlur}
         />
-        <TextField title="Email" name="email" onChange={this.handleOnChange} />
+        <TextField
+          title="Email"
+          name="email"
+          onChange={this.handleOnChange}
+          onBlur={this.handleOnBlur}
+        />
         <TextField
           title="Phone Number"
           name="phoneNumber"
@@ -72,20 +71,31 @@ export class RightPane extends React.Component<IProps, IState> {
     );
   }
 
-  private handleOnChange(event: React.ChangeEvent<HTMLInputElement>) {
-    if (name) {
+  private handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.name) {
       this.setState({
-        form: { [event.target.name]: event.target.value }
+        form: {
+          ...this.state.form,
+          [event.target.name]: event.target.value
+        }
       } as Pick<IState, keyof IState>);
     }
-  }
+  };
 
-  private handleOnBlur() {
+  private handleOnBlur = () => {
     const rootStore = this.props.rootStore!;
     const { clientStore } = rootStore;
-    const { fullName, email, phoneNumber } = this.state.form;
-    clientStore.create(new ClientModel(fullName, phoneNumber, email));
-  }
+    const { form } = this.state;
+    const { client } = this;
+    if (client && client.equals(form)) {
+      client.update(form);
+    } else {
+      const { fullName, email, phoneNumber } = form;
+      const newClient = new ClientModel(fullName, phoneNumber, email);
+      clientStore.create(newClient);
+      this.client = newClient;
+    }
+  };
 }
 
 export default RightPane;
