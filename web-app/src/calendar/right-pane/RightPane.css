@@ -11,3 +11,8 @@
 .appointment__calendar-icon path {
   fill: var(--font-color);
 }
+
+/* must be more specific to override */
+.app__right-pane__h.app__right-pane__h {
+  margin-top: 0;
+}

@@ -10,6 +10,7 @@ html {
 
 h2 {
   font-size: 2rem;
+  line-height: 3rem;
   font-weight: 400;
   margin-top: 3rem;
   /* bottom padding is handled by next form element (it has margin top) */
@@ -22,4 +23,10 @@ h3 {
   margin-top: 3rem;
   /* bottom padding is handled by next form element (it has margin top) */
   padding-bottom: 0rem;
+}
+
+.h__btn-link {
+  margin-top: 3rem;
+  line-height: 3rem;
+  text-align: right;
 }

@@ -1,6 +1,7 @@
 import { ClientModel } from 'clients/ClientModel';
 import { IClient } from 'clients/IClient';
 import { Button } from 'components/Button';
+import { ButtonLink } from 'components/ButtonLink';
 import { TextField } from 'components/Field';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
@@ -33,10 +34,12 @@ export class RightPane extends React.Component<IProps, IState> {
   public render() {
     return (
       <aside className="app__right-pane">
-        <div className="app__right-pane__controls">
-          <Button className="btn--secondary">Cancel Appointment</Button>
+        <div className="grid-col-2">
+          <h2 className="app__right-pane__h">Client</h2>
+          <ButtonLink className="h__btn-link app__right-pane__h">
+            new client
+          </ButtonLink>
         </div>
-        <h2>Client - clear</h2>
         <TextField
           title="Full Name"
           name="fullName"
@@ -67,6 +70,9 @@ export class RightPane extends React.Component<IProps, IState> {
           />
         </div>
         <TextField title="Services" />
+        <div className="pane__bottom">
+          <Button className="btn--secondary">Cancel Appointment</Button>
+        </div>
       </aside>
     );
   }
