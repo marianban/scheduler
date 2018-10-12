@@ -2,7 +2,7 @@ import { ClientModel } from 'clients/ClientModel';
 import { IClient } from 'clients/IClient';
 import { Button } from 'components/Button';
 import { ButtonLink } from 'components/ButtonLink';
-import { TextField } from 'components/Field';
+import { TextField } from 'components/TextField';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { RootStore } from 'RootStore';
@@ -117,11 +117,13 @@ export class RightPane extends React.Component<IProps, IState> {
       client.update(form);
     } else {
       const { fullName, email, phoneNumber } = form;
-      const newClient = new ClientModel(fullName, phoneNumber, email);
-      clientStore.create(newClient);
-      this.setState({
-        client: newClient
-      });
+      if (fullName) {
+        const newClient = new ClientModel(fullName, phoneNumber, email);
+        clientStore.create(newClient);
+        this.setState({
+          client: newClient
+        });
+      }
     }
   };
 }
