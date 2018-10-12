@@ -16,6 +16,7 @@ interface IProps {
 
 interface IState {
   form: Pick<IClient, keyof IClient>;
+  client?: ClientModel;
 }
 
 @inject('rootStore')
@@ -29,32 +30,41 @@ export class RightPane extends React.Component<IProps, IState> {
     }
   };
 
-  private client?: ClientModel;
-
   public render() {
+    const {
+      form: { fullName, phoneNumber, email },
+      client
+    } = this.state;
     return (
       <aside className="app__right-pane">
         <div className="grid-col-2">
           <h2 className="app__right-pane__h">Client</h2>
-          <ButtonLink className="h__btn-link app__right-pane__h">
+          <ButtonLink
+            className="h__btn-link app__right-pane__h"
+            onClick={this.handleOnNewClientClick}
+            disabled={!client}
+          >
             new client
           </ButtonLink>
         </div>
         <TextField
           title="Full Name"
           name="fullName"
+          value={fullName}
           onChange={this.handleOnChange}
           onBlur={this.handleOnBlur}
         />
         <TextField
           title="Email"
           name="email"
+          value={email}
           onChange={this.handleOnChange}
           onBlur={this.handleOnBlur}
         />
         <TextField
           title="Phone Number"
           name="phoneNumber"
+          value={phoneNumber}
           onChange={this.handleOnChange}
           onBlur={this.handleOnBlur}
         />
@@ -77,6 +87,17 @@ export class RightPane extends React.Component<IProps, IState> {
     );
   }
 
+  private handleOnNewClientClick = () => {
+    this.setState({
+      client: undefined,
+      form: {
+        fullName: '',
+        email: '',
+        phoneNumber: ''
+      }
+    });
+  };
+
   private handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.name) {
       this.setState({
@@ -91,15 +112,16 @@ export class RightPane extends React.Component<IProps, IState> {
   private handleOnBlur = () => {
     const rootStore = this.props.rootStore!;
     const { clientStore } = rootStore;
-    const { form } = this.state;
-    const { client } = this;
+    const { form, client } = this.state;
     if (client && client.equals(form)) {
       client.update(form);
     } else {
       const { fullName, email, phoneNumber } = form;
       const newClient = new ClientModel(fullName, phoneNumber, email);
       clientStore.create(newClient);
-      this.client = newClient;
+      this.setState({
+        client: newClient
+      });
     }
   };
 }

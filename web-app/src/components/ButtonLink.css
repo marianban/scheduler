@@ -1,4 +1,9 @@
 .btn-link {
   text-decoration: none;
   color: var(--color-primary);
+  transition: color var(--hover-transition-duration) ease-in-out;
+}
+
+.btn-link--disabled {
+  color: #ccc;
 }
