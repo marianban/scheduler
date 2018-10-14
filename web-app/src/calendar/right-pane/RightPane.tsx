@@ -3,6 +3,7 @@ import { IClient } from 'clients/IClient';
 import { Button } from 'components/Button';
 import { ButtonLink } from 'components/ButtonLink';
 import { TextField } from 'components/TextField';
+import { TypeaheadField } from 'components/TypeaheadField';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { RootStore } from 'RootStore';
@@ -38,7 +39,9 @@ export class RightPane extends React.Component<IProps, IState> {
     return (
       <aside className="app__right-pane">
         <div className="grid-col-2">
-          <h2 className="app__right-pane__h">Client</h2>
+          <h2 className="app__right-pane__h">
+            {client ? 'Client' : 'New Client'}
+          </h2>
           <ButtonLink
             className="h__btn-link app__right-pane__h"
             onClick={this.handleOnNewClientClick}
@@ -47,7 +50,7 @@ export class RightPane extends React.Component<IProps, IState> {
             new client
           </ButtonLink>
         </div>
-        <TextField
+        <TypeaheadField
           title="Full Name"
           name="fullName"
           value={fullName}

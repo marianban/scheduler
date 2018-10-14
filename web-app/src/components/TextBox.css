@@ -5,7 +5,7 @@
 
 .text-box {
   position: absolute;
-  border: 1px solid #E2E2E7;
+  border: 1px solid var(--border-color);
   border-radius: 3px;
   font-size: 1.5rem;
   line-height: 2.5rem;
@@ -28,4 +28,3 @@
   display: flex;
   align-items: center;
 }
-

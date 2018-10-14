@@ -1,6 +1,11 @@
+@font-face {
+  font-family: Inter UI Regular;
+  src: url(fonts/Inter-UI-Regular.ttf);
+}
+
 html {
   font-size: 62.5%;
-  font-family: 'Open Sans', sans-serif;
+  font-family: Inter UI Regular, sans-serif;
   color: var(--font-color);
 }
 

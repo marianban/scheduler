@@ -1,9 +1,11 @@
 :root {
-  --color-primary: #7764CA;
+  --color-primary: #7764ca;
   --font-color: #636363;
-  --font-color-secondary: #C1C1C1;
+  --font-color-secondary: #c1c1c1;
   --color-highlight: #eba31e;
-  --color-bg: #FAFAFA;
-  --color-bg-secondary: #EEEEEE;
+  --color-bg: #fafafa;
+  --color-bg-secondary: #eeeeee;
+  --border-color: #e2e2e7;
   --hover-transition-duration: 150ms;
+  --z-index-popover: 100;
 }
