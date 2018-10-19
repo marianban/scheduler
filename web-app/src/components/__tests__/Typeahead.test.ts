@@ -1,7 +1,7 @@
 import { compareClientsFactory, IItem } from '../TypeaheadField';
 
 it('it should sort items by match', () => {
-  const items: [IItem] = [
+  const items: IItem[] = [
     { value: 'Marian Ban' },
     { value: 'Annamaria Banova' },
     { value: 'Leonard Ban' }
@@ -22,6 +22,20 @@ Array [
 `);
 
   expect(items.sort(compareClientsFactory('Marian'))).toMatchInlineSnapshot(`
+Array [
+  Object {
+    "value": "Marian Ban",
+  },
+  Object {
+    "value": "Annamaria Banova",
+  },
+  Object {
+    "value": "Leonard Ban",
+  },
+]
+`);
+
+  expect(items.sort(compareClientsFactory('marian'))).toMatchInlineSnapshot(`
 Array [
   Object {
     "value": "Marian Ban",

@@ -55,6 +55,7 @@ export class RightPane extends React.Component<IProps, IState> {
           name="fullName"
           value={fullName}
           onChange={this.handleOnChange}
+          onSelected={this.handleOnSelected}
           onBlur={this.handleOnBlur}
         />
         <TextField
@@ -103,13 +104,22 @@ export class RightPane extends React.Component<IProps, IState> {
 
   private handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.name) {
-      this.setState({
-        form: {
-          ...this.state.form,
-          [event.target.name]: event.target.value
-        }
-      } as Pick<IState, keyof IState>);
+      this.updateForm(event.target.name, event.target.value);
     }
+  };
+
+  private handleOnSelected = (value: string) => {
+    this.updateForm('fullName', value);
+  };
+
+  private updateForm = (name: string, value: string) => {
+    this.setState({
+      ...this.state,
+      form: {
+        ...this.state.form,
+        [name]: value
+      }
+    } as Pick<IState, keyof IState>);
   };
 
   private handleOnBlur = () => {

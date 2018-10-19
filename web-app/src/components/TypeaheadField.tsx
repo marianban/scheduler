@@ -45,14 +45,21 @@ export const compareClientsFactory = (inputValue: string | null) => (
   return 0;
 };
 
+interface ITypeaheadFieldProps {
+  onSelected?: (value: string) => void;
+}
+
 export class TypeaheadField extends React.Component<
-  ITextBoxProps & ITextFieldProps,
+  ITextBoxProps & ITextFieldProps & ITypeaheadFieldProps,
   {}
 > {
   public render() {
-    const { title } = this.props;
+    const { title, suffix, onSelected, ...rest } = this.props;
     return (
-      <Downshift itemToString={this.itemToString}>
+      <Downshift
+        itemToString={this.itemToString}
+        onChange={this.handleOnMenuItemSelected}
+      >
         {({
           getInputProps,
           getItemProps,
@@ -65,7 +72,7 @@ export class TypeaheadField extends React.Component<
         }) => (
           <div className="typeahead-field">
             <Label {...getLabelProps({ title })}>
-              <TextBox {...getInputProps()} />
+              <TextBox {...getInputProps({ ...rest })} suffix={suffix} />
             </Label>
             <ul {...getMenuProps({ className: 'typeahead-field__menu' })}>
               {isOpen
@@ -98,5 +105,12 @@ export class TypeaheadField extends React.Component<
 
   private itemToString = (item: any) => {
     return item ? item.value : '';
+  };
+
+  private handleOnMenuItemSelected = (item: IItem) => {
+    const { onSelected } = this.props;
+    if (onSelected) {
+      onSelected(item.value);
+    }
   };
 }
