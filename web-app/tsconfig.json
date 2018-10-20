@@ -20,6 +20,7 @@
     "alwaysStrict": true,
     "strictPropertyInitialization": true,
     "experimentalDecorators": true,
+    "downlevelIteration": true,
     "paths": {
       "*": ["src/*"]
     }
