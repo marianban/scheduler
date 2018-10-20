@@ -16,7 +16,7 @@ interface IProps {
 }
 
 interface IState {
-  form: Pick<IClient, keyof IClient>;
+  form: Pick<IClient, keyof IClient> & { date: string; time: string };
   client?: ClientModel;
 }
 
@@ -27,7 +27,9 @@ export class RightPane extends React.Component<IProps, IState> {
     form: {
       fullName: '',
       phoneNumber: '',
-      email: ''
+      email: '',
+      date: '',
+      time: ''
     }
   };
 
@@ -56,31 +58,37 @@ export class RightPane extends React.Component<IProps, IState> {
           value={fullName}
           onChange={this.handleOnChange}
           onSelected={this.handleOnSelected}
-          onBlur={this.handleOnBlur}
+          onBlur={this.handleClientOnBlur}
         />
         <TextField
           title="Email"
           name="email"
           value={email}
           onChange={this.handleOnChange}
-          onBlur={this.handleOnBlur}
+          onBlur={this.handleClientOnBlur}
         />
         <TextField
           title="Phone Number"
           name="phoneNumber"
           value={phoneNumber}
           onChange={this.handleOnChange}
-          onBlur={this.handleOnBlur}
+          onBlur={this.handleClientOnBlur}
         />
         <h2>Appointment</h2>
         <div className="grid-col-2">
           <TextField
+            name="date"
             title="Date"
             suffix={<CalendarIcon className="appointment__calendar-icon" />}
+            onChange={this.handleOnChange}
+            onBlur={this.handleAppointmentOnBlur}
           />
           <TextField
+            name="time"
             title="Time"
             suffix={<ClockIcon className="appointment__calendar-icon" />}
+            onChange={this.handleOnChange}
+            onBlur={this.handleAppointmentOnBlur}
           />
         </div>
         <TextField title="Services" />
@@ -97,7 +105,9 @@ export class RightPane extends React.Component<IProps, IState> {
       form: {
         fullName: '',
         email: '',
-        phoneNumber: ''
+        phoneNumber: '',
+        date: '',
+        time: ''
       }
     });
   };
@@ -122,9 +132,7 @@ export class RightPane extends React.Component<IProps, IState> {
     } as Pick<IState, keyof IState>);
   };
 
-  private handleOnBlur = () => {
-    const rootStore = this.props.rootStore!;
-    const { clientStore } = rootStore;
+  private handleClientOnBlur = () => {
     const { form, client } = this.state;
     if (client && client.equals(form)) {
       client.update(form);
@@ -132,12 +140,32 @@ export class RightPane extends React.Component<IProps, IState> {
       const { fullName, email, phoneNumber } = form;
       if (fullName) {
         const newClient = new ClientModel(fullName, phoneNumber, email);
+        // TODO: move client initialization into create function
+        const { clientStore } = this.getRootStore();
         clientStore.create(newClient);
         this.setState({
           client: newClient
         });
       }
     }
+  };
+
+  private handleAppointmentOnBlur = () => {
+    const { form, client } = this.state;
+    if (form.date && form.time) {
+      // TODO: normalize and validate date time formats
+      const clientId = client && client.id;
+      const { appointmentsModel } = this.getRootStore();
+      appointmentsModel.create({
+        date: form.date,
+        time: form.time,
+        clientId: clientId
+      });
+    }
+  };
+
+  private getRootStore = () => {
+    return this.props.rootStore!;
   };
 }
 
