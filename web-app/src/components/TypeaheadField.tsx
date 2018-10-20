@@ -6,12 +6,6 @@ import { ITextBoxProps, TextBox } from './TextBox';
 import { ITextFieldProps } from './TextField';
 import './TypeaheadField.css';
 
-const items = [
-  { value: 'Marian Ban' },
-  { value: 'Annamaria Banova' },
-  { value: 'Leonard Ban' }
-];
-
 export interface IItem {
   value: string;
 }
@@ -46,7 +40,8 @@ export const compareClientsFactory = (inputValue: string | null) => (
 };
 
 interface ITypeaheadFieldProps {
-  onSelected?: (value: string) => void;
+  items: IItem[];
+  onSelected?: (value: IItem) => void;
 }
 
 export class TypeaheadField extends React.Component<
@@ -54,7 +49,7 @@ export class TypeaheadField extends React.Component<
   {}
 > {
   public render() {
-    const { title, suffix, onSelected, ...rest } = this.props;
+    const { title, suffix, onSelected, items, ...rest } = this.props;
     return (
       <Downshift
         itemToString={this.itemToString}
@@ -103,14 +98,14 @@ export class TypeaheadField extends React.Component<
     );
   }
 
-  private itemToString = (item: any) => {
+  private itemToString = (item: IItem) => {
     return item ? item.value : '';
   };
 
   private handleOnMenuItemSelected = (item: IItem) => {
     const { onSelected } = this.props;
     if (onSelected) {
-      onSelected(item.value);
+      onSelected(item);
     }
   };
 }

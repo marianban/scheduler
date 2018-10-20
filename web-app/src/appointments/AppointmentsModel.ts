@@ -10,7 +10,7 @@ export class AppointmentsModel {
   }
 
   @action
-  create({
+  public create({
     date,
     time,
     clientId

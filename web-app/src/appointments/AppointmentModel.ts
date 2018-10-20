@@ -36,6 +36,10 @@ export class AppointmentModel implements IAppointment {
     }
   }
 
+  public equals = (appointment: AppointmentModel) => {
+    return this.id === appointment.id;
+  };
+
   @action
   private init(date: string, time: string, id: string, clientId?: string) {
     this.id = id;

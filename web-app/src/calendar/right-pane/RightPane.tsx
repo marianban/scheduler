@@ -1,3 +1,4 @@
+import { AppointmentModel } from 'appointments/AppointmentModel';
 import { ClientModel } from 'clients/ClientModel';
 import { IClient } from 'clients/IClient';
 import { Button } from 'components/Button';
@@ -9,7 +10,6 @@ import * as React from 'react';
 import { RootStore } from 'RootStore';
 import CalendarIcon from './calendar-alt-regular.svg';
 import ClockIcon from './clock-regular.svg';
-import { AppointmentModel } from 'appointments/AppointmentModel'
 import './RightPane.css';
 
 interface IProps {
@@ -40,6 +40,7 @@ export class RightPane extends React.Component<IProps, IState> {
       form: { fullName, phoneNumber, email },
       client
     } = this.state;
+    const { clientStore } = this.getRootStore();
     return (
       <aside className="app__right-pane">
         <div className="grid-col-2">
@@ -58,6 +59,7 @@ export class RightPane extends React.Component<IProps, IState> {
           title="Full Name"
           name="fullName"
           value={fullName}
+          items={clientStore.clients}
           onChange={this.handleOnChange}
           onSelected={this.handleOnSelected}
           onBlur={this.handleClientOnBlur}
@@ -120,8 +122,16 @@ export class RightPane extends React.Component<IProps, IState> {
     }
   };
 
-  private handleOnSelected = (value: string) => {
-    this.updateForm('fullName', value);
+  private handleOnSelected = (client: ClientModel) => {
+    this.setState({
+      form: {
+        ...this.state.form,
+        fullName: client.fullName,
+        email: client.email,
+        phoneNumber: client.phoneNumber
+      },
+      client
+    });
   };
 
   private updateForm = (name: string, value: string) => {
@@ -141,6 +151,8 @@ export class RightPane extends React.Component<IProps, IState> {
     } else {
       const { fullName, email, phoneNumber } = form;
       if (fullName) {
+        // here it can be existing or new client
+        // if existing then load data of existing
         const newClient = new ClientModel(fullName, phoneNumber, email);
         // TODO: move client initialization into create function
         const { clientStore } = this.getRootStore();
@@ -153,17 +165,27 @@ export class RightPane extends React.Component<IProps, IState> {
   };
 
   private handleAppointmentOnBlur = () => {
-    const { form, client } = this.state;
+    const { form, client, appointment } = this.state;
     if (form.date && form.time) {
       // TODO: normalize and validate date time formats
-      const clientId = client && client.id;
-      const { appointmentsModel } = this.getRootStore();
-      const appointment = appointmentsModel.create({
-        date: form.date,
-        time: form.time,
-        clientId: clientId
-      });
-
+      if (appointment) {
+        appointment.update({
+          date: form.date,
+          time: form.time,
+          clientId: client && client.id
+        });
+      } else {
+        const clientId = client && client.id;
+        const { appointmentsModel } = this.getRootStore();
+        const newAppointment = appointmentsModel.create({
+          date: form.date,
+          time: form.time,
+          clientId
+        });
+        this.setState({
+          appointment: newAppointment
+        });
+      }
     }
   };
 

@@ -1,8 +1,9 @@
+import { IItem } from 'components/TypeaheadField';
 import { action, observable } from 'mobx';
 import { v4 } from 'uuid';
 import { IClient } from './IClient';
 
-export class ClientModel implements IClient {
+export class ClientModel implements IClient, IItem {
   @observable
   public id!: string;
   @observable
@@ -19,6 +20,10 @@ export class ClientModel implements IClient {
     id: string = v4()
   ) {
     this.init(fullName, phoneNumber, email, id);
+  }
+
+  public get value(): string {
+    return this.fullName;
   }
 
   @action

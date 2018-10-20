@@ -1,4 +1,4 @@
-import { AppointmentsModel } from 'appointmets/AppointmentsModel';
+import { AppointmentsModel } from 'appointments/AppointmentsModel';
 import { CalendarStore } from 'calendar/CalendarStore';
 import { ClientStore } from 'clients/ClientStore';
 
