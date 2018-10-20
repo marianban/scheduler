@@ -9,6 +9,7 @@ import * as React from 'react';
 import { RootStore } from 'RootStore';
 import CalendarIcon from './calendar-alt-regular.svg';
 import ClockIcon from './clock-regular.svg';
+import { AppointmentModel } from 'appointments/AppointmentModel'
 import './RightPane.css';
 
 interface IProps {
@@ -18,6 +19,7 @@ interface IProps {
 interface IState {
   form: Pick<IClient, keyof IClient> & { date: string; time: string };
   client?: ClientModel;
+  appointment?: AppointmentModel;
 }
 
 @inject('rootStore')
@@ -156,11 +158,12 @@ export class RightPane extends React.Component<IProps, IState> {
       // TODO: normalize and validate date time formats
       const clientId = client && client.id;
       const { appointmentsModel } = this.getRootStore();
-      appointmentsModel.create({
+      const appointment = appointmentsModel.create({
         date: form.date,
         time: form.time,
         clientId: clientId
       });
+
     }
   };
 
