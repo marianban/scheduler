@@ -10,8 +10,9 @@ type Precision =
   | 'month'
   | 'year';
 
+const getArg = (args: number[], index: number) => args[index] || 0;
+
 export const toPrecision = (date: Date, precision: Precision) => {
-  console.log('to precision');
   const precisionMap = {
     milliseconds: 7,
     seconds: 6,
@@ -31,17 +32,25 @@ export const toPrecision = (date: Date, precision: Precision) => {
     date.getMilliseconds()
   ];
   const end = precisionMap[precision];
-  return new Function.prototype.bind.apply(
-    Date,
-    ...[null].concat(parts.slice(0, end))
+  const args = parts.slice(0, end);
+  return new Date(
+    getArg(args, 0),
+    getArg(args, 1),
+    getArg(args, 2),
+    getArg(args, 3),
+    getArg(args, 4),
+    getArg(args, 5),
+    getArg(args, 6)
   );
 };
 
 export const parseDate = (value: string, baseDate: Date = new Date()) => {
-  const matches = value.match(/(\d+)[\.\-\/](\d+)[\.\-\/](\d+)/);
+  const matches = value.match(/(\d+)[\.\-\/]?(\d*)[\.\-\/]?(\d*)/);
   if (!matches) {
     throw new Error(`Unable to parse: ${value}`);
   }
   const [day, month, year] = matches.slice(1);
-  return parse(value, `${day}.${month}.${year}`, toPrecision(baseDate, 'days'));
+  const date = `${day}${month && '.'}${month}${year && '.'}${year}`;
+  const pattern = `dd${month && '.MM'}${year && '.yyyy'}`;
+  return parse(date, pattern, toPrecision(baseDate, 'days'));
 };

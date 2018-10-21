@@ -17,16 +17,18 @@ export const compareClientsFactory = (inputValue: string | null) => (
   if (inputValue) {
     if (
       a.value &&
-      a.value.includes(inputValue) &&
-      (b.value && !b.value.includes(inputValue))
+      a.value.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase()) &&
+      (b.value &&
+        !b.value.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase()))
     ) {
       return -1;
     }
 
     if (
       b.value &&
-      b.value.includes(inputValue) &&
-      (a.value && !a.value.includes(inputValue))
+      b.value.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase()) &&
+      (a.value &&
+        !a.value.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase()))
     ) {
       return 1;
     }
