@@ -1,5 +1,5 @@
 import { parse } from 'date-fns';
-import { parseDate, toPrecision } from '../dateTimeUtils';
+import { normalizeTime, parseDate, toPrecision } from '../dateTimeUtils';
 
 it('date fns parse example', () => {
   expect(parse('10.12.2018', 'dd.MM.yyyy', new Date())).toMatchInlineSnapshot(
@@ -31,10 +31,25 @@ it.each`
   ${'22.'}        | ${22} | ${9}  | ${2018}
   ${'22'}         | ${22} | ${9}  | ${2018}
 `(
-  'for $date it returns day: $day, month: $month, year: $year',
+  'for $date returns day: $day, month: $month, year: $year',
   ({ date, day, month, year }) => {
     const baseDate = new Date(2018, 8, 22);
     const resultDate = parseDate(date, baseDate);
     expectDate(resultDate, day, month, year);
   }
 );
+
+it('should normalize incomplete time', () => {
+  const time = normalizeTime('11');
+  expect(time).toBe('11:00');
+});
+
+it('should normalize incomplete time', () => {
+  const time = normalizeTime('11:');
+  expect(time).toBe('11:00');
+});
+
+it('should keep correct time', () => {
+  const time = normalizeTime('11:15');
+  expect(time).toBe('11:15');
+});

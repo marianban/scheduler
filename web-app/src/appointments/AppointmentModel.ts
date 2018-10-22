@@ -17,7 +17,7 @@ export class AppointmentModel implements IAppointment {
     clientId?: string,
     id: string = v4()
   ) {
-    this.init(date, time, id, clientId);
+    this.init(date, time || '00:00', id, clientId);
   }
 
   @action
@@ -47,6 +47,7 @@ export class AppointmentModel implements IAppointment {
   }
 
   private parseDateTime = (date: string, time: string) => {
-    return parse(`${date} ${time}`, 'dd.MM.yyyy HH:mm', new Date());
+    console.log(date, time);
+    return parse(`${date} ${time}`, 'd/M/y H:m', new Date());
   };
 }

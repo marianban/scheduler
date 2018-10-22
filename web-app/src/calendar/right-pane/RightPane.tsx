@@ -8,6 +8,7 @@ import { TypeaheadField } from 'components/TypeaheadField';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { RootStore } from 'RootStore';
+import { normalizeDate, normalizeTime } from 'utils/dateTimeUtils';
 import CalendarIcon from './calendar-alt-regular.svg';
 import ClockIcon from './clock-regular.svg';
 import './RightPane.css';
@@ -37,7 +38,7 @@ export class RightPane extends React.Component<IProps, IState> {
 
   public render() {
     const {
-      form: { fullName, phoneNumber, email },
+      form: { fullName, phoneNumber, email, date, time },
       client
     } = this.state;
     const { clientStore } = this.getRootStore();
@@ -83,16 +84,18 @@ export class RightPane extends React.Component<IProps, IState> {
           <TextField
             name="date"
             title="Date"
+            value={date}
             suffix={<CalendarIcon className="appointment__calendar-icon" />}
             onChange={this.handleOnChange}
-            onBlur={this.handleAppointmentOnBlur}
+            onBlur={this.handleOnDateBlur}
           />
           <TextField
             name="time"
             title="Time"
+            value={time}
             suffix={<ClockIcon className="appointment__calendar-icon" />}
             onChange={this.handleOnChange}
-            onBlur={this.handleAppointmentOnBlur}
+            onBlur={this.handleOnTimeBlur}
           />
         </div>
         <TextField title="Services" />
@@ -134,16 +137,6 @@ export class RightPane extends React.Component<IProps, IState> {
     });
   };
 
-  private updateForm = (name: string, value: string) => {
-    this.setState({
-      ...this.state,
-      form: {
-        ...this.state.form,
-        [name]: value
-      }
-    } as Pick<IState, keyof IState>);
-  };
-
   private handleClientOnBlur = () => {
     const { form, client } = this.state;
     if (client && client.equals(form)) {
@@ -164,29 +157,67 @@ export class RightPane extends React.Component<IProps, IState> {
     }
   };
 
+  private handleOnDateBlur = () => {
+    const baseDate = new Date();
+    const { form } = this.state;
+    if (form.date) {
+      this.updateForm(
+        'date',
+        normalizeDate(form.date, baseDate),
+        this.handleAppointmentOnBlur
+      );
+    }
+  };
+
+  private handleOnTimeBlur = () => {
+    const { form } = this.state;
+    if (form.time) {
+      this.updateForm(
+        'time',
+        normalizeTime(form.time),
+        this.handleAppointmentOnBlur
+      );
+    }
+  };
+
+  private updateForm = (name: string, value: string, callback?: () => void) => {
+    this.setState(
+      {
+        ...this.state,
+        form: {
+          ...this.state.form,
+          [name]: value
+        }
+      } as Pick<IState, keyof IState>,
+      callback
+    );
+  };
+
   private handleAppointmentOnBlur = () => {
-    const { form, client, appointment } = this.state;
+    const { form, appointment } = this.state;
     if (form.date && form.time) {
-      // TODO: normalize and validate date time formats
+      // TODO: validate date time formats
       if (appointment) {
-        appointment.update({
-          date: form.date,
-          time: form.time,
-          clientId: client && client.id
-        });
+        appointment.update(this.formToAppointment());
       } else {
-        const clientId = client && client.id;
         const { appointmentsModel } = this.getRootStore();
-        const newAppointment = appointmentsModel.create({
-          date: form.date,
-          time: form.time,
-          clientId
-        });
+        const newAppointment = appointmentsModel.create(
+          this.formToAppointment()
+        );
         this.setState({
           appointment: newAppointment
         });
       }
     }
+  };
+
+  private formToAppointment = () => {
+    const { form, client } = this.state;
+    return {
+      date: form.date,
+      time: form.time,
+      clientId: client && client.id
+    };
   };
 
   private getRootStore = () => {
