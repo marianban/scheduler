@@ -47,7 +47,6 @@ export class AppointmentModel implements IAppointment {
   }
 
   private parseDateTime = (date: string, time: string) => {
-    console.log(date, time);
     return parse(`${date} ${time}`, 'd/M/y H:m', new Date());
   };
 }
