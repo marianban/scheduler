@@ -4,17 +4,21 @@ import * as React from 'react';
 import { RootStore } from 'RootStore';
 import Arrow from './Arrow.svg';
 import './Calendar.css';
+import { CalendarDay } from './CalendarDay';
 import { DateCalendar } from './DateCalendar';
+import { Day } from './Day';
 
 interface IProps {
   rootStore?: RootStore;
 }
 
-export const Calendar = inject('rootStore')(
-  observer((props: IProps) => {
-    const rootStore = props.rootStore!;
-    const calendarStore = rootStore.calendarStore;
+@inject('rootStore')
+@observer
+export class Calendar extends React.Component<IProps, {}> {
+  public render() {
+    const { calendarStore, dateSelectionModel } = this.getRootStore();
     const date = calendarStore.date;
+    const selectedDate = dateSelectionModel.selectedDate;
     const dateCalendar = new DateCalendar(
       new Date(date.getFullYear(), date.getMonth(), 1)
     );
@@ -34,7 +38,7 @@ export const Calendar = inject('rootStore')(
           </div>
           <div
             className="calendar__month__btn calendar__month__btn--right"
-            onClick={calendarStore.prevMonth}
+            onClick={calendarStore.nextMonth}
           >
             <Arrow />
           </div>
@@ -48,24 +52,30 @@ export const Calendar = inject('rootStore')(
           {weeks.map(week => (
             <div
               className={classNames('calendar__week', {
-                'calendar__week--current': week.includes(date)
+                'calendar__week--this': week.includes(selectedDate)
               })}
             >
               <div className="calendar__week__num">{week.num}</div>
               {week.days.map(day => (
-                <div
-                  className={classNames('calendar__week__day', {
-                    'calendar__day--today': day.isSameDayAs(date),
-                    'calendar__day--another-month': !day.isActiveMonth
-                  })}
-                >
-                  {day.num}
-                </div>
+                <CalendarDay
+                  day={day}
+                  onDaySelect={this.handleOnDaySelect}
+                  isSelected={day.isSameDayAs(selectedDate)}
+                />
               ))}
             </div>
           ))}
         </div>
       </div>
     );
-  })
-);
+  }
+
+  private handleOnDaySelect = (day: Day) => {
+    const { dateSelectionModel } = this.getRootStore();
+    dateSelectionModel.set(day.date);
+  };
+
+  private getRootStore = () => {
+    return this.props.rootStore!;
+  };
+}

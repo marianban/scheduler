@@ -25,6 +25,8 @@
   align-items: center;
   justify-items: center;
   grid-template-columns: repeat(8, 1fr);
+  border: 1px solid transparent;
+  max-height: 2rem;
 }
 
 .calendar__week__name {
@@ -44,6 +46,7 @@
 .calendar__week__num {
   color: var(--font-color-secondary);
   font-size: 1rem;
+  margin-top: -0.4rem;
 }
 
 .calendar__month__title {
@@ -92,25 +95,30 @@
   align-items: center;
   justify-content: center;
   width: 3rem;
-  height: 2rem;
+  height: 2.8rem;
+  cursor: pointer;
+  margin-top: -0.4rem;
 }
 
 .calendar__day--today {
+  font-weight: bold;
+  color: black;
+}
+
+.calendar__day--selected {
   border-radius: 50%;
   background-color: var(--color-highlight);
-  color: #fff;
   width: 2.8rem;
-  height: 2.8rem;
+  color: #fff;
 }
 
 .calendar__day--another-month {
   color: var(--font-color-secondary);
 }
 
-.calendar__week--current {
+.calendar__week--this {
   background-color: rgba(235, 163, 30, 0.1);
   border: 1px solid rgba(235, 163, 30, 0.2);
-  height: calc(2rem - 2px);
   border-radius: 3px;
   overflow: visible;
 }
