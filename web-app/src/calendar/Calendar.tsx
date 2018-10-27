@@ -1,7 +1,7 @@
 import { Button } from 'components/Button';
 import * as React from 'react';
 import LeftPane from './left-pane/LeftPane';
-import RightPane from './right-pane/RightPane';
+import { RightPane } from './right-pane/RightPane';
 import Schedule from './schedule/Schedule';
 
 export const Calendar = () => (

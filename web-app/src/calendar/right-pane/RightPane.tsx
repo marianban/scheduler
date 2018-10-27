@@ -224,5 +224,3 @@ export class RightPane extends React.Component<IProps, IState> {
     return this.props.rootStore!;
   };
 }
-
-export default RightPane;

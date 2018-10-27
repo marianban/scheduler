@@ -1,6 +1,6 @@
+import { Day } from 'calendar/left-pane/Day';
 import classNames from 'classnames';
 import * as React from 'react';
-import { Day } from './Day';
 
 interface ICalendarDayProps {
   day: Day;
