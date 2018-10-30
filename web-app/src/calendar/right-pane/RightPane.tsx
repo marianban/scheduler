@@ -144,12 +144,16 @@ export class RightPane extends React.Component<IProps, IState> {
     } else {
       const { fullName, email, phoneNumber } = form;
       if (fullName) {
-        // here it can be existing or new client
-        // if existing then load data of existing
-        const newClient = new ClientModel(fullName, phoneNumber, email);
-        // TODO: move client initialization into create function
         const { clientStore } = this.getRootStore();
-        clientStore.create(newClient);
+        let newClient: ClientModel;
+        if (clientStore.exists(form)) {
+          newClient = clientStore.getByFullName(form.fullName);
+          newClient.update(form);
+        } else {
+          // TODO: move client initialization into create function
+          newClient = new ClientModel(fullName, phoneNumber, email);
+          clientStore.create(newClient);
+        }
         this.setState({
           client: newClient
         });
