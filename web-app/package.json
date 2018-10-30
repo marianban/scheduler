@@ -63,6 +63,7 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
     "test:coverage": "node scripts/test.js --env=jsdom --coverage",
+    "test:open": "open coverage/lcov-report/index.html",
     "cy:run": "cypress run",
     "cy:open": "cypress open"
   },

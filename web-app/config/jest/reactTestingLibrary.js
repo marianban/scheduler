@@ -1,2 +1,22 @@
+import { toBeDisabled } from 'jest-dom/dist/to-be-disabled';
+import { toHaveAttribute } from 'jest-dom/dist/to-have-attribute';
 import 'jest-dom/extend-expect';
 import 'react-testing-library/cleanup-after-each';
+
+expect.extend({
+  toBeDisabled: element => {
+    const disabledResult = toBeDisabled(element);
+    const ariaDisabledResult = toHaveAttribute(
+      element,
+      'aria-disabled',
+      'true'
+    );
+    if (ariaDisabledResult.pass) {
+      return {
+        ...disabledResult,
+        pass: true
+      };
+    }
+    return disabledResult;
+  }
+});

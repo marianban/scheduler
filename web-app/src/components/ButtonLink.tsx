@@ -24,6 +24,7 @@ export class ButtonLink extends React.Component<IProps, {}> {
         className={classNames('btn-link', className, {
           'btn-link--disabled': disabled
         })}
+        aria-disabled={disabled}
         onClick={this.handleOnClick}
       >
         {children}

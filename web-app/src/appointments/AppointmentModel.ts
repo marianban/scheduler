@@ -1,4 +1,4 @@
-import { parse } from 'date-fns';
+import { isValid, parse } from 'date-fns';
 import { action, observable } from 'mobx';
 import { v4 } from 'uuid';
 import { IAppointment } from './IAppointment';
@@ -47,6 +47,10 @@ export class AppointmentModel implements IAppointment {
   }
 
   private parseDateTime = (date: string, time: string) => {
-    return parse(`${date} ${time}`, 'd/M/y H:m', new Date());
+    const resultDate = parse(`${date} ${time}`, 'd/M/y H:m', new Date());
+    if (!isValid(resultDate)) {
+      throw new Error(`Unable to parse given date: ${date}`);
+    }
+    return resultDate;
   };
 }

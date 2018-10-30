@@ -51,6 +51,7 @@ export class RightPane extends React.Component<IProps, IState> {
           <ButtonLink
             className="h__btn-link app__right-pane__h"
             onClick={this.handleOnNewClientClick}
+            data-testid="new-client-btn"
             disabled={!client}
           >
             new client
@@ -138,17 +139,20 @@ export class RightPane extends React.Component<IProps, IState> {
   };
 
   private handleClientOnBlur = () => {
-    const { form, client } = this.state;
+    const { form, client, appointment } = this.state;
+    let newClient: ClientModel;
     if (client && client.equals(form)) {
       client.update(form);
+      newClient = client;
     } else {
       const { fullName, email, phoneNumber } = form;
       if (fullName) {
         const { clientStore } = this.getRootStore();
-        let newClient: ClientModel;
         if (clientStore.exists(form)) {
           newClient = clientStore.getByFullName(form.fullName);
-          newClient.update(form);
+          this.updateForm('fullName', newClient.fullName);
+          this.updateForm('phoneNumber', newClient.phoneNumber);
+          this.updateForm('email', newClient.email);
         } else {
           // TODO: move client initialization into create function
           newClient = new ClientModel(fullName, phoneNumber, email);
@@ -158,6 +162,12 @@ export class RightPane extends React.Component<IProps, IState> {
           client: newClient
         });
       }
+    }
+    if (appointment) {
+      appointment.update({
+        ...this.formToAppointment(),
+        clientId: newClient!.id
+      });
     }
   };
 
@@ -186,13 +196,14 @@ export class RightPane extends React.Component<IProps, IState> {
 
   private updateForm = (name: string, value: string, callback?: () => void) => {
     this.setState(
-      {
-        ...this.state,
-        form: {
-          ...this.state.form,
-          [name]: value
-        }
-      } as Pick<IState, keyof IState>,
+      prevState =>
+        ({
+          ...prevState,
+          form: {
+            ...prevState.form,
+            [name]: value
+          }
+        } as Pick<IState, keyof IState>),
       callback
     );
   };
