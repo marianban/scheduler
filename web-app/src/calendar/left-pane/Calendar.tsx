@@ -30,15 +30,19 @@ export class Calendar extends React.Component<IProps, {}> {
           <div
             className="calendar__month__btn calendar__month__btn--left"
             onClick={calendarStore.prevMonth}
+            role="button"
+            data-testid="btn-prev"
           >
             <Arrow style={{ transform: 'rotate(180deg)' }} />
           </div>
-          <div className="calendar__month__title">
+          <div className="calendar__month__title" data-testid="month-title">
             {dateCalendar.getMonthName()} {dateCalendar.getYear()}
           </div>
           <div
             className="calendar__month__btn calendar__month__btn--right"
             onClick={calendarStore.nextMonth}
+            role="button"
+            data-testid="btn-next"
           >
             <Arrow />
           </div>
