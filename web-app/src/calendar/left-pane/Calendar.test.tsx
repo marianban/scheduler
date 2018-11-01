@@ -5,9 +5,9 @@ import { RootStore } from 'RootStore';
 import { renderWithProviders } from 'test/utils';
 import { Calendar } from './Calendar';
 
-const toCalendarTitle = (date: Date) => {
-  const month = date.toLocaleString('en-US', { month: 'long' });
-  const year = date.getFullYear();
+const toCalendarTitle = (d: Date) => {
+  const month = d.toLocaleString('en-US', { month: 'long' });
+  const year = d.getFullYear();
   return `${month} ${year}`;
 };
 

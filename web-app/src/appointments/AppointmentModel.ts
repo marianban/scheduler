@@ -1,5 +1,6 @@
 import { isValid, parse } from 'date-fns';
 import { action, observable } from 'mobx';
+import { RootStore } from 'RootStore';
 import { v4 } from 'uuid';
 import { IAppointment } from './IAppointment';
 
@@ -38,6 +39,13 @@ export class AppointmentModel implements IAppointment {
 
   public equals = (appointment: AppointmentModel) => {
     return this.id === appointment.id;
+  };
+
+  public getClientFullName = (rootStore: RootStore) => {
+    if (this.clientId === undefined) {
+      return '';
+    }
+    return rootStore.clientStore.getById(this.clientId).fullName;
   };
 
   @action

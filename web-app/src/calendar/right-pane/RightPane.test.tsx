@@ -95,7 +95,7 @@ it('creates/updates new appointment when date and time is entered', () => {
   expect(appointmentsModel.appointments).toHaveLength(1);
   expect(date.value).toBe('20/10/2018');
 
-  //updates
+  // updates
   type(date, '2.3.2019');
   type(time, '10:00');
   expect(appointmentsModel.appointments).toHaveLength(1);

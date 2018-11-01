@@ -39,7 +39,15 @@ export class ClientStore {
   public getByFullName = (fullName: string) => {
     const client = this.clients.find(c => c.fullName === fullName);
     if (client === undefined) {
-      throw new Error(`client: ${fullName} does not exists`);
+      throw new Error(`client with name: ${fullName} does not exists`);
+    }
+    return client;
+  };
+
+  public getById = (id: string) => {
+    const client = this.clients.find(c => c.id === id);
+    if (client === undefined) {
+      throw new Error(`client with id: ${id} does not exists`);
     }
     return client;
   };

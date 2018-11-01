@@ -48,10 +48,12 @@
   color: var(--font-color-secondary);
 }
 
-.schedule__week .apointment {
+.schedule__week .appointment {
   border-bottom: transparent;
+  /*
   grid-column: 3 / span 1;
   grid-row: 9 / span 3;
+  */
   z-index: 1;
   position: absolute;
   width: calc(100% + 1px);
