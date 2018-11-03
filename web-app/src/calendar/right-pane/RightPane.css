@@ -13,6 +13,6 @@
 }
 
 /* must be more specific to override */
-.app__right-pane__h.app__right-pane__h {
-  margin-top: 0;
+.app__right-pane .grid-col-2:first-child .app__right-pane__h {
+  margin-top: 0px;
 }

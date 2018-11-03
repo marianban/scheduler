@@ -1,11 +1,12 @@
 import { getWeekDays } from 'calendar/getWeekDays';
 import { WeekNumbering } from 'calendar/WeekNumbering';
 import classNames from 'classnames';
-import * as addDays from 'date-fns/addDays';
-import * as addMinutes from 'date-fns/addMinutes';
-import * as differenceInMinutes from 'date-fns/differenceInMinutes';
-import * as format from 'date-fns/format';
-import * as getStartOfWeek from 'date-fns/startOfWeek';
+import * as addDays from 'date-fns/addDays/index';
+import * as addMinutes from 'date-fns/addMinutes/index';
+import * as differenceInMinutes from 'date-fns/differenceInMinutes/index';
+import * as format from 'date-fns/format/index';
+import * as isSameWeek from 'date-fns/isSameWeek/index';
+import * as getStartOfWeek from 'date-fns/startOfWeek/index';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { RootStore } from 'RootStore';
@@ -22,7 +23,7 @@ export const getAppointmentPosition = (
   return {
     column: appointmentDate.getDay() + 1,
     row:
-      Math.floor(differenceInMinutes(appointmentDate, startOfWorkDay) / 30) + 1
+      Math.floor(differenceInMinutes(appointmentDate, startOfWorkDay) / 30) + 2
   };
 };
 
@@ -43,28 +44,30 @@ export class Schedule extends React.Component<IScheduleProps, {}> {
       <div className="schedule__week">
         {this.renderHeader(startOfWeek, selectedDate)}
         {this.renderGrid(startOfDay)}
-        {appointmentsModel.appointments.map(appointment => {
-          const position = getAppointmentPosition(
-            startOfDay,
-            appointment.dateTime
-          );
-          return (
-            <div
-              className="appointment"
-              data-testid="appointment"
-              key={appointment.id}
-              data-position={`${position.row - position.column}`}
-              style={{
-                gridRow: `${position.row} / span 3`,
-                gridColumn: `${position.column} / span 1`
-              }}
-            >
-              <span data-testid="appointment-client">
-                {appointment.getClientFullName(rootStore)}
-              </span>
-            </div>
-          );
-        })}
+        {appointmentsModel.appointments
+          .filter(appointment => isSameWeek(appointment.dateTime, selectedDate))
+          .map(appointment => {
+            const position = getAppointmentPosition(
+              startOfDay,
+              appointment.dateTime
+            );
+            return (
+              <div
+                className="appointment"
+                data-testid="appointment"
+                key={appointment.id}
+                data-position={`${position.row - position.column}`}
+                style={{
+                  gridRow: `${position.row} / span 3`,
+                  gridColumn: `${position.column} / span 1`
+                }}
+              >
+                <span data-testid="appointment-client">
+                  {appointment.getClientFullName(rootStore)}
+                </span>
+              </div>
+            );
+          })}
       </div>
     );
   }

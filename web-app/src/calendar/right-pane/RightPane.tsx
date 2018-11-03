@@ -2,6 +2,7 @@ import { AppointmentModel } from 'appointments/AppointmentModel';
 import { ClientModel } from 'clients/ClientModel';
 import { IClient } from 'clients/IClient';
 import { Button } from 'components/Button';
+import { ButtonBarField, Option } from 'components/ButtonBarField';
 import { ButtonLink } from 'components/ButtonLink';
 import { TextField } from 'components/TextField';
 import { TypeaheadField } from 'components/TypeaheadField';
@@ -39,15 +40,49 @@ export class RightPane extends React.Component<IProps, IState> {
   public render() {
     const {
       form: { fullName, phoneNumber, email, date, time },
-      client
+      client,
+      appointment
     } = this.state;
     const { clientStore } = this.getRootStore();
     return (
       <aside className="app__right-pane">
         <div className="grid-col-2">
-          <h2 className="app__right-pane__h">
-            {client ? 'Client' : 'New Client'}
-          </h2>
+          <h2 className="app__right-pane__h">Appointment</h2>
+          <ButtonLink
+            className="h__btn-link app__right-pane__h"
+            onClick={this.handleOnNewAppointmentClick}
+            data-testid="new-appointment"
+            disabled={!appointment}
+          >
+            new
+          </ButtonLink>
+        </div>
+        <div className="grid-col-2">
+          <TextField
+            name="date"
+            title="Date"
+            value={date}
+            suffix={<CalendarIcon className="appointment__calendar-icon" />}
+            onChange={this.handleOnChange}
+            onBlur={this.handleOnDateBlur}
+          />
+          <TextField
+            name="time"
+            title="Time"
+            value={time}
+            suffix={<ClockIcon className="appointment__calendar-icon" />}
+            onChange={this.handleOnChange}
+            onBlur={this.handleOnTimeBlur}
+          />
+        </div>
+        <ButtonBarField title="Duration" data-testid="duration">
+          <Option isSelected={true}>30 min</Option>
+          <Option>60 min</Option>
+          <Option>90 min</Option>
+        </ButtonBarField>
+        <TextField title="Services" />
+        <div className="grid-col-2">
+          <h2 className="app__right-pane__h">Client</h2>
           <ButtonLink
             className="h__btn-link app__right-pane__h"
             onClick={this.handleOnNewClientClick}
@@ -80,28 +115,15 @@ export class RightPane extends React.Component<IProps, IState> {
           onChange={this.handleOnChange}
           onBlur={this.handleClientOnBlur}
         />
-        <h2>Appointment</h2>
-        <div className="grid-col-2">
-          <TextField
-            name="date"
-            title="Date"
-            value={date}
-            suffix={<CalendarIcon className="appointment__calendar-icon" />}
-            onChange={this.handleOnChange}
-            onBlur={this.handleOnDateBlur}
-          />
-          <TextField
-            name="time"
-            title="Time"
-            value={time}
-            suffix={<ClockIcon className="appointment__calendar-icon" />}
-            onChange={this.handleOnChange}
-            onBlur={this.handleOnTimeBlur}
-          />
-        </div>
-        <TextField title="Services" />
         <div className="pane__bottom">
-          <Button className="btn--secondary">Cancel Appointment</Button>
+          <Button
+            className="btn--secondary"
+            data-testid="cancel-appointment"
+            disabled={!appointment}
+            onClick={this.handleOnCancelAppointment}
+          >
+            Cancel Appointment
+          </Button>
         </div>
       </aside>
     );
@@ -110,6 +132,30 @@ export class RightPane extends React.Component<IProps, IState> {
   private handleOnNewClientClick = () => {
     this.setState({
       client: undefined,
+      form: {
+        fullName: '',
+        email: '',
+        phoneNumber: '',
+        date: '',
+        time: ''
+      }
+    });
+  };
+
+  private handleOnNewAppointmentClick = () => {
+    this.clearAppointmentForm();
+  };
+
+  private handleOnCancelAppointment = () => {
+    const { appointmentsModel } = this.getRootStore();
+    appointmentsModel.cancel(this.state.appointment!.id);
+    this.clearAppointmentForm();
+  };
+
+  private clearAppointmentForm = () => {
+    this.setState({
+      client: undefined,
+      appointment: undefined,
       form: {
         fullName: '',
         email: '',

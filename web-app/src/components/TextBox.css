@@ -6,9 +6,10 @@
 .text-box {
   position: absolute;
   border: 1px solid var(--border-color);
-  border-radius: 3px;
+  border-radius: var(--control-border-radius);
   font-size: 1.5rem;
-  line-height: 2.5rem;
+  height: var(--control-height);
+  line-height: var(--control-height);
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   color: var(--font-color);

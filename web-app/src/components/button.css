@@ -2,8 +2,9 @@
   background: var(--color-primary);
   border: 1px solid transparent;
   box-sizing: border-box;
-  border-radius: 3px;
-  color: #FFF;
+  border-radius: var(--control-border-radius);
+  height: var(--control-height);
+  color: #fff;
   font-weight: 600;
   font-size: 1.5rem;
   padding: 0.5rem 1rem;
@@ -11,7 +12,7 @@
 }
 
 .btn:hover {
-  background-color: #5DB4F2;
+  background-color: #5db4f2;
 }
 
 .btn--secondary {

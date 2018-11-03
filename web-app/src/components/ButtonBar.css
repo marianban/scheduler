@@ -1,0 +1,37 @@
+.btn-bar {
+  display: flex;
+  width: 100%;
+}
+
+.btn-bar__option {
+  font-size: 1.2rem;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color);
+  height: var(--control-height);
+  line-height: var(--control-height);
+  border-right: none;
+}
+
+.btn-bar__option:first-child {
+  border-top-left-radius: var(--control-border-radius);
+  border-bottom-left-radius: var(--control-border-radius);
+}
+
+.btn-bar__option:last-child {
+  border-top-right-radius: var(--control-border-radius);
+  border-bottom-right-radius: var(--control-border-radius);
+  border-right: 1px solid var(--border-color);
+}
+
+.btn-bar__option--selected {
+  background-color: var(--color-highlight);
+  color: white;
+  border-color: var(--color-highlight);
+}
+
+.btn-bar__option--selected.btn-bar__option:last-child {
+  border-right: 1px solid var(--color-highlight);
+}

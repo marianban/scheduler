@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 import * as React from 'react';
-import './Label.css'
+import './Label.css';
 
-interface IProps {
+export interface IProps {
   className?: string;
   children: React.ReactNode;
   title: string;

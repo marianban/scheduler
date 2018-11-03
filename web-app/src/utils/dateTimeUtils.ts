@@ -56,7 +56,7 @@ export const parseDate = (value: string, baseDate: Date = new Date()) => {
 };
 
 export const normalizeDate = (value: string, baseDate: Date) => {
-  return format(parseDate(value, baseDate), 'd/M/YYYY');
+  return format(parseDate(value, baseDate), 'd/M/yyyy');
 };
 
 export const normalizeTime = (value: string) => {

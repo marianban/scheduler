@@ -52,6 +52,9 @@ export class AppointmentModel implements IAppointment {
   private init(date: string, time: string, id: string, clientId?: string) {
     this.id = id;
     this.dateTime = this.parseDateTime(date, time);
+    if (clientId) {
+      this.clientId = clientId;
+    }
   }
 
   private parseDateTime = (date: string, time: string) => {

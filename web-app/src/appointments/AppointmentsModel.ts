@@ -25,6 +25,15 @@ export class AppointmentsModel {
   }
 
   @action
+  public cancel(appointmentId: string) {
+    const index = this.appointments.findIndex(a => a.id === appointmentId);
+    if (index === -1) {
+      throw new Error('Unable to cancel nonexisting appointment');
+    }
+    this.appointments.splice(index, 1);
+  }
+
+  @action
   private init() {
     this.appointments = [];
   }
