@@ -13,13 +13,15 @@ export class AppointmentsModel {
   public create({
     date,
     time,
+    duration,
     clientId
   }: {
     date: string;
     time: string;
+    duration: number;
     clientId?: string;
   }) {
-    const appointment = new AppointmentModel(date, time, clientId);
+    const appointment = new AppointmentModel(date, time, duration, clientId);
     this.appointments.push(appointment);
     return appointment;
   }

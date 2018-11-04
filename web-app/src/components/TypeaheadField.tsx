@@ -74,6 +74,7 @@ export class TypeaheadField extends React.Component<
             <ul {...getMenuProps({ className: 'typeahead-field__menu' })}>
               {isOpen
                 ? items
+                    .slice()
                     .sort(compareClientsFactory(inputValue))
                     .map((item, index) => (
                       <li

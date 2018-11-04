@@ -11,12 +11,19 @@ export class ClientStore {
   }
 
   @action
-  public create(client: ClientModel) {
+  public create(data: IClient & { id?: string }) {
+    const client = new ClientModel(
+      data.fullName,
+      data.phoneNumber,
+      data.email,
+      data.id
+    );
     const exists = this.clients.some(c => c.id === client.id);
     if (exists) {
       throw new Error('cannot create client with duplicate id');
     }
     this.clients.push(client);
+    return client;
   }
 
   @action

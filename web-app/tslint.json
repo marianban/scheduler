@@ -2,7 +2,8 @@
   "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "rules": {
     "object-literal-sort-keys": false,
-    "no-console": false
+    "no-console": false,
+    "no-empty": [true, "allow-empty-functions"]
   },
   "jsRules": {
     "object-literal-sort-keys": false

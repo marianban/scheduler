@@ -1,4 +1,3 @@
-import { ClientModel } from 'clients/ClientModel';
 import * as React from 'react';
 import { fireEvent } from 'react-testing-library';
 import { RootStore } from 'RootStore';
@@ -18,6 +17,7 @@ const renderRightPane = () => {
   const btnCancelAppointment = getByTestId('cancel-appointment');
   const btnNewAppointment = getByTestId('new-appointment');
   const duration = getByTestId('duration');
+  const getAllByTestIdQuery = getAllByTestId as any;
   return {
     ...result,
     rootStore,
@@ -33,8 +33,13 @@ const renderRightPane = () => {
       duration: {
         ...duration,
         getSelected: () =>
-          (getAllByTestId('btn-bar-option') as any).find(
-            e => e.getAttribute('data-selected') === 'true'
+          (getAllByTestIdQuery('btn-bar-option') as any).find(
+            (e: HTMLElement) => e.getAttribute('data-selected') === 'true'
+          ),
+        getByValue: (value: any) =>
+          (getAllByTestIdQuery('btn-bar-option') as any).find(
+            (e: HTMLElement) =>
+              e.getAttribute('data-value') === value.toString()
           )
       },
       type: (element: HTMLElement, value: string) => {
@@ -63,9 +68,11 @@ it('loads and updates existing client if the name matches', () => {
     rootStore,
     form: { fullName, email, phoneNumber, type }
   } = renderRightPane();
-  rootStore.clientStore.create(
-    new ClientModel('Martin Folwer', '1234', 'martin@folwer')
-  );
+  rootStore.clientStore.create({
+    fullName: 'Martin Folwer',
+    phoneNumber: '1234',
+    email: 'martin@folwer'
+  });
   type(fullName, 'Martin Folwer');
   type(email, 'martin@folwer.com');
   type(phoneNumber, '0908042407');
@@ -79,9 +86,11 @@ it('replaces existing client form with new client', () => {
     rootStore,
     form: { fullName, email, phoneNumber, type }
   } = renderRightPane();
-  rootStore.clientStore.create(
-    new ClientModel('Martin Folwer', '1234', 'martin@folwer')
-  );
+  rootStore.clientStore.create({
+    fullName: 'Martin Folwer',
+    phoneNumber: '1234',
+    email: 'martin@folwer'
+  });
   type(fullName, 'Martin Folwer');
   expect(fullName.value).toBe('Martin Folwer');
   expect(phoneNumber.value).toBe('1234');
@@ -208,7 +217,18 @@ it('new appointment creation', () => {
 
 it('can specify duration', () => {
   const {
-    form: { duration }
+    form: { duration, type, date, time },
+    rootStore
   } = renderRightPane();
+  const { appointmentsModel } = rootStore;
+  type(date, '20/10');
+  type(time, '10:00');
+  expect(appointmentsModel.appointments).toHaveLength(1);
+  const appointment = appointmentsModel.appointments[0];
   expect(duration.getSelected()).toHaveTextContent('30 min');
+  expect(appointment.duration).toBe(30);
+  const duration60 = duration.getByValue(60);
+  fireEvent.click(duration60);
+  expect(duration.getSelected()).toHaveTextContent('60 min');
+  expect(appointment.duration).toBe(60);
 });

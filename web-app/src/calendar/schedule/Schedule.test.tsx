@@ -34,7 +34,8 @@ it('renders new appointment on an appropriate place', () => {
   rootStore.dateSelectionModel.set(new Date(2018, 10, 22));
   rootStore.appointmentsModel.create({
     date: '20/11/2018',
-    time: '10:00'
+    time: '10:00',
+    duration: 30
   });
   const { getAllByTestId }: any = renderSchedule(rootStore);
   const appointments = getAllByTestId('appointment');

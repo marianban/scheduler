@@ -1,13 +1,16 @@
-import { ClientModel } from 'clients/ClientModel';
 import { RootStore } from './RootStore';
 
 it('can get appointment client name', () => {
   const rootStore = new RootStore(new Date());
-  const client = new ClientModel('Leonard Ban', '0908000000', 'leo@gmail.com');
-  rootStore.clientStore.create(client);
+  const client = rootStore.clientStore.create({
+    fullName: 'Leonard Ban',
+    phoneNumber: '0908000000',
+    email: 'leo@gmail.com'
+  });
   rootStore.appointmentsModel.create({
     date: '20/11/2018',
     time: '10:00',
+    duration: 30,
     clientId: client.id
   });
   const appointment = rootStore.appointmentsModel.appointments[0];

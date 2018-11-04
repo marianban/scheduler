@@ -19,10 +19,16 @@ interface IProps {
 }
 
 interface IState {
-  form: Pick<IClient, keyof IClient> & { date: string; time: string };
+  form: Pick<IClient, keyof IClient> & {
+    date: string;
+    time: string;
+    duration: number;
+  };
   client?: ClientModel;
   appointment?: AppointmentModel;
 }
+
+const DEFAULT_DURATION: number = 30;
 
 @inject('rootStore')
 @observer
@@ -33,16 +39,18 @@ export class RightPane extends React.Component<IProps, IState> {
       phoneNumber: '',
       email: '',
       date: '',
-      time: ''
+      time: '',
+      duration: DEFAULT_DURATION
     }
   };
 
   public render() {
     const {
-      form: { fullName, phoneNumber, email, date, time },
+      form: { fullName, phoneNumber, email, date, time, duration },
       client,
       appointment
     } = this.state;
+
     const { clientStore } = this.getRootStore();
     return (
       <aside className="app__right-pane">
@@ -76,9 +84,27 @@ export class RightPane extends React.Component<IProps, IState> {
           />
         </div>
         <ButtonBarField title="Duration" data-testid="duration">
-          <Option isSelected={true}>30 min</Option>
-          <Option>60 min</Option>
-          <Option>90 min</Option>
+          <Option
+            isSelected={duration === 30}
+            value={30}
+            onClick={this.handleDurationChange}
+          >
+            30 min
+          </Option>
+          <Option
+            isSelected={duration === 60}
+            value={60}
+            onClick={this.handleDurationChange}
+          >
+            60 min
+          </Option>
+          <Option
+            isSelected={duration === 90}
+            value={90}
+            onClick={this.handleDurationChange}
+          >
+            90 min
+          </Option>
         </ButtonBarField>
         <TextField title="Services" />
         <div className="grid-col-2">
@@ -129,6 +155,18 @@ export class RightPane extends React.Component<IProps, IState> {
     );
   }
 
+  private handleDurationChange = (duration: number) => {
+    this.setState(
+      {
+        form: {
+          ...this.state.form,
+          duration
+        }
+      },
+      this.handleAppointmentOnBlur
+    );
+  };
+
   private handleOnNewClientClick = () => {
     this.setState({
       client: undefined,
@@ -137,7 +175,8 @@ export class RightPane extends React.Component<IProps, IState> {
         email: '',
         phoneNumber: '',
         date: '',
-        time: ''
+        time: '',
+        duration: DEFAULT_DURATION
       }
     });
   };
@@ -161,7 +200,8 @@ export class RightPane extends React.Component<IProps, IState> {
         email: '',
         phoneNumber: '',
         date: '',
-        time: ''
+        time: '',
+        duration: DEFAULT_DURATION
       }
     });
   };
@@ -200,9 +240,7 @@ export class RightPane extends React.Component<IProps, IState> {
           this.updateForm('phoneNumber', newClient.phoneNumber);
           this.updateForm('email', newClient.email);
         } else {
-          // TODO: move client initialization into create function
-          newClient = new ClientModel(fullName, phoneNumber, email);
-          clientStore.create(newClient);
+          newClient = clientStore.create({ fullName, phoneNumber, email });
         }
         this.setState({
           client: newClient
@@ -277,6 +315,7 @@ export class RightPane extends React.Component<IProps, IState> {
     return {
       date: form.date,
       time: form.time,
+      duration: form.duration,
       clientId: client && client.id
     };
   };
