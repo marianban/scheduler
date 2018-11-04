@@ -2,7 +2,7 @@ import { Button } from 'components/Button';
 import * as React from 'react';
 import LeftPane from './left-pane/LeftPane';
 import { RightPane } from './right-pane/RightPane';
-import { Schedule } from './schedule/Schedule';
+import { WorkCalendar } from './work-calendar/WorkCalendar';
 
 export const Calendar = () => (
   <React.Fragment>
@@ -13,7 +13,7 @@ export const Calendar = () => (
         <Button>Today</Button>
       </div>
       <div className="app__main-pane__content">
-        <Schedule />
+        <WorkCalendar />
       </div>
     </main>
   </React.Fragment>
