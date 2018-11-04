@@ -1,4 +1,5 @@
 import { isValid, parse } from 'date-fns';
+import * as format from 'date-fns/format/index';
 import { action, observable } from 'mobx';
 import { RootStore } from 'RootStore';
 import { v4 } from 'uuid';
@@ -47,11 +48,46 @@ export class AppointmentModel implements IAppointment {
     return this.id === appointment.id;
   };
 
+  public hasClient = () => {
+    return this.clientId !== undefined;
+  };
+
+  public getClient = (rootStore: RootStore) => {
+    if (this.clientId === undefined) {
+      throw new Error('Client does not exist');
+    }
+
+    return rootStore.clientStore.getById(this.clientId);
+  };
+
   public getClientFullName = (rootStore: RootStore) => {
+    return this.getClientField(rootStore, 'fullName');
+  };
+
+  public getClientEmail = (rootStore: RootStore) => {
+    return this.getClientField(rootStore, 'email');
+  };
+
+  public getClientPhoneNumber = (rootStore: RootStore) => {
+    return this.getClientField(rootStore, 'phoneNumber');
+  };
+
+  private getClientField = (
+    rootStore: RootStore,
+    field: 'fullName' | 'email' | 'phoneNumber'
+  ) => {
     if (this.clientId === undefined) {
       return '';
     }
-    return rootStore.clientStore.getById(this.clientId).fullName;
+    return rootStore.clientStore.getById(this.clientId)[field];
+  };
+
+  public getDate = () => {
+    return format(this.dateTime, 'd/M/y');
+  };
+
+  public getTime = () => {
+    return format(this.dateTime, 'H:m');
   };
 
   @action

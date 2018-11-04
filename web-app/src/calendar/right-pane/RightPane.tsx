@@ -6,6 +6,7 @@ import { ButtonBarField, Option } from 'components/ButtonBarField';
 import { ButtonLink } from 'components/ButtonLink';
 import { TextField } from 'components/TextField';
 import { TypeaheadField } from 'components/TypeaheadField';
+import { observe } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { RootStore } from 'RootStore';
@@ -43,6 +44,26 @@ export class RightPane extends React.Component<IProps, IState> {
       duration: DEFAULT_DURATION
     }
   };
+
+  public componentDidMount() {
+    const rootStore = this.getRootStore();
+    const { appointmentsModel } = rootStore;
+    observe(appointmentsModel.selectedAppointmentId, appointmentId => {
+      if (appointmentId.newValue !== null) {
+        const appointment = appointmentsModel.findById(appointmentId.newValue);
+        this.setState({
+          form: {
+            date: appointment.getDate(),
+            time: appointment.getTime(),
+            duration: appointment.duration,
+            fullName: appointment.getClientFullName(rootStore),
+            email: appointment.getClientEmail(rootStore),
+            phoneNumber: appointment.getClientPhoneNumber(rootStore)
+          }
+        });
+      }
+    });
+  }
 
   public render() {
     const {
@@ -187,6 +208,7 @@ export class RightPane extends React.Component<IProps, IState> {
 
   private handleOnCancelAppointment = () => {
     const { appointmentsModel } = this.getRootStore();
+    appointmentsModel.unselect();
     appointmentsModel.cancel(this.state.appointment!.id);
     this.clearAppointmentForm();
   };
@@ -303,6 +325,7 @@ export class RightPane extends React.Component<IProps, IState> {
         const newAppointment = appointmentsModel.create(
           this.formToAppointment()
         );
+        appointmentsModel.select(newAppointment.id);
         this.setState({
           appointment: newAppointment
         });

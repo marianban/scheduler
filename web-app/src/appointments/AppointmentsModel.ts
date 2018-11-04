@@ -1,9 +1,13 @@
-import { action, observable } from 'mobx';
+import { action, IObservableValue, observable } from 'mobx';
 import { AppointmentModel } from './AppointmentModel';
 
 export class AppointmentsModel {
   @observable
   public appointments!: AppointmentModel[];
+  @observable
+  public selectedAppointmentId: IObservableValue<
+    string | null
+  > = observable.box(null);
 
   constructor() {
     this.init();
@@ -28,15 +32,36 @@ export class AppointmentsModel {
 
   @action
   public cancel(appointmentId: string) {
+    this.assertExistence(appointmentId);
     const index = this.appointments.findIndex(a => a.id === appointmentId);
-    if (index === -1) {
-      throw new Error('Unable to cancel nonexisting appointment');
-    }
     this.appointments.splice(index, 1);
+  }
+
+  @action
+  public select(appointmentId: string) {
+    this.assertExistence(appointmentId);
+    this.selectedAppointmentId.set(appointmentId);
+  }
+
+  @action
+  public unselect() {
+    this.selectedAppointmentId.set(null);
+  }
+
+  public findById(appointmentId: string) {
+    this.assertExistence(appointmentId);
+    return this.appointments.find(a => a.id === appointmentId)!;
   }
 
   @action
   private init() {
     this.appointments = [];
+  }
+
+  private assertExistence(appointmentId: string) {
+    const exists = this.appointments.some(a => a.id === appointmentId);
+    if (!exists) {
+      throw new Error('Unable to cancel nonexisting appointment');
+    }
   }
 }
