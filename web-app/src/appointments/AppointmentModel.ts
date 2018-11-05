@@ -72,6 +72,14 @@ export class AppointmentModel implements IAppointment {
     return this.getClientField(rootStore, 'phoneNumber');
   };
 
+  public getDate = () => {
+    return format(this.dateTime, 'd/M/y');
+  };
+
+  public getTime = () => {
+    return format(this.dateTime, 'H:m');
+  };
+
   private getClientField = (
     rootStore: RootStore,
     field: 'fullName' | 'email' | 'phoneNumber'
@@ -80,14 +88,6 @@ export class AppointmentModel implements IAppointment {
       return '';
     }
     return rootStore.clientStore.getById(this.clientId)[field];
-  };
-
-  public getDate = () => {
-    return format(this.dateTime, 'd/M/y');
-  };
-
-  public getTime = () => {
-    return format(this.dateTime, 'H:m');
   };
 
   @action

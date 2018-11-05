@@ -1,8 +1,29 @@
+import { IClient } from 'clients/IClient';
 import * as React from 'react';
 import { fireEvent } from 'react-testing-library';
 import { RootStore } from 'RootStore';
+import { Clients } from 'test/data';
 import { renderWithProviders } from 'test/utils';
 import { RightPane } from './RightPane';
+
+type Duration = HTMLElement & {
+  getSelected: () => any;
+  getByValue: (value: any) => any;
+};
+
+interface ClientForm {
+  fullName: HTMLInputElement;
+  email: HTMLInputElement;
+  phoneNumber: HTMLInputElement;
+  type: (element: HTMLElement, value: string) => void;
+}
+
+interface AppointmentForm {
+  date: HTMLInputElement;
+  time: HTMLInputElement;
+  duration: Duration;
+  type: (element: HTMLElement, value: string) => void;
+}
 
 const renderRightPane = () => {
   const rootStore = new RootStore(new Date());
@@ -50,12 +71,42 @@ const renderRightPane = () => {
   };
 };
 
+const typeClient = (
+  { fullName, email, phoneNumber, type }: ClientForm,
+  client: IClient
+) => {
+  type(fullName, client.fullName);
+  type(email, client.email);
+  type(phoneNumber, client.phoneNumber);
+};
+
+const expectEmptyClient = ({ fullName, email, phoneNumber }: ClientForm) => {
+  expect(fullName).toBeEmpty();
+  expect(email).toBeEmpty();
+  expect(phoneNumber).toBeEmpty();
+};
+
+const expectClient = (
+  { fullName, email, phoneNumber }: ClientForm,
+  client: IClient
+) => {
+  expect(fullName.value).toBe(client.fullName);
+  expect(email.value).toBe(client.email);
+  expect(phoneNumber.value).toBe(client.phoneNumber);
+};
+
+const expectEmptyAppointment = ({ date, time, duration }: AppointmentForm) => {
+  expect(date).toBeEmpty();
+  expect(time).toBeEmpty();
+  expect(duration.getSelected()).toHaveTextContent('30 min');
+};
+
 it('creates new client when new name is entered', () => {
   const {
     rootStore,
     form: { fullName, type, btnNewClient }
   } = renderRightPane();
-  const clientName = 'Linus Torvalds';
+  const clientName = Clients.Leonard.fullName;
   expect(btnNewClient).toBeDisabled();
   type(fullName, clientName);
   expect(btnNewClient).not.toBeDisabled();
@@ -64,39 +115,24 @@ it('creates new client when new name is entered', () => {
 });
 
 it('loads and updates existing client if the name matches', () => {
-  const {
-    rootStore,
-    form: { fullName, email, phoneNumber, type }
-  } = renderRightPane();
-  rootStore.clientStore.create({
-    fullName: 'Martin Folwer',
-    phoneNumber: '1234',
-    email: 'martin@folwer'
-  });
-  type(fullName, 'Martin Folwer');
-  type(email, 'martin@folwer.com');
-  type(phoneNumber, '0908042407');
+  const { rootStore, form } = renderRightPane();
+  rootStore.clientStore.create(Clients.Martin);
+  typeClient(form, Clients.Martin);
   expect(rootStore.clientStore.clients).toHaveLength(1);
-  expect(email.value).toBe('martin@folwer.com');
-  expect(phoneNumber.value).toBe('0908042407');
+  expectClient(form, Clients.Martin);
 });
 
 it('replaces existing client form with new client', () => {
   const {
     rootStore,
+    form,
     form: { fullName, email, phoneNumber, type }
   } = renderRightPane();
-  rootStore.clientStore.create({
-    fullName: 'Martin Folwer',
-    phoneNumber: '1234',
-    email: 'martin@folwer'
-  });
-  type(fullName, 'Martin Folwer');
-  expect(fullName.value).toBe('Martin Folwer');
-  expect(phoneNumber.value).toBe('1234');
-  expect(email.value).toBe('martin@folwer');
+  rootStore.clientStore.create(Clients.Martin);
+  type(fullName, Clients.Martin.fullName);
+  expectClient(form, Clients.Martin);
 
-  const clientName = 'Linus Torvalds';
+  const clientName = Clients.Leonard.fullName;
   type(fullName, clientName);
   expect(rootStore.clientStore.exists({ fullName: clientName })).toBe(true);
   expect(email).toBeEmpty();
@@ -137,25 +173,25 @@ it('assigns client to appointment', () => {
   type(time, '10:30');
 
   // creates first client
-  type(fullName, 'Martin Folwer');
+  type(fullName, Clients.Martin.fullName);
   expect(clientStore.clients).toHaveLength(1);
   const client = clientStore.clients[0];
-  expect(client.fullName).toBe('Martin Folwer');
+  expect(client.fullName).toBe(Clients.Martin.fullName);
   expect(appointmentsModel.appointments).toHaveLength(1);
   expect(appointmentsModel.appointments[0].clientId).toBe(client.id);
 
   // creates second client
-  type(fullName, 'Linus Torvalds');
+  type(fullName, Clients.Leonard.fullName);
   expect(clientStore.clients).toHaveLength(2);
-  const secondClient = clientStore.getByFullName('Linus Torvalds');
-  expect(secondClient.fullName).toBe('Linus Torvalds');
+  const secondClient = clientStore.getByFullName(Clients.Leonard.fullName);
+  expect(secondClient.fullName).toBe(Clients.Leonard.fullName);
   expect(appointmentsModel.appointments).toHaveLength(1);
   expect(appointmentsModel.appointments[0].clientId).toBe(secondClient.id);
 
   // switches back to first client
-  type(fullName, 'Martin Folwer');
+  type(fullName, Clients.Martin.fullName);
   expect(clientStore.clients).toHaveLength(2);
-  expect(client.fullName).toBe('Martin Folwer');
+  expect(client.fullName).toBe(Clients.Martin.fullName);
   expect(appointmentsModel.appointments).toHaveLength(1);
   expect(appointmentsModel.appointments[0].clientId).toBe(client.id);
 });
@@ -163,6 +199,7 @@ it('assigns client to appointment', () => {
 it('appointment cancellation', () => {
   const {
     rootStore,
+    form,
     form: {
       type,
       date,
@@ -176,7 +213,7 @@ it('appointment cancellation', () => {
   const { appointmentsModel } = rootStore;
   expect(btnCancelAppointment).toBeDisabled();
   expect(btnNewAppointment).toBeDisabled();
-  type(fullName, 'Leonard Ban');
+  type(fullName, Clients.Leonard.fullName);
   type(date, '20/10/2018');
   type(time, '10:30');
   expect(appointmentsModel.appointments).toHaveLength(1);
@@ -187,14 +224,14 @@ it('appointment cancellation', () => {
   expect(btnCancelAppointment).toBeDisabled();
   expect(btnNewAppointment).toBeDisabled();
   expect(btnNewClient).toBeDisabled();
-  expect(date).toBeEmpty();
-  expect(time).toBeEmpty();
-  expect(fullName).toBeEmpty();
+  expectEmptyAppointment(form);
+  expectEmptyClient(form);
   expect(appointmentsModel.appointments).toHaveLength(0);
 });
 
 it('new appointment creation', () => {
   const {
+    form,
     form: { type, date, time, fullName, btnNewAppointment, btnNewClient },
     rootStore
   } = renderRightPane();
@@ -210,9 +247,8 @@ it('new appointment creation', () => {
   expect(btnNewAppointment).toBeDisabled();
   expect(appointmentsModel.appointments).toHaveLength(1);
   expect(btnNewClient).toBeDisabled();
-  expect(fullName).toBeEmpty();
-  expect(date).toBeEmpty();
-  expect(time).toBeEmpty();
+  expectEmptyClient(form);
+  expectEmptyAppointment(form);
 });
 
 it('can specify duration', () => {
@@ -231,4 +267,28 @@ it('can specify duration', () => {
   fireEvent.click(duration60);
   expect(duration.getSelected()).toHaveTextContent('60 min');
   expect(appointment.duration).toBe(60);
+});
+
+it('shows selected appointment', () => {
+  const {
+    form,
+    form: { duration, date, time },
+    rootStore
+  } = renderRightPane();
+  const { appointmentsModel, clientStore } = rootStore;
+  const leonard = clientStore.create(Clients.Leonard);
+  const meetLeo = appointmentsModel.create({
+    date: '20/10/2018',
+    time: '14:00',
+    duration: 30,
+    clientId: leonard.id
+  });
+  const meetMartin = appointmentsModel.create({
+    date: '23/10/2018',
+    time: '10:30',
+    duration: 60
+  });
+  expect(duration.getSelected()).toHaveTextContent('30 min');
+  expectEmptyAppointment(form);
+  expectEmptyClient(form);
 });
