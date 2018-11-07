@@ -44,7 +44,7 @@ describe('work calendar', () => {
       .should('not.exist');
   });
 
-  it.only('can navigate between appointments', () => {
+  it('can navigate between appointments', () => {
     cy.clock(new Date(2018, 10 /*november*/, 1).getTime())
       .visit('/')
       .getByLabelText(/full name/i)
@@ -70,5 +70,19 @@ describe('work calendar', () => {
       .click()
       .getByLabelText(/full name/i)
       .should('have.value', 'Leonard Ban');
+  });
+
+  it('should show only actual appointments', () => {
+    cy.clock(new Date(2018, 10 /*november*/, 1).getTime())
+      .visit('/')
+      .getByLabelText(/full name/i)
+      .type('Leonard Ban')
+      .getByLabelText(/date/i)
+      .type('20/11/2018')
+      .getByLabelText(/time/i)
+      .type('10:00')
+      .blur()
+      .get('[data-testid=appointment]')
+      .should('not.exist');
   });
 });

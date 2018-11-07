@@ -3,31 +3,18 @@ import { WeekNumbering } from 'calendar/WeekNumbering';
 import classNames from 'classnames';
 import * as addDays from 'date-fns/addDays/index';
 import * as addMinutes from 'date-fns/addMinutes/index';
-import * as differenceInMinutes from 'date-fns/differenceInMinutes/index';
 import * as format from 'date-fns/format/index';
 import * as isSameWeek from 'date-fns/isSameWeek/index';
 import * as getStartOfWeek from 'date-fns/startOfWeek/index';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { RootStore } from 'RootStore';
+import { CalendarAppointment } from './CalendarAppointment';
 import './WorkCalendar.css';
 
 interface IWorkCalendarProps {
   rootStore?: RootStore;
 }
-
-export const getAppointmentPosition = (
-  startOfWorkDay: Date,
-  appointmentDate: Date,
-  duration: number
-) => {
-  return {
-    column: appointmentDate.getDay() + 1,
-    row:
-      Math.floor(differenceInMinutes(appointmentDate, startOfWorkDay) / 30) + 2,
-    rowSpan: duration / 30
-  };
-};
 
 export const getStartOfWorkDay = (date: Date) =>
   new Date(date.getFullYear(), date.getMonth(), date.getDate(), 8, 0, 0);
@@ -49,28 +36,11 @@ export class WorkCalendar extends React.Component<IWorkCalendarProps, {}> {
         {appointmentsModel.appointments
           .filter(appointment => isSameWeek(appointment.dateTime, selectedDate))
           .map(appointment => {
-            const position = getAppointmentPosition(
-              getStartOfWorkDay(appointment.dateTime),
-              appointment.dateTime,
-              appointment.duration
-            );
             return (
-              <div
-                className="appointment"
-                data-testid="appointment"
+              <CalendarAppointment
                 key={appointment.id}
-                data-position={`${position.row}-${position.column}-${
-                  position.rowSpan
-                }`}
-                style={{
-                  gridRow: `${position.row} / span ${position.rowSpan}`,
-                  gridColumn: `${position.column} / span 1`
-                }}
-              >
-                <span data-testid="appointment-client">
-                  {appointment.getClientFullName(rootStore)}
-                </span>
-              </div>
+                appointment={appointment}
+              />
             );
           })}
       </div>

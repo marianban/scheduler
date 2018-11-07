@@ -61,6 +61,8 @@ export class RightPane extends React.Component<IProps, IState> {
             phoneNumber: appointment.getClientPhoneNumber(rootStore)
           }
         });
+      } else {
+        this.clearAppointmentForm();
       }
     });
   }

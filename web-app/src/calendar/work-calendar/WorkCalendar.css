@@ -12,6 +12,11 @@
   border-right: 1px solid var(--border-color);
   background-color: #fff;
   z-index: 0;
+  transition: background-color var(--hover-transition-duration) ease-in-out;
+}
+
+.work-calendar__week .work-calendar__week__day:hover {
+  background-color: #f8f8f8;
 }
 
 .work-calendar__week .work-calendar__week__day--last {
@@ -65,4 +70,10 @@
   font-size: 1.2rem;
   line-height: 1.5rem;
   padding: 0.3rem;
+  cursor: pointer;
+  transition: background-color var(--hover-transition-duration) ease-in-out;
+}
+
+.work-calendar__week .appointment:hover {
+  background-color: var(--color-highlight);
 }

@@ -11,14 +11,14 @@ type Duration = HTMLElement & {
   getByValue: (value: any) => any;
 };
 
-interface ClientForm {
+interface IClientForm {
   fullName: HTMLInputElement;
   email: HTMLInputElement;
   phoneNumber: HTMLInputElement;
   type: (element: HTMLElement, value: string) => void;
 }
 
-interface AppointmentForm {
+interface IAppointmentForm {
   date: HTMLInputElement;
   time: HTMLInputElement;
   duration: Duration;
@@ -72,7 +72,7 @@ const renderRightPane = () => {
 };
 
 const typeClient = (
-  { fullName, email, phoneNumber, type }: ClientForm,
+  { fullName, email, phoneNumber, type }: IClientForm,
   client: IClient
 ) => {
   type(fullName, client.fullName);
@@ -80,14 +80,14 @@ const typeClient = (
   type(phoneNumber, client.phoneNumber);
 };
 
-const expectEmptyClient = ({ fullName, email, phoneNumber }: ClientForm) => {
-  expect(fullName).toBeEmpty();
-  expect(email).toBeEmpty();
-  expect(phoneNumber).toBeEmpty();
+const expectEmptyClient = ({ fullName, email, phoneNumber }: IClientForm) => {
+  expect(fullName.value).toBe('');
+  expect(email.value).toBe('');
+  expect(phoneNumber.value).toBe('');
 };
 
 const expectClient = (
-  { fullName, email, phoneNumber }: ClientForm,
+  { fullName, email, phoneNumber }: IClientForm,
   client: IClient
 ) => {
   expect(fullName.value).toBe(client.fullName);
@@ -95,9 +95,9 @@ const expectClient = (
   expect(phoneNumber.value).toBe(client.phoneNumber);
 };
 
-const expectEmptyAppointment = ({ date, time, duration }: AppointmentForm) => {
-  expect(date).toBeEmpty();
-  expect(time).toBeEmpty();
+const expectEmptyAppointment = ({ date, time, duration }: IAppointmentForm) => {
+  expect(date.value).toBe('');
+  expect(time.value).toBe('');
   expect(duration.getSelected()).toHaveTextContent('30 min');
 };
 
@@ -135,8 +135,8 @@ it('replaces existing client form with new client', () => {
   const clientName = Clients.Leonard.fullName;
   type(fullName, clientName);
   expect(rootStore.clientStore.exists({ fullName: clientName })).toBe(true);
-  expect(email).toBeEmpty();
-  expect(phoneNumber).toBeEmpty();
+  expect(email.value).toBe('');
+  expect(phoneNumber.value).toBe('');
   expect(rootStore.clientStore.clients).toHaveLength(2);
 });
 
@@ -269,7 +269,7 @@ it('can specify duration', () => {
   expect(appointment.duration).toBe(60);
 });
 
-it('shows selected appointment', () => {
+it.only('shows selected appointment', () => {
   const {
     form,
     form: { duration, date, time },
@@ -291,4 +291,17 @@ it('shows selected appointment', () => {
   expect(duration.getSelected()).toHaveTextContent('30 min');
   expectEmptyAppointment(form);
   expectEmptyClient(form);
+  appointmentsModel.select(meetLeo.id);
+  expectClient(form, Clients.Leonard);
+  expect(date.value).toBe('20/10/2018');
+  expect(time.value).toBe('14:00');
+  expect(duration.getSelected()).toHaveTextContent('30 min');
+  appointmentsModel.select(meetMartin.id);
+  expectEmptyClient(form);
+  expect(date.value).toBe('23/10/2018');
+  expect(time.value).toBe('10:30');
+  expect(duration.getSelected()).toHaveTextContent('60 min');
+  appointmentsModel.unselect();
+  expectEmptyClient(form);
+  expectEmptyAppointment(form);
 });

@@ -2,11 +2,8 @@ import { getByTestId } from 'dom-testing-library';
 import * as React from 'react';
 import { RootStore } from 'RootStore';
 import { renderWithProviders } from 'test/utils';
-import {
-  getAppointmentPosition,
-  getStartOfWorkDay,
-  WorkCalendar
-} from './WorkCalendar';
+import { getAppointmentPosition } from './CalendarAppointment';
+import { getStartOfWorkDay, WorkCalendar } from './WorkCalendar';
 
 const renderSchedule = (rootStore: RootStore) => {
   return {

@@ -77,7 +77,7 @@ export class AppointmentModel implements IAppointment {
   };
 
   public getTime = () => {
-    return format(this.dateTime, 'H:m');
+    return format(this.dateTime, 'H:mm');
   };
 
   private getClientField = (
@@ -107,7 +107,7 @@ export class AppointmentModel implements IAppointment {
   }
 
   private parseDateTime = (date: string, time: string) => {
-    const resultDate = parse(`${date} ${time}`, 'd/M/y H:m', new Date());
+    const resultDate = parse(`${date} ${time}`, 'd/M/y H:mm', new Date());
     if (!isValid(resultDate)) {
       throw new Error(`Unable to parse given date: ${date}`);
     }
