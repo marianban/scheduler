@@ -26,13 +26,15 @@ export class WorkCalendar extends React.Component<IWorkCalendarProps, {}> {
     const rootStore = this.props.rootStore!;
     const { dateSelectionModel, appointmentsModel } = rootStore;
     const { selectedDate } = dateSelectionModel;
-    const startOfDay = getStartOfWorkDay(selectedDate);
-    const startOfWeek = getStartOfWeek(selectedDate, { weekStartsOn: 1 });
+    const startOfWeek = getStartOfWorkDay(
+      getStartOfWeek(selectedDate, { weekStartsOn: 1 })
+    );
 
     return (
       <div className="work-calendar__week">
         {this.renderHeader(startOfWeek, selectedDate)}
-        {this.renderGrid(startOfDay)}
+        {this.renderFirstCol(startOfWeek)}
+        {this.renderGrid(startOfWeek)}
         {appointmentsModel.appointments
           .filter(appointment => isSameWeek(appointment.dateTime, selectedDate))
           .map(appointment => {
@@ -76,25 +78,41 @@ export class WorkCalendar extends React.Component<IWorkCalendarProps, {}> {
     ));
   };
 
-  private renderGrid = (startOfDay: Date) => {
-    return Array.from({ length: 16 * 8 }).map((v, i) => (
+  private renderFirstCol = (startOfWeek: Date) =>
+    Array.from({ length: 16 }).map((v, rowIndex) => (
       <div
-        key={i}
-        className={classNames('work-calendar__week__day', {
-          'work-calendar__week__day--last': (i + 1) % 8 === 0,
-          'work-calendar__week__hour': (i + 1) % 8 === 1
-        })}
+        key={rowIndex}
+        className={classNames(
+          'work-calendar__week__day',
+          'work-calendar__week__hour'
+        )}
         style={{
-          gridColumn: (i + 1) % 8,
-          gridRow: Math.ceil((i + 1) / 8) + 1
+          gridColumn: 1,
+          gridRow: rowIndex + 2
         }}
       >
-        {(i + 1) % 8 === 1 && (
-          <span>
-            {format(addMinutes(startOfDay, 30 * Math.ceil(i / 8)), 'H:mm')}
-          </span>
-        )}
+        <span>{format(addMinutes(startOfWeek, 30 * rowIndex), 'H:mm')}</span>
       </div>
     ));
+
+  private renderGrid = (startOfWeek: Date) => {
+    return Array.from({ length: 16 }).map((v, rowIndex) =>
+      Array.from({ length: 7 }).map((v2, colIndex) => (
+        <div
+          key={(colIndex + 2) * (rowIndex + 2)}
+          className={classNames('work-calendar__week__day', {
+            'work-calendar__week__day--last': colIndex === 6
+          })}
+          style={{
+            gridColumn: colIndex + 2,
+            gridRow: rowIndex + 2
+          }}
+          data-testid={format(
+            addDays(addMinutes(startOfWeek, 30 * rowIndex), colIndex),
+            'd/M/yyyy HH:mm'
+          )}
+        />
+      ))
+    );
   };
 }

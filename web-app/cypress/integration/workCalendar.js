@@ -1,7 +1,9 @@
 describe('work calendar', () => {
+  const WORK_CALENDAR_URL = '/';
+
   it('shows new appointments in work calendar', () => {
     cy.clock(new Date(2018, 10 /*november*/, 1).getTime())
-      .visit('/')
+      .visit(WORK_CALENDAR_URL)
       .getByLabelText(/full name/i)
       .type('Leonard Ban')
       .getByLabelText(/date/i)
@@ -32,7 +34,7 @@ describe('work calendar', () => {
 
   it('does not show next week appointment in work calendar', () => {
     cy.clock(new Date(2018, 10 /*november*/, 1).getTime())
-      .visit('/')
+      .visit(WORK_CALENDAR_URL)
       .getByLabelText(/full name/i)
       .type('Leonard Ban')
       .getByLabelText(/date/i)
@@ -46,7 +48,7 @@ describe('work calendar', () => {
 
   it('can navigate between appointments', () => {
     cy.clock(new Date(2018, 10 /*november*/, 1).getTime())
-      .visit('/')
+      .visit(WORK_CALENDAR_URL)
       .getByLabelText(/full name/i)
       .type('Leonard Ban')
       .getByLabelText(/date/i)
@@ -74,7 +76,7 @@ describe('work calendar', () => {
 
   it('should show only actual appointments', () => {
     cy.clock(new Date(2018, 10 /*november*/, 1).getTime())
-      .visit('/')
+      .visit(WORK_CALENDAR_URL)
       .getByLabelText(/full name/i)
       .type('Leonard Ban')
       .getByLabelText(/date/i)
@@ -84,5 +86,16 @@ describe('work calendar', () => {
       .blur()
       .get('[data-testid=appointment]')
       .should('not.exist');
+  });
+
+  it('appointment date time is updated by clicking on date', () => {
+    cy.clock(new Date(2018, 10 /*november*/, 1).getTime())
+      .visit(WORK_CALENDAR_URL)
+      .getByTestId('6/11/2018 11:30')
+      .click()
+      .getByLabelText('Date')
+      .should('have.value', '6/11/2018')
+      .getByLabelText('Time')
+      .should('have.value', '11:30');
   });
 });
