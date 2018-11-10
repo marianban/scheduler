@@ -1,4 +1,5 @@
 import { AppointmentModel } from 'appointments/AppointmentModel';
+import classNames from 'classnames';
 import * as differenceInMinutes from 'date-fns/differenceInMinutes/index';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
@@ -15,8 +16,11 @@ export const getAppointmentPosition = (
   appointmentDate: Date,
   duration: number
 ) => {
+  const day = appointmentDate.getDay();
+  const column = day === 0 ? 7 : day;
+
   return {
-    column: appointmentDate.getDay() + 1,
+    column: column + 1,
     row:
       Math.floor(differenceInMinutes(appointmentDate, startOfWorkDay) / 30) + 2,
     rowSpan: duration / 30
@@ -31,6 +35,7 @@ export class CalendarAppointment extends React.Component<
 > {
   public render() {
     const { appointment } = this.props;
+    const { appointmentsModel } = this.getRootStore();
 
     const position = getAppointmentPosition(
       getStartOfWorkDay(appointment.dateTime),
@@ -40,7 +45,10 @@ export class CalendarAppointment extends React.Component<
 
     return (
       <div
-        className="appointment"
+        className={classNames('appointment', {
+          'appointment--selected':
+            appointmentsModel.selectedAppointmentId.get() === appointment.id
+        })}
         data-testid="appointment"
         key={appointment.id}
         data-position={`${position.row}-${position.column}-${position.rowSpan}`}

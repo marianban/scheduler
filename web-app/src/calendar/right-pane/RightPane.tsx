@@ -1,4 +1,5 @@
 import { AppointmentModel } from 'appointments/AppointmentModel';
+import { IWorkCalendarItemClicked } from 'calendar/work-calendar/WorkCalendar';
 import { ClientModel } from 'clients/ClientModel';
 import { IClient } from 'clients/IClient';
 import { Button } from 'components/Button';
@@ -45,6 +46,8 @@ export class RightPane extends React.Component<IProps, IState> {
     }
   };
 
+  private subscriptionId?: string;
+
   public componentDidMount() {
     const rootStore = this.getRootStore();
     const { appointmentsModel } = rootStore;
@@ -65,6 +68,17 @@ export class RightPane extends React.Component<IProps, IState> {
         this.clearAppointmentForm();
       }
     });
+    this.subscriptionId = rootStore.pubSub.subscribe<IWorkCalendarItemClicked>(
+      'workCalendarItemClick',
+      this.handleWorkCalendarItemClicked
+    );
+  }
+
+  public componentWillUnmount() {
+    if (this.subscriptionId !== undefined) {
+      const { pubSub } = this.getRootStore();
+      pubSub.unsubscribe('workCalendarItemClick', this.subscriptionId);
+    }
   }
 
   public render() {
@@ -343,6 +357,19 @@ export class RightPane extends React.Component<IProps, IState> {
       duration: form.duration,
       clientId: client && client.id
     };
+  };
+
+  private handleWorkCalendarItemClicked = ({
+    date,
+    time
+  }: IWorkCalendarItemClicked) => {
+    this.setState({
+      form: {
+        ...this.state.form,
+        date,
+        time
+      }
+    });
   };
 
   private getRootStore = () => {

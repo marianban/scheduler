@@ -9,6 +9,7 @@ import * as getStartOfWeek from 'date-fns/startOfWeek/index';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { RootStore } from 'RootStore';
+import CalendarPlusIcon from './calendar-plus-regular.svg';
 import { CalendarAppointment } from './CalendarAppointment';
 import './WorkCalendar.css';
 
@@ -19,12 +20,16 @@ interface IWorkCalendarProps {
 export const getStartOfWorkDay = (date: Date) =>
   new Date(date.getFullYear(), date.getMonth(), date.getDate(), 8, 0, 0);
 
+export interface IWorkCalendarItemClicked {
+  date: string;
+  time: string;
+}
+
 @inject('rootStore')
 @observer
 export class WorkCalendar extends React.Component<IWorkCalendarProps, {}> {
   public render() {
-    const rootStore = this.props.rootStore!;
-    const { dateSelectionModel, appointmentsModel } = rootStore;
+    const { dateSelectionModel, appointmentsModel } = this.getRootStore();
     const { selectedDate } = dateSelectionModel;
     const startOfWeek = getStartOfWorkDay(
       getStartOfWeek(selectedDate, { weekStartsOn: 1 })
@@ -36,7 +41,9 @@ export class WorkCalendar extends React.Component<IWorkCalendarProps, {}> {
         {this.renderFirstCol(startOfWeek)}
         {this.renderGrid(startOfWeek)}
         {appointmentsModel.appointments
-          .filter(appointment => isSameWeek(appointment.dateTime, selectedDate))
+          .filter(appointment =>
+            isSameWeek(appointment.dateTime, selectedDate, { weekStartsOn: 1 })
+          )
           .map(appointment => {
             return (
               <CalendarAppointment
@@ -97,22 +104,52 @@ export class WorkCalendar extends React.Component<IWorkCalendarProps, {}> {
 
   private renderGrid = (startOfWeek: Date) => {
     return Array.from({ length: 16 }).map((v, rowIndex) =>
-      Array.from({ length: 7 }).map((v2, colIndex) => (
-        <div
-          key={(colIndex + 2) * (rowIndex + 2)}
-          className={classNames('work-calendar__week__day', {
-            'work-calendar__week__day--last': colIndex === 6
-          })}
-          style={{
-            gridColumn: colIndex + 2,
-            gridRow: rowIndex + 2
-          }}
-          data-testid={format(
-            addDays(addMinutes(startOfWeek, 30 * rowIndex), colIndex),
-            'd/M/yyyy HH:mm'
-          )}
-        />
-      ))
+      Array.from({ length: 7 }).map((v2, colIndex) => {
+        const date = addDays(addMinutes(startOfWeek, 30 * rowIndex), colIndex);
+        return (
+          <div
+            key={(colIndex + 2) * (rowIndex + 2)}
+            className={classNames('work-calendar__week__day', {
+              'work-calendar__week__day--last': colIndex === 6
+            })}
+            style={{
+              gridColumn: colIndex + 2,
+              gridRow: rowIndex + 2
+            }}
+            data-testid={format(date, 'd/M/yyyy HH:mm')}
+            onClick={this.handleOnGridItemClick.bind(this, date)}
+          >
+            <div title="Click to create an appointment here">
+              <CalendarPlusIcon
+                width="20"
+                className="appointment__icon"
+                date-testid="appointment-new-here"
+                onClick={this.handleOnCreateNew.bind(this, date)}
+              />
+            </div>
+          </div>
+        );
+      })
     );
+  };
+
+  private handleOnCreateNew = (date: Date) => {
+    const { pubSub } = this.getRootStore();
+    pubSub.publish('workCalendarItemNew', {
+      date: format(date, 'd/M/yyyy'),
+      time: format(date, 'HH:mm')
+    });
+  };
+
+  private handleOnGridItemClick = (date: Date) => {
+    const { pubSub } = this.getRootStore();
+    pubSub.publish('workCalendarItemClick', {
+      date: format(date, 'd/M/yyyy'),
+      time: format(date, 'HH:mm')
+    });
+  };
+
+  private getRootStore = () => {
+    return this.props.rootStore!;
   };
 }

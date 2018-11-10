@@ -13,10 +13,13 @@
   background-color: #fff;
   z-index: 0;
   transition: background-color var(--hover-transition-duration) ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .work-calendar__week .work-calendar__week__day:hover {
-  background-color: #f8f8f8;
+  /* background-color: #f8f8f8; */
 }
 
 .work-calendar__week .work-calendar__week__day--last {
@@ -74,6 +77,23 @@
   transition: background-color var(--hover-transition-duration) ease-in-out;
 }
 
+.work-calendar__week .appointment--selected {
+  background-color: var(--color-highlight);
+}
+
 .work-calendar__week .appointment:hover {
   background-color: var(--color-highlight);
+}
+
+.appointment__icon {
+  transition: opacity 250ms ease-in-out;
+  opacity: 0;
+}
+
+.work-calendar__week .work-calendar__week__day:hover .appointment__icon {
+  opacity: 0.3;
+}
+
+.work-calendar__week .work-calendar__week__day:hover .appointment__icon:hover {
+  opacity: 1;
 }
