@@ -102,4 +102,19 @@ describe('work calendar', () => {
       .getByLabelText(/full name/i)
       .should('have.value', 'Leonard Ban');
   });
+
+  it('appointment date time is updated by clicking on date', () => {
+    cy.clock(new Date(2018, 10 /*november*/, 1).getTime())
+      .visit(WORK_CALENDAR_URL)
+      .getByLabelText(/full name/i)
+      .type('Leonard Ban')
+      .getByTestId('3/11/2018 11:30')
+      .click()
+      .getByLabelText('Date')
+      .should('have.value', '3/11/2018')
+      .getByLabelText('Time')
+      .should('have.value', '11:30')
+      .getByLabelText(/full name/i)
+      .should('have.value', 'Leonard Ban');
+  });
 });
