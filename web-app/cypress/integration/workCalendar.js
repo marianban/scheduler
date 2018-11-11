@@ -88,33 +88,36 @@ describe('work calendar', () => {
       .should('not.exist');
   });
 
-  it('appointment date time is updated by clicking on date', () => {
+  it.only('can create new appointment', () => {
     cy.clock(new Date(2018, 10 /*november*/, 1).getTime())
       .visit(WORK_CALENDAR_URL)
       .getByLabelText(/full name/i)
       .type('Leonard Ban')
       .getByTestId('3/11/2018 11:30')
-      .click()
+      .within($date => cy.getByTestId('calendar-create-appointment').click())
       .getByLabelText('Date')
       .should('have.value', '3/11/2018')
       .getByLabelText('Time')
       .should('have.value', '11:30')
       .getByLabelText(/full name/i)
-      .should('have.value', 'Leonard Ban');
-  });
-
-  it('appointment date time is updated by clicking on date', () => {
-    cy.clock(new Date(2018, 10 /*november*/, 1).getTime())
-      .visit(WORK_CALENDAR_URL)
-      .getByLabelText(/full name/i)
-      .type('Leonard Ban')
-      .getByTestId('3/11/2018 11:30')
-      .click()
+      .should('have.value', '')
+      .getByTestId('cancel-appointment')
+      .should('be.enabled')
+      .getByTestId('2/11/2018 13:30')
+      .within($date => cy.getByTestId('calendar-create-appointment').click())
       .getByLabelText('Date')
-      .should('have.value', '3/11/2018')
+      .should('have.value', '2/11/2018')
       .getByLabelText('Time')
-      .should('have.value', '11:30')
-      .getByLabelText(/full name/i)
-      .should('have.value', 'Leonard Ban');
+      .should('have.value', '13:30')
+      .getByTestId('cancel-appointment')
+      .should('be.enabled')
+      .get('[data-appointment="2/11/2018 13:30"]')
+      .click()
+      .getByTestId('cancel-appointment')
+      .click()
+      .get('[data-appointment="3/11/2018 11:30"]')
+      .click()
+      .getByTestId('cancel-appointment')
+      .click();
   });
 });

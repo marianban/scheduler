@@ -9,9 +9,10 @@ import * as getStartOfWeek from 'date-fns/startOfWeek/index';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { RootStore } from 'RootStore';
-import CalendarPlusIcon from './calendar-plus-regular.svg';
 import { CalendarAppointment } from './CalendarAppointment';
+import './CalendarAppointment.css';
 import './WorkCalendar.css';
+import { WorkCalendarCell } from './WorkCalendarCell';
 
 interface IWorkCalendarProps {
   rootStore?: RootStore;
@@ -20,9 +21,8 @@ interface IWorkCalendarProps {
 export const getStartOfWorkDay = (date: Date) =>
   new Date(date.getFullYear(), date.getMonth(), date.getDate(), 8, 0, 0);
 
-export interface IWorkCalendarItemClicked {
-  date: string;
-  time: string;
+export interface IWorkCalendarRefreshAppointment {
+  appointmentId: string;
 }
 
 @inject('rootStore')
@@ -107,46 +107,42 @@ export class WorkCalendar extends React.Component<IWorkCalendarProps, {}> {
       Array.from({ length: 7 }).map((v2, colIndex) => {
         const date = addDays(addMinutes(startOfWeek, 30 * rowIndex), colIndex);
         return (
-          <div
+          <WorkCalendarCell
             key={(colIndex + 2) * (rowIndex + 2)}
-            className={classNames('work-calendar__week__day', {
-              'work-calendar__week__day--last': colIndex === 6
-            })}
-            style={{
-              gridColumn: colIndex + 2,
-              gridRow: rowIndex + 2
-            }}
-            data-testid={format(date, 'd/M/yyyy HH:mm')}
-            onClick={this.handleOnGridItemClick.bind(this, date)}
-          >
-            <div title="Click to create an appointment here">
-              <CalendarPlusIcon
-                width="20"
-                className="appointment__icon"
-                date-testid="appointment-new-here"
-                onClick={this.handleOnCreateNew.bind(this, date)}
-              />
-            </div>
-          </div>
+            date={date}
+            column={colIndex}
+            row={rowIndex}
+            onCreateNewAppointment={this.handleOnCreateNew}
+            onAppointmentMoved={this.handleOnAppointmentMoved}
+          />
         );
       })
     );
   };
 
   private handleOnCreateNew = (date: Date) => {
-    const { pubSub } = this.getRootStore();
-    pubSub.publish('workCalendarItemNew', {
+    const { appointmentsModel, pubSub } = this.getRootStore();
+    const { id } = appointmentsModel.create({
       date: format(date, 'd/M/yyyy'),
       time: format(date, 'HH:mm')
     });
+    pubSub.publish<IWorkCalendarRefreshAppointment>(
+      'workCalendarRefreshAppointment',
+      { appointmentId: id }
+    );
   };
 
-  private handleOnGridItemClick = (date: Date) => {
-    const { pubSub } = this.getRootStore();
-    pubSub.publish('workCalendarItemClick', {
+  private handleOnAppointmentMoved = (date: Date, appointmentId: string) => {
+    const { appointmentsModel, pubSub } = this.getRootStore();
+    const appointment = appointmentsModel.findById(appointmentId);
+    appointment.update({
       date: format(date, 'd/M/yyyy'),
       time: format(date, 'HH:mm')
     });
+    pubSub.publish<IWorkCalendarRefreshAppointment>(
+      'workCalendarRefreshAppointment',
+      { appointmentId }
+    );
   };
 
   private getRootStore = () => {

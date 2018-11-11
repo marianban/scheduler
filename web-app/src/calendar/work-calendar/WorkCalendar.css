@@ -75,6 +75,9 @@
   padding: 0.3rem;
   cursor: pointer;
   transition: background-color var(--hover-transition-duration) ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .work-calendar__week .appointment--selected {
@@ -97,4 +100,3 @@
 .work-calendar__week .work-calendar__week__day:hover .appointment__icon:hover {
   opacity: 1;
 }
-  

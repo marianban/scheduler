@@ -22,10 +22,15 @@ export class AppointmentsModel {
   }: {
     date: string;
     time: string;
-    duration: number;
+    duration?: number;
     clientId?: string;
   }) {
-    const appointment = new AppointmentModel(date, time, duration, clientId);
+    const appointment = new AppointmentModel(
+      date,
+      time,
+      duration || 30,
+      clientId
+    );
     this.appointments.push(appointment);
     return appointment;
   }

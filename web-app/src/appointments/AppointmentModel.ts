@@ -32,16 +32,17 @@ export class AppointmentModel implements IAppointment {
     duration,
     clientId
   }: {
-    date: string;
-    time: string;
-    duration: number;
+    date?: string;
+    time?: string;
+    duration?: number;
     clientId?: string;
   }) {
-    this.dateTime = this.parseDateTime(date, time);
-    this.duration = duration;
-    if (clientId) {
-      this.clientId = clientId;
-    }
+    this.dateTime = this.parseDateTime(
+      date || this.getDate(),
+      time || this.getTime()
+    );
+    this.duration = duration || this.duration;
+    this.clientId = clientId || this.clientId;
   }
 
   public equals = (appointment: AppointmentModel) => {
@@ -54,7 +55,7 @@ export class AppointmentModel implements IAppointment {
 
   public getClient = (rootStore: RootStore) => {
     if (this.clientId === undefined) {
-      throw new Error('Client does not exist');
+      return undefined;
     }
 
     return rootStore.clientStore.getById(this.clientId);
