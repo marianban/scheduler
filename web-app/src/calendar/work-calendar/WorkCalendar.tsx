@@ -126,6 +126,7 @@ export class WorkCalendar extends React.Component<IWorkCalendarProps, {}> {
       date: format(date, 'd/M/yyyy'),
       time: format(date, 'HH:mm')
     });
+    appointmentsModel.select(id);
     pubSub.publish<IWorkCalendarRefreshAppointment>(
       'workCalendarRefreshAppointment',
       { appointmentId: id }

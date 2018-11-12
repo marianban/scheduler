@@ -1,123 +1,51 @@
 describe('work calendar', () => {
   const WORK_CALENDAR_URL = '/';
+  const date = new Date(2018, 10 /*november*/, 1).getTime();
 
   it('shows new appointments in work calendar', () => {
-    cy.clock(new Date(2018, 10 /*november*/, 1).getTime())
+    cy.clock(date)
       .visit(WORK_CALENDAR_URL)
-      .getByLabelText(/full name/i)
-      .type('Leonard Ban')
-      .getByLabelText(/date/i)
-      .type('1/11/2018')
-      .getByLabelText(/time/i)
-      .type('10:00')
-      .blur()
-      .getByText('Leonard Ban')
-      .parent('[data-testid="appointment"]')
-      .should('have.attr', 'data-position', '6-5-1')
-      .getByTestId(/new-appointment/i)
-      .click()
-      .getByLabelText(/full name/i)
-      .clear()
-      .type('Marian Ban')
-      .getByLabelText(/date/i)
-      .clear()
-      .type('2/11/2018')
-      .getByLabelText(/time/i)
-      .clear()
-      .type('11:00')
-      .blur()
-      .getByText('Marian Ban')
-      .parent('[data-testid="appointment"]')
-      .should('have.attr', 'data-position', '8-6-1')
-      .getByText('Leonard Ban');
+      .typeAppointment('1/11/2018 10:00', 'Leonard Ban')
+      .calendarAppointmentsCount(1)
+      .calendarHasAppointment('1/11/2018 10:00', 'Leonard Ban')
+      .newAppointment()
+      .typeAppointment('2/11/2018 11:00', 'Marian Ban')
+      .calendarAppointmentsCount(2)
+      .calendarHasAppointment('2/11/2018 11:00', 'Marian Ban');
   });
 
   it('does not show next week appointment in work calendar', () => {
-    cy.clock(new Date(2018, 10 /*november*/, 1).getTime())
+    cy.clock(date)
       .visit(WORK_CALENDAR_URL)
-      .getByLabelText(/full name/i)
-      .type('Leonard Ban')
-      .getByLabelText(/date/i)
-      .type('25/12/2018')
-      .getByLabelText(/time/i)
-      .type('13:00')
-      .blur()
-      .get('[data-testid=appointment]')
-      .should('not.exist');
+      .typeAppointment('25/12/2018 13:00', 'Leonard Ban')
+      .calendarAppointmentsCount(0);
   });
 
   it('can navigate between appointments', () => {
-    cy.clock(new Date(2018, 10 /*november*/, 1).getTime())
+    cy.clock(date)
       .visit(WORK_CALENDAR_URL)
-      .getByLabelText(/full name/i)
-      .type('Leonard Ban')
-      .getByLabelText(/date/i)
-      .type('1/11/2018')
-      .getByLabelText(/time/i)
-      .type('10:00')
-      .blur()
-      .getByTestId(/new-appointment/i)
-      .click()
-      .getByLabelText(/full name/i)
-      .clear()
-      .type('Marian Ban')
-      .getByLabelText(/date/i)
-      .clear()
-      .type('2/11/2018')
-      .getByLabelText(/time/i)
-      .clear()
-      .type('11:00')
-      .blur()
-      .getByText('Leonard Ban')
-      .click()
-      .getByLabelText(/full name/i)
-      .should('have.value', 'Leonard Ban');
+      .typeAppointment('1/11/2018 10:00', 'Leonard Ban')
+      .newAppointment()
+      .typeAppointment('2/11/2018 11:00', 'Marian Ban')
+      .calendarAppointmentsCount(2)
+      .calendarSelectAppointment('1/11/2018 10:00', 'Leonard Ban');
   });
 
   it('should show only actual appointments', () => {
-    cy.clock(new Date(2018, 10 /*november*/, 1).getTime())
+    cy.clock(date)
       .visit(WORK_CALENDAR_URL)
-      .getByLabelText(/full name/i)
-      .type('Leonard Ban')
-      .getByLabelText(/date/i)
-      .type('20/11/2018')
-      .getByLabelText(/time/i)
-      .type('10:00')
-      .blur()
-      .get('[data-testid=appointment]')
-      .should('not.exist');
+      .typeAppointment('20/11/2018 10:00')
+      .calendarAppointmentsCount(0);
   });
 
-  it.only('can create new appointment', () => {
-    cy.clock(new Date(2018, 10 /*november*/, 1).getTime())
+  it('can create new appointment', () => {
+    cy.clock(date)
       .visit(WORK_CALENDAR_URL)
-      .getByLabelText(/full name/i)
-      .type('Leonard Ban')
-      .getByTestId('3/11/2018 11:30')
-      .within($date => cy.getByTestId('calendar-create-appointment').click())
-      .getByLabelText('Date')
-      .should('have.value', '3/11/2018')
-      .getByLabelText('Time')
-      .should('have.value', '11:30')
-      .getByLabelText(/full name/i)
-      .should('have.value', '')
-      .getByTestId('cancel-appointment')
-      .should('be.enabled')
-      .getByTestId('2/11/2018 13:30')
-      .within($date => cy.getByTestId('calendar-create-appointment').click())
-      .getByLabelText('Date')
-      .should('have.value', '2/11/2018')
-      .getByLabelText('Time')
-      .should('have.value', '13:30')
-      .getByTestId('cancel-appointment')
-      .should('be.enabled')
-      .get('[data-appointment="2/11/2018 13:30"]')
-      .click()
-      .getByTestId('cancel-appointment')
-      .click()
-      .get('[data-appointment="3/11/2018 11:30"]')
-      .click()
-      .getByTestId('cancel-appointment')
-      .click();
+      .calendarCreateAppointment('3/11/2018 11:30')
+      .calendarCreateAppointment('2/11/2018 13:30')
+      .calendarAppointmentsCount(2)
+      .cancelSelectedAppointment('2/11/2018 13:30')
+      .calendarSelectAppointment('3/11/2018 11:30')
+      .cancelSelectedAppointment('3/11/2018 11:30');
   });
 });
