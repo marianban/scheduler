@@ -31,6 +31,7 @@
     "graceful-fs": "^4.1.12",
     "html-webpack-plugin": "2.29.0",
     "jest": "23.5.0",
+    "match-sorter": "^2.3.0",
     "mobx": "^5.5.0",
     "mobx-react": "^5.2.8",
     "object-assign": "4.1.1",

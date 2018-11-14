@@ -66,7 +66,7 @@
   position: absolute;
   width: calc(100% + 1px);
   height: calc(100% + 1px);
-  border: 1px solid var(--color-highlight);
+  border: 1px solid var(--border-color);
   background-color: #fdf6e8;
   margin-top: -1px;
   margin-left: -1px;
@@ -76,16 +76,21 @@
   cursor: pointer;
   transition: background-color var(--hover-transition-duration) ease-in-out;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
-.work-calendar__week .appointment--selected {
+.work-calendar__week .appointment.appointment--selected {
   background-color: var(--color-highlight);
+  border-color: var(--color-highlight);
+}
+
+.work-calendar__week .appointment.appointment--selected:hover {
+  background-color: var(--color-highlight);
+  border-color: var(--color-highlight);
 }
 
 .work-calendar__week .appointment:hover {
-  background-color: var(--color-highlight);
+  border-color: var(--color-highlight);
+  background-color: #fbedd2;
 }
 
 .appointment__icon {

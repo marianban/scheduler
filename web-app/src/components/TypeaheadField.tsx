@@ -1,45 +1,17 @@
 import classNames from 'classnames';
 import Downshift from 'downshift';
+import machSorter from 'match-sorter';
 import * as React from 'react';
 import { Label } from './Label';
 import { ITextBoxProps, TextBox } from './TextBox';
 import { ITextFieldProps } from './TextField';
 import './TypeaheadField.css';
 
+declare module 'match-sorter';
+
 export interface IItem {
   value: string;
 }
-
-export const compareClientsFactory = (inputValue: string | null) => (
-  a: IItem,
-  b: IItem
-) => {
-  if (inputValue) {
-    if (
-      a.value &&
-      a.value.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase()) &&
-      (b.value &&
-        !b.value.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase()))
-    ) {
-      return -1;
-    }
-
-    if (
-      b.value &&
-      b.value.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase()) &&
-      (a.value &&
-        !a.value.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase()))
-    ) {
-      return 1;
-    }
-  }
-
-  if (a.value && b.value) {
-    return a.value.localeCompare(b.value);
-  }
-
-  return 0;
-};
 
 interface ITypeaheadFieldProps {
   items: IItem[];
@@ -73,10 +45,8 @@ export class TypeaheadField extends React.Component<
             </Label>
             <ul {...getMenuProps({ className: 'typeahead-field__menu' })}>
               {isOpen
-                ? items
-                    .slice()
-                    .sort(compareClientsFactory(inputValue))
-                    .map((item, index) => (
+                ? machSorter(items.slice(), inputValue, { keys: ['value'] }).map(
+                    (item: IItem, index: number) => (
                       <li
                         {...getItemProps({
                           key: item.value,
@@ -92,7 +62,8 @@ export class TypeaheadField extends React.Component<
                       >
                         {item.value}
                       </li>
-                    ))
+                    )
+                  )
                 : null}
             </ul>
           </div>

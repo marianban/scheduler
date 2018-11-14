@@ -6,3 +6,7 @@
 .work-calendar__week .appointment:hover .grip-icon {
   opacity: 0.6;
 }
+
+.appointment-client {
+  margin-left: 1rem;
+}

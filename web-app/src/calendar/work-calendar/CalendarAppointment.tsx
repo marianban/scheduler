@@ -64,7 +64,7 @@ export class CalendarAppointment extends React.Component<
         onDragStart={this.handleOnDragStart}
       >
         <GripVerticalIcon width="10" className="grip-icon" />
-        <span data-testid="appointment-client">
+        <span className="appointment-client" data-testid="appointment-client">
           {appointment.getClientFullName(this.getRootStore())}
         </span>
       </div>
