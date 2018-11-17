@@ -2,19 +2,24 @@ import { Provider } from 'mobx-react';
 import DevTools from 'mobx-react-devtools';
 import * as React from 'react';
 import './App.css';
-import { Calendar } from './calendar/Calendar';
 import Header from './header/Header';
 import { RootStore } from './RootStore';
+import { Routes } from './Routes';
 
 const rootStore = new RootStore(new Date());
 
-class App extends React.Component {
+interface IAppProps {
+  path: string;
+}
+
+class App extends React.Component<IAppProps, {}> {
   public render() {
+    const { path } = this.props;
     return (
       <Provider rootStore={rootStore}>
         <div className="app">
-          <Header />
-          <Calendar />
+          <Header path={path} />
+          <Routes path={path} />
           <DevTools />
         </div>
       </Provider>

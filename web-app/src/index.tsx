@@ -13,5 +13,15 @@ configure({
   enforceActions: 'always'
 });
 
-ReactDOM.render(<App />, document.getElementById('root') as HTMLElement);
+const renderApp = (path: string) =>
+  ReactDOM.render(<App path={path} />, document.getElementById(
+    'root'
+  ) as HTMLElement);
+
+renderApp(window.location.pathname);
+
+window.addEventListener('popstate', () => {
+  renderApp(window.location.pathname);
+});
+
 registerServiceWorker();

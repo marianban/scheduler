@@ -12,6 +12,10 @@
   fill: var(--font-color);
 }
 
+.app__right-pane__h {
+  margin-top: 3rem;
+}
+
 /* must be more specific to override */
 .app__right-pane .grid-col-2:first-child .app__right-pane__h {
   margin-top: 0px;

@@ -1,24 +1,45 @@
+import classNames from 'classnames';
+import { Link } from 'components/Link';
 import { TextBox } from 'components/TextBox';
 import * as React from 'react';
 import BellIcon from './bell-regular.svg';
 import './Header.css';
 import SearchIcon from './search-solid.svg';
 
-const Header = () => (
+interface IHeaderProps {
+  path: string;
+}
+
+const Header = ({ path }: IHeaderProps) => (
   <header className="app__header">
     <nav className="header__nav">
-      <a
-        href=""
-        className="header__nav__calendar header__nav__item--active"
+      <Link
+        href="/"
+        title="Calendar"
+        className={classNames('header__nav__calendar', {
+          'header__nav__item--active': path === '/'
+        })}
       >
         Calendar
-      </a>
-      <a href="" className="header__nav__clients">
+      </Link>
+      <Link
+        href="/clients"
+        title="Clients"
+        className={classNames('header__nav__clients', {
+          'header__nav__item--active': path === '/clients'
+        })}
+      >
         Clients
-      </a>
-      <a href="" className="header__nav__staff">
+      </Link>
+      <Link
+        href="/staff"
+        title="Staff"
+        className={classNames('header__nav__staff', {
+          'header__nav__item--active': path === '/staff'
+        })}
+      >
         Staff
-      </a>
+      </Link>
     </nav>
     <div className="header__utils">
       <TextBox suffix={<SearchIcon className="appointment__calendar-icon" />} />

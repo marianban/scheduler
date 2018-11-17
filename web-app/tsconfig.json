@@ -21,6 +21,7 @@
     "strictPropertyInitialization": true,
     "experimentalDecorators": true,
     "downlevelIteration": true,
+    "allowSyntheticDefaultImports": true,
     "paths": {
       "*": ["src/*"]
     },
