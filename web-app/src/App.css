@@ -37,12 +37,11 @@
     'mainContent';
   grid-gap: 3rem;
   align-content: flex-start;
-  padding: 0 3rem;
+  padding: 3rem 3rem 0 3rem;
 }
 
 .app__main-pane__controls {
   grid-area: mainControls;
-  padding-top: 3rem;
 }
 
 .app__main-pane__content {

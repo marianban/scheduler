@@ -1,10 +1,10 @@
 import { Button } from 'components/Button';
-import * as React from 'react';
+import React from 'react';
 import LeftPane from './left-pane/LeftPane';
 import { RightPane } from './right-pane/RightPane';
 import { WorkCalendar } from './work-calendar/WorkCalendar';
 
-export const Calendar = () => (
+export const CalendarPage = () => (
   <React.Fragment>
     <LeftPane />
     <RightPane />

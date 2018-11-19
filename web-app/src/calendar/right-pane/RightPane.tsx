@@ -7,13 +7,13 @@ import { ButtonBarField, Option } from 'components/ButtonBarField';
 import { ButtonLink } from 'components/ButtonLink';
 import { TextField } from 'components/TextField';
 import { TypeaheadField } from 'components/TypeaheadField';
+import CalendarIcon from 'icons/calendar-alt-regular.svg';
+import ClockIcon from 'icons/clock-regular.svg';
 import { observe } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import * as React from 'react';
+import React from 'react';
 import { RootStore } from 'RootStore';
 import { normalizeDate, normalizeTime } from 'utils/dateTimeUtils';
-import CalendarIcon from './calendar-alt-regular.svg';
-import ClockIcon from './clock-regular.svg';
 import './RightPane.css';
 
 interface IProps {

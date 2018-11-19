@@ -1,4 +1,5 @@
-import { Calendar } from 'calendar/Calendar';
+import { CalendarPage } from 'calendar/CalendarPage';
+import { ClientsPage } from 'clients/ClientsPage';
 import React from 'react';
 
 interface IRoutesProps {
@@ -6,7 +7,8 @@ interface IRoutesProps {
 }
 
 const routeMap = {
-  '/': Calendar
+  '/': CalendarPage,
+  '/clients': ClientsPage
 };
 
 const NotFound = () => <span>Page Not Found</span>;
