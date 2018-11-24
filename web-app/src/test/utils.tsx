@@ -1,5 +1,5 @@
 import { Provider } from 'mobx-react';
-import * as React from 'react';
+import React from 'react';
 import { render } from 'react-testing-library';
 import { RootStore } from 'RootStore';
 

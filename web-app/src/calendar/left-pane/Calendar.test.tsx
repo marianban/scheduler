@@ -1,5 +1,5 @@
 import { addMonths, subMonths } from 'date-fns';
-import * as React from 'react';
+import React from 'react';
 import { fireEvent } from 'react-testing-library';
 import { RootStore } from 'RootStore';
 import { renderWithProviders } from 'test/utils';

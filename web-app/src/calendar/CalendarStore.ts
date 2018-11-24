@@ -1,5 +1,5 @@
-import * as addMonths from 'date-fns/addMonths';
-import * as subMonths from 'date-fns/subMonths';
+import addMonths from 'date-fns/addMonths';
+import subMonths from 'date-fns/subMonths';
 import { action, observable } from 'mobx';
 
 export class CalendarStore {

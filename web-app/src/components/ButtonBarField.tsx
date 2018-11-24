@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { ButtonBar, IButtonBarProps } from './ButtonBar';
 import { Label } from './Label';
 

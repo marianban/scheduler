@@ -1,6 +1,6 @@
 import { Provider } from 'mobx-react';
 import DevTools from 'mobx-react-devtools';
-import * as React from 'react';
+import React from 'react';
 import './App.css';
 import Header from './header/Header';
 import { RootStore } from './RootStore';

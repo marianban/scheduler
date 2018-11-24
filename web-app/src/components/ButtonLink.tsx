@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import * as React from 'react';
+import React from 'react';
 import './ButtonLink.css';
 
 interface IProps {
@@ -21,7 +21,7 @@ export class ButtonLink extends React.Component<IProps, {}> {
         {...rest}
         href=""
         role="button"
-        className={classNames('btn-link', className, {
+        className={classNames(className, {
           'btn-link--disabled': disabled
         })}
         aria-disabled={disabled}

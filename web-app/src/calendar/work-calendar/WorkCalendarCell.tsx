@@ -1,6 +1,6 @@
 import classNames from 'classnames';
-import * as format from 'date-fns/format/index';
-import * as React from 'react';
+import format from 'date-fns/format/index';
+import React from 'react';
 import CalendarPlusIcon from './calendar-plus-regular.svg';
 import './WorkCalendarCell.css';
 

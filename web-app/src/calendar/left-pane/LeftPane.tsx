@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import { Calendar } from './Calendar';
-import NextAppointments from './NextAppointments'
+import NextAppointments from './NextAppointments';
 
 const LeftPane = () => {
   return (

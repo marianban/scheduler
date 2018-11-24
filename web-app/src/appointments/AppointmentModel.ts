@@ -1,5 +1,5 @@
 import { isValid, parse } from 'date-fns';
-import * as format from 'date-fns/format/index';
+import format from 'date-fns/format/index';
 import { action, observable } from 'mobx';
 import { RootStore } from 'RootStore';
 import { v4 } from 'uuid';

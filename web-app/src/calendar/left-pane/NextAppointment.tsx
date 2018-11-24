@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 
 const NextAppointment = () => {
-  return (    
+  return (
     <div className="next__appointment">
       <div className="next__appointment__time">10:00</div>
       <div className="next__appointment__details">Annamaria Banova</div>

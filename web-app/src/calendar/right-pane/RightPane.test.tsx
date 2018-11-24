@@ -1,5 +1,5 @@
 import { IClient } from 'clients/IClient';
-import * as React from 'react';
+import React from 'react';
 import { fireEvent } from 'react-testing-library';
 import { RootStore } from 'RootStore';
 import { Clients } from 'test/data';

@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { inject, observer } from 'mobx-react';
-import * as React from 'react';
+import React from 'react';
 import { RootStore } from 'RootStore';
 import Arrow from './Arrow.svg';
 import './Calendar.css';
@@ -50,11 +50,14 @@ export class Calendar extends React.Component<IProps, {}> {
         <div className="calendar__weeks">
           <div className="calendar__week">
             {weekDays.map(weekDay => (
-              <div className="calendar__week__name">{weekDay}</div>
+              <div className="calendar__week__name" key={weekDay}>
+                {weekDay}
+              </div>
             ))}
           </div>
           {weeks.map(week => (
             <div
+              key={week.num}
               className={classNames('calendar__week', {
                 'calendar__week--this': week.includes(selectedDate)
               })}
@@ -62,6 +65,7 @@ export class Calendar extends React.Component<IProps, {}> {
               <div className="calendar__week__num">{week.num}</div>
               {week.days.map(day => (
                 <CalendarDay
+                  key={day.num}
                   day={day}
                   onDaySelect={this.handleOnDaySelect}
                   isSelected={day.isSameDayAs(selectedDate)}

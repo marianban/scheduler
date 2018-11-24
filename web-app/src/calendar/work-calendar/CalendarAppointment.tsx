@@ -1,9 +1,9 @@
 import { AppointmentModel } from 'appointments/AppointmentModel';
 import classNames from 'classnames';
-import * as differenceInMinutes from 'date-fns/differenceInMinutes/index';
-import * as format from 'date-fns/format/index';
+import differenceInMinutes from 'date-fns/differenceInMinutes/index';
+import format from 'date-fns/format/index';
 import { inject, observer } from 'mobx-react';
-import * as React from 'react';
+import React from 'react';
 import { RootStore } from 'RootStore';
 import GripVerticalIcon from './grip.svg';
 import { getStartOfWorkDay } from './WorkCalendar';

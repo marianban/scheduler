@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import Downshift from 'downshift';
 import machSorter from 'match-sorter';
-import * as React from 'react';
+import  React from 'react';
 import { Label } from './Label';
 import { ITextBoxProps, TextBox } from './TextBox';
 import { ITextFieldProps } from './TextField';

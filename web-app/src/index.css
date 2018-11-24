@@ -35,3 +35,18 @@ h3 {
   line-height: 3rem;
   text-align: right;
 }
+
+#nprogress .bar {
+  background-color: var(--color-highlight);
+  height: 3px;
+}
+
+#nprogress .spinner {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-primary);
+  transition: color var(--hover-transition-duration) ease-in-out;
+}

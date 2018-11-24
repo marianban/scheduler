@@ -21,7 +21,7 @@
     "strictPropertyInitialization": true,
     "experimentalDecorators": true,
     "downlevelIteration": true,
-    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "paths": {
       "*": ["src/*"]
     },

@@ -1,6 +1,8 @@
 import { configure } from 'mobx';
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import 'nprogress/nprogress.css';
+import NProgress from 'nprogress/nprogress.js';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import App from './App';
 // tslint:disable-next-line:ordered-imports
 import './index.css';
@@ -21,7 +23,11 @@ const renderApp = (path: string) =>
 renderApp(window.location.pathname);
 
 window.addEventListener('popstate', () => {
+  NProgress.start();
   renderApp(window.location.pathname);
+  setTimeout(() => {
+    NProgress.done();
+  }, 250);
 });
 
 registerServiceWorker();

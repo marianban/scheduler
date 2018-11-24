@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { Link } from 'components/Link';
 import { TextBox } from 'components/TextBox';
-import * as React from 'react';
+import React from 'react';
 import BellIcon from './bell-regular.svg';
 import './Header.css';
 import SearchIcon from './search-solid.svg';

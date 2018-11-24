@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Label } from './Label';
 import { ITextBoxProps, TextBox } from './TextBox';
 
