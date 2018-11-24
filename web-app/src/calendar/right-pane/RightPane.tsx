@@ -152,7 +152,7 @@ export class RightPane extends React.Component<IProps, IState> {
           items={clientStore.clients}
           onChange={this.handleOnChange}
           onSelected={this.handleOnSelected}
-          onBlur={this.handleClientOnBlur}
+          onBlur={this.handleOnClientNameBlur}
         />
         <TextField
           title="Email"
@@ -253,6 +253,28 @@ export class RightPane extends React.Component<IProps, IState> {
       },
       client
     });
+  };
+
+  private handleOnClientNameBlur = () => {
+    const { form, client } = this.state;
+    // TODO: ask user if new user should be created or existing updated
+    if (client && !client.equals(form)) {
+      this.setState(
+        {
+          form: {
+            ...this.state.form,
+            email: '',
+            phoneNumber: ''
+          }
+        },
+        () => {
+          this.handleAppointmentOnBlur();
+        }
+      );
+      this.handleClientOnBlur();
+    } else {
+      this.handleClientOnBlur();
+    }
   };
 
   private handleClientOnBlur = () => {

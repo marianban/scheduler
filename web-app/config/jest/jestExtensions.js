@@ -1,6 +1,7 @@
 import { toBeDisabled } from 'jest-dom/dist/to-be-disabled';
 import { toHaveAttribute } from 'jest-dom/dist/to-have-attribute';
 import 'jest-dom/extend-expect';
+import 'jest-extended';
 import 'react-testing-library/cleanup-after-each';
 
 expect.extend({

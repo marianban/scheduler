@@ -1,32 +1,47 @@
+import { ClientModel } from 'clients/ClientModel';
 import { ListView, ListViewItem } from 'components/ListView';
 import EmailIcon from 'icons/at-solid.svg';
 import CalendarIcon from 'icons/calendar-alt-regular.svg';
 import MobileIcon from 'icons/mobile-alt-solid.svg';
+import { inject, observer } from 'mobx-react';
 import React from 'react';
+import { RootStore } from 'RootStore';
 import clientPhoto from './client.jpg';
 import './ClientList.css';
 
-export class ClientList extends React.Component {
+interface IClientListProps {
+  rootStore?: RootStore;
+}
+
+@inject('rootStore')
+@observer
+export class ClientList extends React.Component<IClientListProps, {}> {
   public render() {
+    const { clientStore } = this.getRootStore();
+    const clients = clientStore.clients;
     return (
       <ListView>
-        {this.renderClient({
-          fullName: 'Annamaria Vamosova',
-          imgSrc: clientPhoto
-        })}
+        {clients.map(client =>
+          this.renderClient({
+            ...client,
+            imgSrc: clientPhoto
+          })
+        )}
       </ListView>
     );
   }
 
   private renderClient({
     fullName,
+    email,
+    phoneNumber,
+    id,
     imgSrc
   }: {
-    fullName: string;
     imgSrc: string;
-  }) {
+  } & Partial<ClientModel>) {
     return (
-      <ListViewItem>
+      <ListViewItem key={id}>
         <div className="client-photo-container">
           <img className="client-photo" src={imgSrc} />
         </div>
@@ -38,14 +53,18 @@ export class ClientList extends React.Component {
           </div>
           <div className="client-detail">
             <MobileIcon className="client-icon" />
-            +421908042407
+            {phoneNumber}
           </div>
           <div className="client-detail">
             <EmailIcon className="client-icon" />
-            anicka.vamosova@gmail.com
+            {email}
           </div>
         </div>
       </ListViewItem>
     );
+  }
+
+  private getRootStore() {
+    return this.props.rootStore!;
   }
 }

@@ -269,7 +269,7 @@ it('can specify duration', () => {
   expect(appointment.duration).toBe(60);
 });
 
-it.only('shows selected appointment', () => {
+it('shows selected appointment', () => {
   const {
     form,
     form: { duration, date, time },
