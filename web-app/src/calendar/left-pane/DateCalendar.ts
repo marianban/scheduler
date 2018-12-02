@@ -1,6 +1,13 @@
 import { getWeekDays } from 'calendar/getWeekDays';
 import { WeekNumbering } from 'calendar/WeekNumbering';
-import { addMonths, getDay, getDaysInMonth, getISOWeek, getWeek, subMonths } from 'date-fns';
+import {
+  addMonths,
+  getDay,
+  getDaysInMonth,
+  getISOWeek,
+  getWeek,
+  subMonths
+} from 'date-fns';
 import { Day } from './Day';
 import { Week } from './Week';
 
@@ -22,7 +29,7 @@ export class DateCalendar {
 
   public getMonthName() {
     const months = [
-      'Janurary',
+      'January',
       'February',
       'March',
       'April',
@@ -48,7 +55,7 @@ export class DateCalendar {
   }
 
   public getWeekDays() {
-    return getWeekDays(this.weekNumbering)
+    return getWeekDays(this.weekNumbering);
   }
 
   private getPrevMonthDays() {
@@ -61,7 +68,7 @@ export class DateCalendar {
 
   private getDay() {
     const dayOfWeek = getDay(this.date);
-    switch(this.weekNumbering) {
+    switch (this.weekNumbering) {
       case WeekNumbering.ISO:
         return dayOfWeek === 0 ? 7 : dayOfWeek;
       case WeekNumbering.NorthAmerican:
@@ -109,6 +116,8 @@ export class DateCalendar {
   }
 
   private getWeek(date: Date) {
-    return this.weekNumbering === WeekNumbering.ISO ? getISOWeek(date) : getWeek(date);
+    return this.weekNumbering === WeekNumbering.ISO
+      ? getISOWeek(date)
+      : getWeek(date);
   }
 }
