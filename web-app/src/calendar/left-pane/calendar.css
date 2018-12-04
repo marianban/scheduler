@@ -1,8 +1,8 @@
 .calendar {
   display: grid;
   grid-template-areas:
-    'month'
-    'weeks';
+    "month"
+    "weeks";
 }
 
 .calendar__month {

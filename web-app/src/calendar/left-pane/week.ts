@@ -10,8 +10,6 @@ export class Week {
   }
 
   public includes(date: Date) {
-    return this.days.some(day =>
-      day.isSameDayAs(date)
-    )
+    return this.days.some(day => day.isSameDayAs(date));
   }
 }

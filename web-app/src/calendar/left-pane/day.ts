@@ -10,6 +10,6 @@ export class Day {
   }
 
   public isSameDayAs(date: Date) {
-    return this.date.toDateString() === date.toDateString()
+    return this.date.toDateString() === date.toDateString();
   }
 }
