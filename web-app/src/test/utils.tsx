@@ -9,5 +9,8 @@ export const renderWithProviders = (
   ui: React.ReactElement<any>,
   rootStore = store
 ) => {
-  return render(<Provider rootStore={rootStore}>{ui}</Provider>);
+  return {
+    ...render(<Provider rootStore={rootStore}>{ui}</Provider>),
+    rootStore
+  };
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ClientList } from './ClientList';
+import { ClientRightPane } from './ClientRightPane';
 import './ClientsPage.css';
 
 export const ClientsPage = () => (
@@ -7,6 +8,6 @@ export const ClientsPage = () => (
     <main className="app__main-pane main-pane-clients">
       <ClientList />
     </main>
-    <aside className="app__right-pane">client detail</aside>
+    <ClientRightPane />
   </React.Fragment>
 );
