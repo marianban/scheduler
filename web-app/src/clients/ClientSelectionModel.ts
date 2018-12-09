@@ -8,4 +8,8 @@ export class ClientSelectionModel {
   public select(client: ClientModel) {
     this.selectedClient = client;
   }
+
+  public unselect() {
+    this.selectedClient = null;
+  }
 }

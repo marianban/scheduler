@@ -43,6 +43,7 @@ const renderRightPane = () => {
     ...result,
     rootStore,
     form: {
+      type: result.type,
       fullName,
       email,
       phoneNumber,
@@ -62,10 +63,6 @@ const renderRightPane = () => {
             (e: HTMLElement) =>
               e.getAttribute('data-value') === value.toString()
           )
-      },
-      type: (element: HTMLElement, value: string) => {
-        fireEvent.change(element, { target: { value } });
-        fireEvent.blur(element);
       }
     }
   };

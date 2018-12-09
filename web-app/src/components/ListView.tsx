@@ -23,6 +23,7 @@ export const ListViewItem = ({
     className={classNames('list-view__item', {
       'list-view__item--selected': isSelected
     })}
+    data-testid={isSelected && 'selected-list-item'}
   >
     {children}
   </div>

@@ -1,16 +1,19 @@
 import { Provider } from 'mobx-react';
 import React from 'react';
-import { render } from 'react-testing-library';
+import { fireEvent, render } from 'react-testing-library';
 import { RootStore } from 'RootStore';
-
-const store = new RootStore(new Date());
 
 export const renderWithProviders = (
   ui: React.ReactElement<any>,
-  rootStore = store
+  rootStore = new RootStore(new Date())
 ) => {
   return {
     ...render(<Provider rootStore={rootStore}>{ui}</Provider>),
+    type: (element: HTMLElement, value: string) => {
+      fireEvent.change(element, { target: { value } });
+      fireEvent.blur(element);
+    },
+    fireEvent,
     rootStore
   };
 };

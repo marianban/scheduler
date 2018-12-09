@@ -8,6 +8,11 @@ export const Clients = {
     fullName: 'Leonard Ban',
     email: 'leonard@gmail.com',
     phoneNumber: '0911123456'
+  },
+  Empty: {
+    fullName: '',
+    email: '',
+    phoneNumber: ''
   }
 };
 

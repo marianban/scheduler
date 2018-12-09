@@ -24,38 +24,13 @@ export class ClientRightPane extends React.Component<
   public readonly state: IState = { fullName: '', email: '', phoneNumber: '' };
 
   public componentDidMount() {
-    const { clientSelectionModel, clientStore } = this.getRootStore();
-
-    reaction(
-      () => clientStore.clients.length,
-      (clientsLength: number) => {
-        if (clientsLength > 0 && clientSelectionModel.selectedClient === null) {
-          clientSelectionModel.select(clientStore.clients[0]);
-        }
-      },
-      { fireImmediately: true }
-    );
-
-    computed(() => clientSelectionModel.selectedClient).observe(
-      ({ oldValue, newValue }) => {
-        if (
-          newValue !== null &&
-          (oldValue === null ||
-            oldValue === undefined ||
-            oldValue.id !== newValue.id)
-        ) {
-          this.setState({
-            fullName: newValue.fullName,
-            email: newValue.email,
-            phoneNumber: newValue.phoneNumber
-          });
-        }
-      }
-    );
+    this.ensureClientSelection();
+    this.observeClientSelectionChange();
   }
 
   public render() {
     const { fullName, email, phoneNumber } = this.state;
+    const { clientSelectionModel } = this.getRootStore();
 
     return (
       <aside className="app__right-pane">
@@ -64,8 +39,8 @@ export class ClientRightPane extends React.Component<
           <ButtonLink
             className="h__btn-link app__right-pane__h"
             onClick={this.handleOnNewClientClick}
-            data-testid="new-appointment"
-            disabled={false}
+            data-testid="new-client-btn"
+            disabled={clientSelectionModel.selectedClient === null}
           >
             new
           </ButtonLink>
@@ -95,8 +70,49 @@ export class ClientRightPane extends React.Component<
     );
   }
 
+  private ensureClientSelection() {
+    const { clientSelectionModel, clientStore } = this.getRootStore();
+    reaction(
+      () => clientStore.clients.length,
+      (clientsLength: number) => {
+        if (clientsLength > 0 && clientSelectionModel.selectedClient === null) {
+          clientSelectionModel.select(clientStore.clients[0]);
+        }
+      },
+      { fireImmediately: true }
+    );
+  }
+
+  private observeClientSelectionChange() {
+    const { clientSelectionModel } = this.getRootStore();
+    computed(() => clientSelectionModel.selectedClient).observe(
+      ({ oldValue, newValue }) => {
+        if (
+          newValue !== null &&
+          (oldValue === null ||
+            oldValue === undefined ||
+            oldValue.id !== newValue.id)
+        ) {
+          this.setState({
+            fullName: newValue.fullName,
+            email: newValue.email,
+            phoneNumber: newValue.phoneNumber
+          });
+        }
+        if (newValue === null) {
+          this.setState({
+            fullName: '',
+            email: '',
+            phoneNumber: ''
+          });
+        }
+      }
+    );
+  }
+
   private handleOnNewClientClick = () => {
-    console.log('handleOnNewClientClick');
+    const { clientSelectionModel } = this.getRootStore();
+    clientSelectionModel.unselect();
   };
 
   private handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -105,7 +121,18 @@ export class ClientRightPane extends React.Component<
     } as Pick<IState, keyof IState>);
   };
 
-  private handleOnBlur = () => {};
+  private handleOnBlur = () => {
+    const { fullName } = this.state;
+    const { clientSelectionModel, clientStore } = this.getRootStore();
+    const { selectedClient } = clientSelectionModel;
+    if (fullName) {
+      if (selectedClient !== null) {
+        selectedClient.update(this.state);
+      } else {
+        clientStore.create(this.state);
+      }
+    }
+  };
 
   private getRootStore = () => {
     return this.props.rootStore!;

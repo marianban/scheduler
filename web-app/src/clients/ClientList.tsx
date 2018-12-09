@@ -40,8 +40,11 @@ export class ClientList extends React.Component<IClientListProps, {}> {
   }: {
     imgSrc: string;
   } & Partial<ClientModel>) {
+    const { clientSelectionModel } = this.getRootStore();
+    const selectedClient = clientSelectionModel.selectedClient;
+    const isSelected = selectedClient !== null && selectedClient.id === id;
     return (
-      <ListViewItem key={id}>
+      <ListViewItem key={id} isSelected={isSelected}>
         <div className="client-photo-container">
           <img className="client-photo" src={imgSrc} />
         </div>
