@@ -36,6 +36,16 @@ export class AppointmentsModel {
   }
 
   @action
+  public cancelByClientId(clientId: string) {
+    const appointmentIds = this.appointments
+      .filter(a => a.clientId === clientId)
+      .map(a => a.id);
+    appointmentIds.forEach(appointmentId => {
+      this.cancel(appointmentId);
+    });
+  }
+
+  @action
   public cancel(appointmentId: string) {
     this.assertExistence(appointmentId);
     const index = this.appointments.findIndex(a => a.id === appointmentId);

@@ -12,7 +12,8 @@ const renderRightPane = () => {
     fullName: getByLabelText(/Full Name/i) as HTMLInputElement,
     email: getByLabelText(/Email/i) as HTMLInputElement,
     phoneNumber: getByLabelText(/Phone Number/i) as HTMLInputElement,
-    newClientBtn: getByTestId('new-client-btn')
+    newClientBtn: getByTestId('new-client-btn'),
+    deleteClientBtn: getByTestId('delete-client')
   };
 };
 
@@ -89,7 +90,29 @@ it('can create new client', () => {
 
 it('can delete client', () => {
   const result = renderRightPane();
-  const { rootStore } = result;
-  const { clientStore } = rootStore;
-  clientStore.create(Clients.Leonard);
+  const { rootStore, deleteClientBtn, newClientBtn, fireEvent } = result;
+  const { clientStore, appointmentsModel } = rootStore;
+  expect(deleteClientBtn).toBeDisabled();
+  expect(newClientBtn).toBeDisabled();
+  const client = clientStore.create(Clients.Leonard);
+  appointmentsModel.create({
+    date: '20/10/2018',
+    time: '13:30',
+    duration: 30,
+    clientId: client.id
+  });
+  appointmentsModel.create({
+    date: '21/10/2018',
+    time: '13:30',
+    duration: 30,
+    clientId: client.id
+  });
+  expect(clientStore.clients).toHaveLength(1);
+  expect(appointmentsModel.appointments).toHaveLength(2);
+  expect(deleteClientBtn).not.toBeDisabled();
+  expect(newClientBtn).not.toBeDisabled();
+  fireEvent.click(deleteClientBtn);
+  expect(clientStore.clients).toHaveLength(0);
+  expect(appointmentsModel.appointments).toHaveLength(0);
+  expect(deleteClientBtn).toBeDisabled();
 });

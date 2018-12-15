@@ -5,6 +5,7 @@ import { action, observable } from 'mobx';
 export class ClientStore {
   @observable
   public clients!: ClientModel[];
+  private clientDeletedCallbacks: Array<(clientId: string) => void> = [];
 
   constructor() {
     this.init();
@@ -33,6 +34,17 @@ export class ClientStore {
       throw new Error('specified client does not exists');
     }
     this.clients.splice(index, 1);
+    this.callClientDeletedCallbacks(clientId);
+  }
+
+  public onClientDeleted(callback: (clientId: string) => void) {
+    this.clientDeletedCallbacks.push(callback);
+  }
+
+  public callClientDeletedCallbacks(clientId: string) {
+    this.clientDeletedCallbacks.forEach(callback => {
+      callback(clientId);
+    });
   }
 
   public exists = (client: Partial<IClient>) => {

@@ -1,3 +1,4 @@
+import { Button } from 'components/Button';
 import { ButtonLink } from 'components/ButtonLink';
 import { TextField } from 'components/TextField';
 import { computed, reaction } from 'mobx';
@@ -30,7 +31,6 @@ export class ClientRightPane extends React.Component<
 
   public render() {
     const { fullName, email, phoneNumber } = this.state;
-    const { clientSelectionModel } = this.getRootStore();
 
     return (
       <aside className="app__right-pane">
@@ -40,7 +40,7 @@ export class ClientRightPane extends React.Component<
             className="h__btn-link app__right-pane__h"
             onClick={this.handleOnNewClientClick}
             data-testid="new-client-btn"
-            disabled={clientSelectionModel.selectedClient === null}
+            disabled={this.isNewClient}
           >
             new
           </ButtonLink>
@@ -66,9 +66,30 @@ export class ClientRightPane extends React.Component<
           onChange={this.handleOnChange}
           onBlur={this.handleOnBlur}
         />
+        <div className="pane__bottom">
+          <Button
+            className="btn--secondary"
+            data-testid="delete-client"
+            disabled={this.isNewClient}
+            onClick={this.handleOnDeleteClient}
+          >
+            Delete Client
+          </Button>
+        </div>
       </aside>
     );
   }
+
+  @computed
+  private get isNewClient() {
+    const { clientSelectionModel } = this.getRootStore();
+    return clientSelectionModel.selectedClient === null;
+  }
+
+  private handleOnDeleteClient = () => {
+    const { clientStore, clientSelectionModel } = this.getRootStore();
+    clientStore.deleteById(clientSelectionModel.selectedClient!.id);
+  };
 
   private ensureClientSelection() {
     const { clientSelectionModel, clientStore } = this.getRootStore();
