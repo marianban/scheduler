@@ -96,7 +96,7 @@
     "setupFiles": [
       "<rootDir>/config/polyfills.js"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/config/jest/jestExtensions.js",
+    "setupTestFrameworkScriptFile": "<rootDir>/config/jest/setupTestFramework.js",
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.(j|t)s?(x)",
       "<rootDir>/src/**/?(*.)(spec|test).(j|t)s?(x)"

@@ -4,7 +4,7 @@ import { action, observable } from 'mobx';
 
 export class CalendarStore {
   @observable
-  public date: Date = new Date();
+  public date!: Date;
   private currentDate: Date;
 
   constructor(currentDate: Date) {

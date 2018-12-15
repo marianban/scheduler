@@ -5,9 +5,7 @@ export class AppointmentsModel {
   @observable
   public appointments!: AppointmentModel[];
   @observable
-  public selectedAppointmentId: IObservableValue<
-    string | null
-  > = observable.box(null);
+  public selectedAppointmentId!: IObservableValue<string | null>;
 
   constructor() {
     this.init();
@@ -71,6 +69,7 @@ export class AppointmentsModel {
   @action
   private init() {
     this.appointments = [];
+    this.selectedAppointmentId = observable.box(null);
   }
 
   private assertExistence(appointmentId: string) {
