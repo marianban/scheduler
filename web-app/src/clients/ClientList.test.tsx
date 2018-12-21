@@ -15,7 +15,8 @@ it('renders selectable list of clients', () => {
   const {
     getByTestId,
     container,
-    rootStore: { clientStore, clientSelectionModel }
+    fireEvent,
+    rootStore: { clientStore }
   } = renderWithProviders(<ClientList />);
   expect(container.innerHTML).not.toIncludeMultiple([
     Clients.Martin.fullName,
@@ -25,7 +26,8 @@ it('renders selectable list of clients', () => {
   const martin = clientStore.create(Clients.Martin);
   expectClient(container, Clients.Leonard);
   expectClient(container, Clients.Martin);
-  clientSelectionModel.select(martin);
+  const martinListItem = getByTestId(`list-item-${martin.id}`);
+  fireEvent.click(martinListItem);
   const selectedClient = getByTestId('selected-list-item');
   expect(selectedClient.innerHTML).toInclude(Clients.Martin.fullName);
   expect(selectedClient.innerHTML).not.toInclude(Clients.Leonard.fullName);

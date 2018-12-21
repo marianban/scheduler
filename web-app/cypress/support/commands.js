@@ -128,3 +128,27 @@ Cypress.Commands.add('calendarAppointmentsCount', count => {
         .should('eq', count)
     : cy.get('[data-testid=appointment]').should('not.exist');
 });
+
+Cypress.Commands.add(
+  'clientsTypeClient',
+  (fullName, email = '', phoneNumber = '') => {
+    cy.getByLabelText(/Full Name/i)
+      .type(fullName)
+      .getByLabelText(/Email/i)
+      .type(email)
+      .getByLabelText(/Phone Number/i)
+      .type(phoneNumber)
+      .blur();
+  }
+);
+
+Cypress.Commands.add(
+  'clientsExpectSelectedClient',
+  (fullName, email = '', phoneNumber = '') => {
+    cy.getByTestId('selected-list-item').within(() => {
+      cy.getByText(fullName)
+        .getByText(email)
+        .getByText(phoneNumber);
+    });
+  }
+);

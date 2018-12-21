@@ -27,7 +27,11 @@ export class RootStore {
       this.clientSelectionModel.selectedClient !== null &&
       this.clientSelectionModel.selectedClient.id === clientId
     ) {
-      this.clientSelectionModel.unselect();
+      if (this.clientStore.clients.length > 0) {
+        this.clientSelectionModel.select(this.clientStore.clients[0]);
+      } else {
+        this.clientSelectionModel.unselect();
+      }
     }
   };
 }

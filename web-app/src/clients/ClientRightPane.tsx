@@ -27,6 +27,7 @@ export class ClientRightPane extends React.Component<
   public componentDidMount() {
     this.ensureClientSelection();
     this.observeClientSelectionChange();
+    this.initClientForm();
   }
 
   public render() {
@@ -80,6 +81,18 @@ export class ClientRightPane extends React.Component<
     );
   }
 
+  private initClientForm() {
+    const { clientSelectionModel } = this.getRootStore();
+    if (clientSelectionModel.selectedClient !== null) {
+      const { selectedClient } = clientSelectionModel;
+      this.setState({
+        fullName: selectedClient.fullName,
+        phoneNumber: selectedClient.phoneNumber,
+        email: selectedClient.email
+      });
+    }
+  }
+
   @computed
   private get isNewClient() {
     const { clientSelectionModel } = this.getRootStore();
@@ -95,9 +108,10 @@ export class ClientRightPane extends React.Component<
     const { clientSelectionModel, clientStore } = this.getRootStore();
     reaction(
       () => clientStore.clients.length,
-      (clientsLength: number) => {
+      (clientsLength: number, r) => {
         if (clientsLength > 0 && clientSelectionModel.selectedClient === null) {
           clientSelectionModel.select(clientStore.clients[0]);
+          r.dispose();
         }
       },
       { fireImmediately: true }
@@ -150,7 +164,8 @@ export class ClientRightPane extends React.Component<
       if (selectedClient !== null) {
         selectedClient.update(this.state);
       } else {
-        clientStore.create(this.state);
+        const client = clientStore.create(this.state);
+        clientSelectionModel.select(client);
       }
     }
   };

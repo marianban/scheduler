@@ -16,6 +16,7 @@ export class TextBox extends React.Component<ITextBoxProps, {}> {
       <div className="text-box__container">
         <input
           {...rest}
+          autoComplete="nope"
           type="text"
           className={classNames('text-box', className)}
           onChange={this.handleOnChange}

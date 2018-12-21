@@ -1,11 +1,12 @@
 import React from 'react';
+import { RootStore } from 'RootStore';
 import { Clients } from 'test/data';
 import { renderWithProviders } from 'test/utils';
 import { ClientRightPane } from './ClientRightPane';
 import { IClient } from './IClient';
 
-const renderRightPane = () => {
-  const result = renderWithProviders(<ClientRightPane />);
+const renderRightPane = (rootStore?: RootStore) => {
+  const result = renderWithProviders(<ClientRightPane />, rootStore);
   const { getByLabelText, getByTestId } = result;
   return {
     ...result,
@@ -35,13 +36,15 @@ const expectClient = (
 };
 
 it('renders selected client', () => {
-  const result = renderRightPane();
-  const { rootStore } = result;
+  const rootStore = new RootStore(new Date());
   const { clientSelectionModel, clientStore } = rootStore;
   expect(clientSelectionModel.selectedClient).toBeNull();
   expect(clientStore.clients).toBeEmpty();
-  clientStore.create(Clients.Leonard);
+  const leo = clientStore.create(Clients.Leonard);
+  clientSelectionModel.select(leo);
+  const result = renderRightPane(rootStore);
   clientStore.create(Clients.Martin);
+  expect(clientStore.clients).toHaveLength(2);
   expect(clientSelectionModel.selectedClient).not.toBeNull();
   expectClient(result, Clients.Leonard);
 });
@@ -91,7 +94,7 @@ it('can create new client', () => {
 it('can delete client', () => {
   const result = renderRightPane();
   const { rootStore, deleteClientBtn, newClientBtn, fireEvent } = result;
-  const { clientStore, appointmentsModel } = rootStore;
+  const { clientStore, appointmentsModel, clientSelectionModel } = rootStore;
   expect(deleteClientBtn).toBeDisabled();
   expect(newClientBtn).toBeDisabled();
   const client = clientStore.create(Clients.Leonard);
@@ -115,4 +118,20 @@ it('can delete client', () => {
   expect(clientStore.clients).toHaveLength(0);
   expect(appointmentsModel.appointments).toHaveLength(0);
   expect(deleteClientBtn).toBeDisabled();
+  expect(clientSelectionModel.selectedClient).toBeNull();
+});
+
+it('selects next client if the currently selected is deleted', () => {
+  const result = renderRightPane();
+  const { rootStore, deleteClientBtn, fireEvent } = result;
+  const { clientStore, clientSelectionModel } = rootStore;
+  clientStore.create(Clients.Leonard);
+  const martin = clientStore.create(Clients.Martin);
+  clientSelectionModel.select(martin);
+  fireEvent.click(deleteClientBtn);
+  expect(clientSelectionModel.selectedClient).not.toBeNull();
+  expect(clientSelectionModel.selectedClient!.fullName).toBe(
+    Clients.Leonard.fullName
+  );
+  expectClient(result, Clients.Leonard);
 });

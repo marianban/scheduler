@@ -13,17 +13,22 @@ export const ListView = ({ children }: IListViewProps) => (
 interface IListViewItemProps {
   children: React.ReactNode;
   isSelected?: boolean;
+  id: string;
+  onClick: (id: string) => void;
 }
 
 export const ListViewItem = ({
   children,
-  isSelected = false
+  id = '',
+  isSelected = false,
+  onClick
 }: IListViewItemProps) => (
   <div
     className={classNames('list-view__item', {
       'list-view__item--selected': isSelected
     })}
-    data-testid={isSelected && 'selected-list-item'}
+    data-testid={isSelected ? 'selected-list-item' : `list-item-${id}`}
+    onClick={onClick.bind(null, id)}
   >
     {children}
   </div>
