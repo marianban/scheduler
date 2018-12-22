@@ -10,4 +10,5 @@
   --z-index-popover: 100;
   --control-height: 3rem;
   --control-border-radius: 3px;
+  --control-disabled: #cccccc;
 }

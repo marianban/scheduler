@@ -25,3 +25,12 @@
 .btn--secondary:hover {
   background-color: var(--color-bg-secondary);
 }
+
+.btn--secondary:disabled {
+  border-color: var(--control-disabled);
+  color: var(--control-disabled);
+}
+
+.btn--secondary:disabled:hover {
+  background-color: transparent;
+}

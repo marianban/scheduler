@@ -1,11 +1,12 @@
 import { AppointmentModel } from 'appointments/AppointmentModel';
 import classNames from 'classnames';
+import { Popover } from 'components/Popover';
 import differenceInMinutes from 'date-fns/differenceInMinutes/index';
 import format from 'date-fns/format/index';
 import { inject, observer } from 'mobx-react';
 import React from 'react';
 import { RootStore } from 'RootStore';
-import GripVerticalIcon from './grip.svg';
+import DotsIcon from './icon-dots-vertical.svg';
 import { getStartOfWorkDay } from './WorkCalendar';
 
 interface ICalendarAppointmentProps {
@@ -63,10 +64,20 @@ export class CalendarAppointment extends React.Component<
         data-appointment={format(appointment.dateTime, 'd/M/yyyy HH:mm')}
         onDragStart={this.handleOnDragStart}
       >
-        <GripVerticalIcon width="10" className="grip-icon" />
         <span className="appointment-client" data-testid="appointment-client">
           {appointment.getClientFullName(this.getRootStore())}
         </span>
+        <Popover
+          trigger={<DotsIcon height="25" className="dots-icon" />}
+          content={
+            <div
+              className="popover__menu-item"
+              onClick={this.removeAppointment}
+            >
+              Remove from Calendar
+            </div>
+          }
+        />
       </div>
     );
   }
@@ -81,6 +92,13 @@ export class CalendarAppointment extends React.Component<
     const { appointment } = this.props;
     const { appointmentsModel } = this.getRootStore();
     appointmentsModel.select(appointment.id);
+  };
+
+  private removeAppointment = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    const { appointment } = this.props;
+    const { appointmentsModel } = this.getRootStore();
+    appointmentsModel.cancel(appointment.id);
   };
 
   private getRootStore = () => {

@@ -31,15 +31,6 @@ const Header = ({ path }: IHeaderProps) => (
       >
         Clients
       </Link>
-      <Link
-        href="/staff"
-        title="Staff"
-        className={classNames('header__nav__staff', {
-          'header__nav__item--active': path === '/staff'
-        })}
-      >
-        Staff
-      </Link>
     </nav>
     <div className="header__utils">
       <TextBox suffix={<SearchIcon className="appointment__calendar-icon" />} />

@@ -1,9 +1,9 @@
-.grip-icon {
+.dots-icon {
   opacity: 0;
   transition: opacity var(--hover-transition-duration) ease-in-out;
 }
 
-.work-calendar__week .appointment:hover .grip-icon {
+.work-calendar__week .appointment:hover .dots-icon {
   opacity: 0.6;
 }
 

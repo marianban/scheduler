@@ -175,7 +175,7 @@ export class RightPane extends React.Component<IProps, IState> {
             disabled={!appointment}
             onClick={this.handleOnCancelAppointment}
           >
-            Cancel Appointment
+            Remove from Calendar
           </Button>
         </div>
       </aside>
@@ -279,7 +279,7 @@ export class RightPane extends React.Component<IProps, IState> {
 
   private handleClientOnBlur = () => {
     const { form, client, appointment } = this.state;
-    let newClient: ClientModel;
+    let newClient: ClientModel | null = null;
     if (client && client.equals(form)) {
       client.update(form);
       newClient = client;
@@ -300,10 +300,10 @@ export class RightPane extends React.Component<IProps, IState> {
         });
       }
     }
-    if (appointment) {
+    if (appointment && newClient !== null) {
       appointment.update({
         ...this.formToAppointment(),
-        clientId: newClient!.id
+        clientId: newClient.id
       });
     }
   };

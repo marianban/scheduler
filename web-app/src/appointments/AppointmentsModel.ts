@@ -75,7 +75,9 @@ export class AppointmentsModel {
   private assertExistence(appointmentId: string) {
     const exists = this.appointments.some(a => a.id === appointmentId);
     if (!exists) {
-      throw new Error('Unable to cancel nonexisting appointment');
+      throw new Error(
+        `Unable to cancel nonexisting appointment: ${appointmentId}`
+      );
     }
   }
 }

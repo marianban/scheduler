@@ -76,6 +76,8 @@
   cursor: pointer;
   transition: background-color var(--hover-transition-duration) ease-in-out;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .work-calendar__week .appointment.appointment--selected {
