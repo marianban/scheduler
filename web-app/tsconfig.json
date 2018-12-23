@@ -15,6 +15,7 @@
     "noImplicitThis": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
+    "isolatedModules": false,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "alwaysStrict": true,

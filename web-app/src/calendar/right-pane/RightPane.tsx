@@ -154,6 +154,25 @@ export class RightPane extends React.Component<IProps, IState> {
           onSelected={this.handleOnSelected}
           onBlur={this.handleOnClientNameBlur}
         />
+        {/* 
+        <Validator
+          name="fullName"
+          onBlur={this.handleOnClientNameBlur}
+          onValidated=""
+        >
+          {() => (
+            <TypeaheadField
+              title="Full Name"
+              name="fullName"
+              value={fullName}
+              items={clientStore.clients}
+              onChange={this.handleOnChange}
+              onSelected={this.handleOnSelected}
+              onBlur={this.handleOnClientNameBlur}
+            />
+          )}
+        </Validator>
+        */}
         <TextField
           title="Email"
           name="email"
