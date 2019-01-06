@@ -9,6 +9,7 @@ import './index.css';
 // tslint:disable-next-line:ordered-imports
 import './reset.css';
 import './variables.css';
+import * as serviceWorker from './serviceWorker';
 
 configure({
   enforceActions: 'always'

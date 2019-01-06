@@ -6,7 +6,9 @@ interface IRoutesProps {
   path: string;
 }
 
-const routeMap = {
+const routeMap: {
+  [key: string]: React.SFC<any | void> | React.ComponentClass<any | void>;
+} = {
   '/': CalendarPage,
   '/clients': ClientsPage
 };
