@@ -19,6 +19,7 @@ export class CalendarDay extends React.Component<ICalendarDayProps, {}> {
           'calendar__day--another-month': !day.isActiveMonth
         })}
         onClick={this.handleOnDayClick}
+        data-testid={`day-${day.num}`}
       >
         {day.num}
       </div>

@@ -11,8 +11,10 @@ const toCalendarTitle = (d: Date) => {
   return `${month} ${year}`;
 };
 
+const date = new Date();
+
 const renderCalendar = () => {
-  const rootStore = new RootStore(new Date());
+  const rootStore = new RootStore(date);
   const result = renderWithProviders(<Calendar rootStore={rootStore} />);
   const { getByTestId } = result;
   const prevBtn = getByTestId(/btn-prev/i);
@@ -26,8 +28,6 @@ const renderCalendar = () => {
     monthTitle
   };
 };
-
-const date = new Date();
 
 describe('calendar', () => {
   it('shows current month by default', () => {
@@ -45,8 +45,8 @@ describe('calendar', () => {
     expect(day.parentElement).toHaveClass('calendar__week--this');
   });
   it('highlights current date', () => {
-    const { getByText } = renderCalendar();
-    const day = getByText(new RegExp(`^1$`));
+    const { getByText, getByTestId } = renderCalendar();
+    const day = getByTestId('day-1');
     fireEvent.click(day);
     expect(day).toHaveClass('calendar__day--selected');
   });
