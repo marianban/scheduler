@@ -1,8 +1,8 @@
 import { ClientModel } from 'clients/ClientModel';
 import { ListView, ListViewItem } from 'components/ListView';
-import EmailIcon from 'icons/at-solid.svg';
-import CalendarIcon from 'icons/calendar-alt-regular.svg';
-import MobileIcon from 'icons/mobile-alt-solid.svg';
+import { ReactComponent as EmailIcon } from 'icons/at-solid.svg';
+import { ReactComponent as CalendarIcon } from 'icons/calendar-alt-regular.svg';
+import { ReactComponent as MobileIcon } from 'icons/mobile-alt-solid.svg';
 import { inject, observer } from 'mobx-react';
 import React from 'react';
 import { RootStore } from 'RootStore';

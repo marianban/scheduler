@@ -1,18 +1,18 @@
-import classNames from "classnames";
-import { inject, observer } from "mobx-react";
-import React from "react";
-import { RootStore } from "RootStore";
-import Arrow from "./Arrow.svg";
-import "./Calendar.css";
-import { CalendarDay } from "./CalendarDay";
-import { DateCalendar } from "./DateCalendar";
-import { Day } from "./Day";
+import classNames from 'classnames';
+import { inject, observer } from 'mobx-react';
+import React from 'react';
+import { RootStore } from 'RootStore';
+import { ReactComponent as Arrow } from './Arrow.svg';
+import './Calendar.css';
+import { CalendarDay } from './CalendarDay';
+import { DateCalendar } from './DateCalendar';
+import { Day } from './Day';
 
 interface IProps {
   rootStore?: RootStore;
 }
 
-@inject("rootStore")
+@inject('rootStore')
 @observer
 export class Calendar extends React.Component<IProps, {}> {
   public render() {
@@ -33,7 +33,7 @@ export class Calendar extends React.Component<IProps, {}> {
             role="button"
             data-testid="btn-prev"
           >
-            <Arrow style={{ transform: "rotate(180deg)" }} />
+            <Arrow style={{ transform: 'rotate(180deg)' }} />
           </div>
           <div className="calendar__month__title" data-testid="month-title">
             {dateCalendar.getMonthName()} {dateCalendar.getYear()}
@@ -58,8 +58,8 @@ export class Calendar extends React.Component<IProps, {}> {
           {weeks.map(week => (
             <div
               key={week.num}
-              className={classNames("calendar__week", {
-                "calendar__week--this": week.includes(selectedDate)
+              className={classNames('calendar__week', {
+                'calendar__week--this': week.includes(selectedDate)
               })}
             >
               <div className="calendar__week__num">{week.num}</div>

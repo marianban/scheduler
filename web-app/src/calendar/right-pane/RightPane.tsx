@@ -6,9 +6,9 @@ import { Button } from 'components/Button';
 import { ButtonBarField, Option } from 'components/ButtonBarField';
 import { ButtonLink } from 'components/ButtonLink';
 import { TextField } from 'components/TextField';
-import { TypeaheadField } from 'components/TypeaheadField';
-import CalendarIcon from 'icons/calendar-alt-regular.svg';
-import ClockIcon from 'icons/clock-regular.svg';
+import { TypeaheadField, IItem } from 'components/TypeaheadField';
+import { ReactComponent as CalendarIcon } from 'icons/calendar-alt-regular.svg';
+import { ReactComponent as ClockIcon } from 'icons/clock-regular.svg';
 import { observe } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import React from 'react';
@@ -154,6 +154,25 @@ export class RightPane extends React.Component<IProps, IState> {
           onSelected={this.handleOnSelected}
           onBlur={this.handleOnClientNameBlur}
         />
+        {/* 
+        <Validator
+          name="fullName"
+          onBlur={this.handleOnClientNameBlur}
+          onValidated=""
+        >
+          {() => (
+            <TypeaheadField
+              title="Full Name"
+              name="fullName"
+              value={fullName}
+              items={clientStore.clients}
+              onChange={this.handleOnChange}
+              onSelected={this.handleOnSelected}
+              onBlur={this.handleOnClientNameBlur}
+            />
+          )}
+        </Validator>
+        */}
         <TextField
           title="Email"
           name="email"
@@ -243,7 +262,8 @@ export class RightPane extends React.Component<IProps, IState> {
     }
   };
 
-  private handleOnSelected = (client: ClientModel) => {
+  private handleOnSelected = (item: IItem) => {
+    const client = item as ClientModel;
     this.setState({
       form: {
         ...this.state.form,

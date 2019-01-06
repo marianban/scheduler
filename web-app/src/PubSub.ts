@@ -1,7 +1,7 @@
 import { v4 } from 'uuid';
 
 export class PubSub {
-  private subscriptions = {};
+  private subscriptions: { [key: string]: any } = {};
 
   public subscribe<T>(topic: string, callback: (message: T) => void) {
     this.subscriptions[topic] = this.subscriptions[topic] || {};

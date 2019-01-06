@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import format from 'date-fns/format/index';
 import React from 'react';
-import CalendarPlusIcon from './calendar-plus-regular.svg';
+import { ReactComponent as CalendarPlusIcon } from './calendar-plus-regular.svg';
 import './WorkCalendarCell.css';
 
 interface IWorkCalendarCellProps {

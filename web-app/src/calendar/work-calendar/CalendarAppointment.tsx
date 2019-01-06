@@ -6,7 +6,7 @@ import format from 'date-fns/format/index';
 import { inject, observer } from 'mobx-react';
 import React from 'react';
 import { RootStore } from 'RootStore';
-import DotsIcon from './icon-dots-vertical.svg';
+import { ReactComponent as DotsIcon } from './icon-dots-vertical.svg';
 import { getStartOfWorkDay } from './WorkCalendar';
 
 interface ICalendarAppointmentProps {
