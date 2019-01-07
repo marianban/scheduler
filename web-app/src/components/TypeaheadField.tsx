@@ -1,10 +1,9 @@
 import classNames from 'classnames';
 import Downshift from 'downshift';
 import machSorter from 'match-sorter';
-import  React from 'react';
+import React from 'react';
 import { Label } from './Label';
 import { ITextBoxProps, TextBox } from './TextBox';
-import { ITextFieldProps } from './TextField';
 import './TypeaheadField.css';
 
 declare module 'match-sorter';
@@ -19,7 +18,7 @@ interface ITypeaheadFieldProps {
 }
 
 export class TypeaheadField extends React.Component<
-  ITextBoxProps & ITextFieldProps & ITypeaheadFieldProps,
+  ITextBoxProps & ITypeaheadFieldProps,
   {}
 > {
   public render() {
@@ -41,29 +40,29 @@ export class TypeaheadField extends React.Component<
         }) => (
           <div className="typeahead-field">
             <Label {...getLabelProps({ title })}>
-              <TextBox {...getInputProps({ ...rest })} suffix={suffix} />
+              <TextBox {...getInputProps({ ...rest }) as any} suffix={suffix} />
             </Label>
             <ul {...getMenuProps({ className: 'typeahead-field__menu' })}>
               {isOpen
-                ? machSorter(items.slice(), inputValue, { keys: ['value'] }).map(
-                    (item: IItem, index: number) => (
-                      <li
-                        {...getItemProps({
-                          key: item.value,
-                          index,
-                          item,
-                          className: classNames('typeahead-field__menu__item', {
-                            'typeahead-field__menu__item--highlighted':
-                              highlightedIndex === index,
-                            'typeahead-field__menu__item--selected':
-                              selectedItem === item
-                          })
-                        })}
-                      >
-                        {item.value}
-                      </li>
-                    )
-                  )
+                ? machSorter(items.slice(), inputValue, {
+                    keys: ['value']
+                  }).map((item: IItem, index: number) => (
+                    <li
+                      {...getItemProps({
+                        key: item.value,
+                        index,
+                        item,
+                        className: classNames('typeahead-field__menu__item', {
+                          'typeahead-field__menu__item--highlighted':
+                            highlightedIndex === index,
+                          'typeahead-field__menu__item--selected':
+                            selectedItem === item
+                        })
+                      })}
+                    >
+                      {item.value}
+                    </li>
+                  ))
                 : null}
             </ul>
           </div>

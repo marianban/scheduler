@@ -2,11 +2,8 @@ import classNames from 'classnames';
 import React from 'react';
 import './TextBox.css';
 
-export interface ITextBoxProps {
-  className?: string;
+export interface ITextBoxProps extends React.HTMLProps<HTMLInputElement> {
   suffix?: React.ReactNode;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (event: React.SyntheticEvent) => void;
 }
 
 export class TextBox extends React.Component<ITextBoxProps, {}> {
@@ -34,7 +31,7 @@ export class TextBox extends React.Component<ITextBoxProps, {}> {
     }
   };
 
-  public handleOnBlur = (event: React.SyntheticEvent) => {
+  public handleOnBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     const { onBlur } = this.props;
     if (onBlur) {
       onBlur(event);

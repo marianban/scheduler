@@ -5,7 +5,8 @@
   "dependencies": {
     "@types/classnames": "^2.2.6",
     "@types/uuid": "^3.4.4",
-    "@babel/core": "7.1.6",
+    "@babel/core": "7.1.0",
+    "@babel/runtime": "7.2.0",
     "@svgr/webpack": "2.4.1",
     "@types/jest": "23.3.10",
     "@types/node": "10.12.18",
@@ -25,7 +26,7 @@
     "date-fns": "^2.0.0-alpha.16",
     "dotenv": "6.0.0",
     "dotenv-expand": "4.2.0",
-    "downshift": "^3.1.0",
+    "downshift": "3.1.10",
     "eslint": "5.6.0",
     "eslint-config-react-app": "^3.0.6",
     "eslint-loader": "2.1.1",
