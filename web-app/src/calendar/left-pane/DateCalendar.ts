@@ -1,15 +1,14 @@
-import { getWeekDays } from 'calendar/getWeekDays';
-import { WeekNumbering } from 'calendar/WeekNumbering';
-import {
-  addMonths,
-  getDay,
-  getDaysInMonth,
-  getISOWeek,
-  getWeek,
-  subMonths
-} from 'date-fns';
-import { Day } from './Day';
-import { Week } from './Week';
+import { getWeekDays } from "calendar/getWeekDays";
+import { WeekNumbering } from "calendar/WeekNumbering";
+import addMonths from "date-fns/addMonths";
+import getDay from "date-fns/getDay";
+import getDaysInMonth from "date-fns/getDaysInMonth";
+import getISOWeek from "date-fns/getISOWeek";
+import getWeek from "date-fns/getWeek";
+import subMonths from "date-fns/subMonths";
+
+import { Day } from "./Day";
+import { Week } from "./Week";
 
 const range = (count: number, start: number = 1) =>
   Array.from({ length: count }, (v, i) => start + i);
@@ -29,18 +28,18 @@ export class DateCalendar {
 
   public getMonthName() {
     const months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December'
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
     ];
     return months[this.date.getMonth()];
   }
@@ -74,7 +73,7 @@ export class DateCalendar {
       case WeekNumbering.NorthAmerican:
         return dayOfWeek + 1;
       default:
-        throw new Error('Unsupported week numbering');
+        throw new Error("Unsupported week numbering");
     }
   }
 

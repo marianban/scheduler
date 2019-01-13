@@ -167,9 +167,12 @@ export class RightPane extends React.Component<IProps, IState> {
               value={fullName}
               items={clientStore.clients}
               onSelected={this.handleOnSelected}
-              {...fullName({
-                onChange: this.handleOnChange,
+              {...field(v => ({
+                validators: [
+                  v.required('FullName is required')
+                ],
                 onBlur: this.handleOnBlur,
+                onValidated: this.handleOnValidated,
               })}
               className={fullName.isValid}
             />

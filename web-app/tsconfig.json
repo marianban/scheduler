@@ -20,6 +20,10 @@
       "*": ["src/*"]
     }
   },
+  "files": [
+    "node_modules/jest-dom/extend-expect.d.ts",
+    "node_modules/jest-extended/types/index.d.ts"
+  ],
   "include": ["src"],
   "exclude": [
     "node_modules",

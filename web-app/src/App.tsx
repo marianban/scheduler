@@ -1,10 +1,15 @@
-import { Provider } from 'mobx-react';
-import DevTools from 'mobx-react-devtools';
-import React from 'react';
-import './App.css';
-import Header from './header/Header';
-import { RootStore } from './RootStore';
-import { Routes } from './Routes';
+import { Provider } from "mobx-react";
+import React, { lazy, Suspense } from "react";
+import "./App.css";
+import Header from "./header/Header";
+import { RootStore } from "./RootStore";
+import { Routes } from "./Routes";
+
+const DevTools = lazy(() =>
+  process.env.NODE_ENV === "production"
+    ? (import("mobx-react-devtools") as any)
+    : Promise.resolve({ default: () => null })
+);
 
 const rootStore = new RootStore(new Date());
 
@@ -20,7 +25,9 @@ class App extends React.Component<IAppProps, {}> {
         <div className="app">
           <Header path={path} />
           <Routes path={path} />
-          <DevTools />
+          <Suspense fallback={null}>
+            <DevTools />
+          </Suspense>
         </div>
       </Provider>
     );

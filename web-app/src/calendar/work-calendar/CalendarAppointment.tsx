@@ -1,13 +1,13 @@
-import { AppointmentModel } from 'appointments/AppointmentModel';
-import classNames from 'classnames';
-import { Popover } from 'components/Popover';
-import differenceInMinutes from 'date-fns/differenceInMinutes/index';
-import format from 'date-fns/format/index';
-import { inject, observer } from 'mobx-react';
-import React from 'react';
-import { RootStore } from 'RootStore';
-import { ReactComponent as DotsIcon } from './icon-dots-vertical.svg';
-import { getStartOfWorkDay } from './WorkCalendar';
+import { AppointmentModel } from "appointments/AppointmentModel";
+import classNames from "classnames";
+import { Popover } from "components/Popover";
+import differenceInMinutes from "date-fns/differenceInMinutes";
+import format from "date-fns/format";
+import { inject, observer } from "mobx-react";
+import React from "react";
+import { RootStore } from "RootStore";
+import { ReactComponent as DotsIcon } from "./icon-dots-vertical.svg";
+import { getStartOfWorkDay } from "./WorkCalendar";
 
 interface ICalendarAppointmentProps {
   appointment: AppointmentModel;
@@ -30,7 +30,7 @@ export const getAppointmentPosition = (
   };
 };
 
-@inject('rootStore')
+@inject("rootStore")
 @observer
 export class CalendarAppointment extends React.Component<
   ICalendarAppointmentProps,
@@ -49,8 +49,8 @@ export class CalendarAppointment extends React.Component<
     return (
       <div
         draggable={true}
-        className={classNames('appointment', {
-          'appointment--selected':
+        className={classNames("appointment", {
+          "appointment--selected":
             appointmentsModel.selectedAppointmentId.get() === appointment.id
         })}
         data-testid="appointment"
@@ -61,7 +61,7 @@ export class CalendarAppointment extends React.Component<
           gridColumn: `${position.column} / span 1`
         }}
         onClick={this.selectAppointment}
-        data-appointment={format(appointment.dateTime, 'd/M/yyyy HH:mm')}
+        data-appointment={format(appointment.dateTime, "d/M/yyyy HH:mm")}
         onDragStart={this.handleOnDragStart}
       >
         <span className="appointment-client" data-testid="appointment-client">
@@ -84,8 +84,8 @@ export class CalendarAppointment extends React.Component<
 
   private handleOnDragStart = (event: React.DragEvent<HTMLDivElement>) => {
     const { appointment } = this.props;
-    event.dataTransfer.dropEffect = 'move';
-    event.dataTransfer.setData('text/plain', appointment.id);
+    event.dataTransfer.dropEffect = "move";
+    event.dataTransfer.setData("text/plain", appointment.id);
   };
 
   private selectAppointment = () => {

@@ -1,18 +1,18 @@
-import { getWeekDays } from 'calendar/getWeekDays';
-import { WeekNumbering } from 'calendar/WeekNumbering';
-import classNames from 'classnames';
-import addDays from 'date-fns/addDays/index';
-import addMinutes from 'date-fns/addMinutes/index';
-import format from 'date-fns/format/index';
-import isSameWeek from 'date-fns/isSameWeek/index';
-import getStartOfWeek from 'date-fns/startOfWeek/index';
-import { inject, observer } from 'mobx-react';
-import React from 'react';
-import { RootStore } from 'RootStore';
-import { CalendarAppointment } from './CalendarAppointment';
-import './CalendarAppointment.css';
-import './WorkCalendar.css';
-import { WorkCalendarCell } from './WorkCalendarCell';
+import { getWeekDays } from "calendar/getWeekDays";
+import { WeekNumbering } from "calendar/WeekNumbering";
+import classNames from "classnames";
+import addDays from "date-fns/addDays";
+import addMinutes from "date-fns/addMinutes";
+import format from "date-fns/format";
+import isSameWeek from "date-fns/isSameWeek";
+import getStartOfWeek from "date-fns/startOfWeek";
+import { inject, observer } from "mobx-react";
+import React from "react";
+import { RootStore } from "RootStore";
+import { CalendarAppointment } from "./CalendarAppointment";
+import "./CalendarAppointment.css";
+import "./WorkCalendar.css";
+import { WorkCalendarCell } from "./WorkCalendarCell";
 
 interface IWorkCalendarProps {
   rootStore?: RootStore;
@@ -25,7 +25,7 @@ export interface IWorkCalendarRefreshAppointment {
   appointmentId: string;
 }
 
-@inject('rootStore')
+@inject("rootStore")
 @observer
 export class WorkCalendar extends React.Component<IWorkCalendarProps, {}> {
   public render() {
@@ -58,7 +58,7 @@ export class WorkCalendar extends React.Component<IWorkCalendarProps, {}> {
 
   private renderHeader = (startOfWeek: Date, selectedDate: Date) => {
     const weekDays = [
-      { name: '', day: '' },
+      { name: "", day: "" },
       ...getWeekDays(WeekNumbering.ISO).map((d, i) => ({
         name: d.threeLetterName,
         day: addDays(startOfWeek, i).getDate()
@@ -68,8 +68,8 @@ export class WorkCalendar extends React.Component<IWorkCalendarProps, {}> {
     return weekDays.map((weekDay, i) => (
       <div
         key={weekDay.name}
-        className={classNames('work-calendar__week__day__name', {
-          'work-calendar__week__day__name--selected':
+        className={classNames("work-calendar__week__day__name", {
+          "work-calendar__week__day__name--selected":
             i === selectedDate.getDay()
         })}
         style={{ gridRow: 1 }}
@@ -90,15 +90,15 @@ export class WorkCalendar extends React.Component<IWorkCalendarProps, {}> {
       <div
         key={rowIndex}
         className={classNames(
-          'work-calendar__week__day',
-          'work-calendar__week__hour'
+          "work-calendar__week__day",
+          "work-calendar__week__hour"
         )}
         style={{
           gridColumn: 1,
           gridRow: rowIndex + 2
         }}
       >
-        <span>{format(addMinutes(startOfWeek, 30 * rowIndex), 'H:mm')}</span>
+        <span>{format(addMinutes(startOfWeek, 30 * rowIndex), "H:mm")}</span>
       </div>
     ));
 
@@ -123,12 +123,12 @@ export class WorkCalendar extends React.Component<IWorkCalendarProps, {}> {
   private handleOnCreateNew = (date: Date) => {
     const { appointmentsModel, pubSub } = this.getRootStore();
     const { id } = appointmentsModel.create({
-      date: format(date, 'd/M/yyyy'),
-      time: format(date, 'HH:mm')
+      date: format(date, "d/M/yyyy"),
+      time: format(date, "HH:mm")
     });
     appointmentsModel.select(id);
     pubSub.publish<IWorkCalendarRefreshAppointment>(
-      'workCalendarRefreshAppointment',
+      "workCalendarRefreshAppointment",
       { appointmentId: id }
     );
   };
@@ -137,11 +137,11 @@ export class WorkCalendar extends React.Component<IWorkCalendarProps, {}> {
     const { appointmentsModel, pubSub } = this.getRootStore();
     const appointment = appointmentsModel.findById(appointmentId);
     appointment.update({
-      date: format(date, 'd/M/yyyy'),
-      time: format(date, 'HH:mm')
+      date: format(date, "d/M/yyyy"),
+      time: format(date, "HH:mm")
     });
     pubSub.publish<IWorkCalendarRefreshAppointment>(
-      'workCalendarRefreshAppointment',
+      "workCalendarRefreshAppointment",
       { appointmentId }
     );
   };

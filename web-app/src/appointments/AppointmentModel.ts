@@ -1,9 +1,10 @@
-import { isValid, parse } from 'date-fns';
-import format from 'date-fns/format/index';
-import { action, observable } from 'mobx';
-import { RootStore } from 'RootStore';
-import { v4 } from 'uuid';
-import { IAppointment } from './IAppointment';
+import format from "date-fns/format";
+import isValid from "date-fns/isValid";
+import parse from "date-fns/parse";
+import { action, observable } from "mobx";
+import { RootStore } from "RootStore";
+import { v4 } from "uuid";
+import { IAppointment } from "./IAppointment";
 
 export class AppointmentModel implements IAppointment {
   @observable
@@ -22,7 +23,7 @@ export class AppointmentModel implements IAppointment {
     clientId?: string,
     id: string = v4()
   ) {
-    this.init(date, time || '00:00', duration, id, clientId);
+    this.init(date, time || "00:00", duration, id, clientId);
   }
 
   @action
@@ -62,31 +63,31 @@ export class AppointmentModel implements IAppointment {
   };
 
   public getClientFullName = (rootStore: RootStore) => {
-    return this.getClientField(rootStore, 'fullName');
+    return this.getClientField(rootStore, "fullName");
   };
 
   public getClientEmail = (rootStore: RootStore) => {
-    return this.getClientField(rootStore, 'email');
+    return this.getClientField(rootStore, "email");
   };
 
   public getClientPhoneNumber = (rootStore: RootStore) => {
-    return this.getClientField(rootStore, 'phoneNumber');
+    return this.getClientField(rootStore, "phoneNumber");
   };
 
   public getDate = () => {
-    return format(this.dateTime, 'd/M/y');
+    return format(this.dateTime, "d/M/y");
   };
 
   public getTime = () => {
-    return format(this.dateTime, 'H:mm');
+    return format(this.dateTime, "H:mm");
   };
 
   private getClientField = (
     rootStore: RootStore,
-    field: 'fullName' | 'email' | 'phoneNumber'
+    field: "fullName" | "email" | "phoneNumber"
   ) => {
     if (this.clientId === undefined) {
-      return '';
+      return "";
     }
     return rootStore.clientStore.getById(this.clientId)[field];
   };
@@ -108,7 +109,7 @@ export class AppointmentModel implements IAppointment {
   }
 
   private parseDateTime = (date: string, time: string) => {
-    const resultDate = parse(`${date} ${time}`, 'd/M/y H:mm', new Date());
+    const resultDate = parse(`${date} ${time}`, "d/M/y H:mm", new Date());
     if (!isValid(resultDate)) {
       throw new Error(`Unable to parse given date: ${date}`);
     }
