@@ -1,9 +1,33 @@
-import { IItem } from 'components/TypeaheadField';
-import { action, observable } from 'mobx';
-import { v4 } from 'uuid';
-import { IClient } from './IClient';
+import { IItem } from "components/TypeaheadField";
+import { action, observable } from "mobx";
+import { v4 } from "uuid";
+import { IClient } from "./IClient";
+
+export interface IValidationResult {
+  isValid: boolean;
+}
+
+export type IClientValidationResult = IValidationResult & Partial<IClient>;
 
 export class ClientModel implements IClient, IItem {
+  public static validate(client: IClient): IClientValidationResult {
+    const result: IClientValidationResult = { isValid: true };
+    if (!client.fullName) {
+      result.fullName = "Required";
+      result.isValid = false;
+    }
+    if (client.email) {
+      const regex = new RegExp(
+        /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+      );
+      if (!regex.test(client.email)) {
+        result.email = "Invalid format";
+        result.isValid = false;
+      }
+    }
+    return result;
+  }
+
   @observable
   public id!: string;
   @observable
@@ -36,13 +60,13 @@ export class ClientModel implements IClient, IItem {
     phoneNumber?: string;
     email?: string;
   }) {
-    if (fullName || fullName === '') {
+    if (fullName || fullName === "") {
       this.fullName = fullName;
     }
-    if (phoneNumber || phoneNumber === '') {
+    if (phoneNumber || phoneNumber === "") {
       this.phoneNumber = phoneNumber;
     }
-    if (email || email === '') {
+    if (email || email === "") {
       this.email = email;
     }
   }

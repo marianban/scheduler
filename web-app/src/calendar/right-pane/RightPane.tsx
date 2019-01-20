@@ -1,20 +1,21 @@
-import { AppointmentModel } from 'appointments/AppointmentModel';
-import { IWorkCalendarRefreshAppointment } from 'calendar/work-calendar/WorkCalendar';
-import { ClientModel } from 'clients/ClientModel';
-import { IClient } from 'clients/IClient';
-import { Button } from 'components/Button';
-import { ButtonBarField, Option } from 'components/ButtonBarField';
-import { ButtonLink } from 'components/ButtonLink';
-import { TextField } from 'components/TextField';
-import { TypeaheadField, IItem } from 'components/TypeaheadField';
-import { ReactComponent as CalendarIcon } from 'icons/calendar-alt-regular.svg';
-import { ReactComponent as ClockIcon } from 'icons/clock-regular.svg';
-import { observe } from 'mobx';
-import { inject, observer } from 'mobx-react';
-import React from 'react';
-import { RootStore } from 'RootStore';
-import { normalizeDate, normalizeTime } from 'utils/dateTimeUtils';
-import './RightPane.css';
+import { AppointmentModel } from "appointments/AppointmentModel";
+import { IWorkCalendarRefreshAppointment } from "calendar/work-calendar/WorkCalendar";
+import { ClientModel, IClientValidationResult } from "clients/ClientModel";
+import { IClient } from "clients/IClient";
+import { Button } from "components/Button";
+import { ButtonBarField, Option } from "components/ButtonBarField";
+import { ButtonLink } from "components/ButtonLink";
+import { TextField } from "components/TextField";
+import { IItem, TypeaheadField } from "components/TypeaheadField";
+import { ReactComponent as CalendarIcon } from "icons/calendar-alt-regular.svg";
+import { ReactComponent as ClockIcon } from "icons/clock-regular.svg";
+import { observe } from "mobx";
+import { inject, observer } from "mobx-react";
+import React from "react";
+import { RootStore } from "RootStore";
+import { normalizeDate, normalizeTime } from "utils/dateTimeUtils";
+import { field } from "validation/field";
+import "./RightPane.css";
 
 interface IProps {
   rootStore?: RootStore;
@@ -28,22 +29,24 @@ interface IState {
   };
   client?: ClientModel;
   appointment?: AppointmentModel;
+  clientVal: IClientValidationResult;
 }
 
 const DEFAULT_DURATION: number = 30;
 
-@inject('rootStore')
+@inject("rootStore")
 @observer
 export class RightPane extends React.Component<IProps, IState> {
   public readonly state: IState = {
     form: {
-      fullName: '',
-      phoneNumber: '',
-      email: '',
-      date: '',
-      time: '',
+      fullName: "",
+      phoneNumber: "",
+      email: "",
+      date: "",
+      time: "",
       duration: DEFAULT_DURATION
-    }
+    },
+    clientVal: { isValid: true }
   };
 
   private subscriptionId?: string;
@@ -61,13 +64,13 @@ export class RightPane extends React.Component<IProps, IState> {
     });
     this.subscriptionId = rootStore.pubSub.subscribe<
       IWorkCalendarRefreshAppointment
-    >('workCalendarRefreshAppointment', this.handleRefreshAppointment);
+    >("workCalendarRefreshAppointment", this.handleRefreshAppointment);
   }
 
   public componentWillUnmount() {
     if (this.subscriptionId !== undefined) {
       const { pubSub } = this.getRootStore();
-      pubSub.unsubscribe('workCalendarItemClick', this.subscriptionId);
+      pubSub.unsubscribe("workCalendarItemClick", this.subscriptionId);
     }
   }
 
@@ -75,7 +78,8 @@ export class RightPane extends React.Component<IProps, IState> {
     const {
       form: { fullName, phoneNumber, email, date, time, duration },
       client,
-      appointment
+      appointment,
+      clientVal
     } = this.state;
 
     const { clientStore } = this.getRootStore();
@@ -150,6 +154,8 @@ export class RightPane extends React.Component<IProps, IState> {
           name="fullName"
           value={fullName}
           items={clientStore.clients}
+          isValid={!clientVal.fullName}
+          message={clientVal.fullName}
           onChange={this.handleOnChange}
           onSelected={this.handleOnSelected}
           onBlur={this.handleOnClientNameBlur}
@@ -183,6 +189,8 @@ export class RightPane extends React.Component<IProps, IState> {
           title="Email"
           name="email"
           value={email}
+          isValid={!clientVal.email}
+          message={clientVal.email}
           onChange={this.handleOnChange}
           onBlur={this.handleClientOnBlur}
         />
@@ -190,6 +198,8 @@ export class RightPane extends React.Component<IProps, IState> {
           title="Phone Number"
           name="phoneNumber"
           value={phoneNumber}
+          isValid={!clientVal.phoneNumber}
+          message={clientVal.phoneNumber}
           onChange={this.handleOnChange}
           onBlur={this.handleClientOnBlur}
         />
@@ -223,11 +233,11 @@ export class RightPane extends React.Component<IProps, IState> {
     this.setState({
       client: undefined,
       form: {
-        fullName: '',
-        email: '',
-        phoneNumber: '',
-        date: '',
-        time: '',
+        fullName: "",
+        email: "",
+        phoneNumber: "",
+        date: "",
+        time: "",
         duration: DEFAULT_DURATION
       }
     });
@@ -250,13 +260,14 @@ export class RightPane extends React.Component<IProps, IState> {
         client: undefined,
         appointment: undefined,
         form: {
-          fullName: '',
-          email: '',
-          phoneNumber: '',
-          date: '',
-          time: '',
+          fullName: "",
+          email: "",
+          phoneNumber: "",
+          date: "",
+          time: "",
           duration: DEFAULT_DURATION
-        }
+        },
+        clientVal: { isValid: true }
       },
       callback
     );
@@ -264,7 +275,14 @@ export class RightPane extends React.Component<IProps, IState> {
 
   private handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.name) {
-      this.updateForm(event.target.name, event.target.value);
+      this.updateForm(event.target.name, event.target.value, () => {
+        const { clientVal } = this.state;
+        if (!clientVal.isValid) {
+          this.setState({
+            clientVal: ClientModel.validate(this.state.form)
+          });
+        }
+      });
     }
   };
 
@@ -289,8 +307,8 @@ export class RightPane extends React.Component<IProps, IState> {
         {
           form: {
             ...this.state.form,
-            email: '',
-            phoneNumber: ''
+            email: "",
+            phoneNumber: ""
           }
         },
         () => {
@@ -306,18 +324,23 @@ export class RightPane extends React.Component<IProps, IState> {
   private handleClientOnBlur = () => {
     const { form, client, appointment } = this.state;
     let newClient: ClientModel | null = null;
-    if (client && client.equals(form)) {
-      client.update(form);
-      newClient = client;
-    } else {
-      const { fullName, email, phoneNumber } = form;
-      if (fullName) {
+
+    const clientVal = ClientModel.validate(form);
+    this.setState({
+      clientVal
+    });
+    if (clientVal.isValid) {
+      if (client && client.equals(form)) {
+        client.update(form);
+        newClient = client;
+      } else {
+        const { fullName, email, phoneNumber } = form;
         const { clientStore } = this.getRootStore();
         if (clientStore.exists(form)) {
           newClient = clientStore.getByFullName(form.fullName);
-          this.updateForm('fullName', newClient.fullName);
-          this.updateForm('phoneNumber', newClient.phoneNumber);
-          this.updateForm('email', newClient.email);
+          this.updateForm("fullName", newClient.fullName);
+          this.updateForm("phoneNumber", newClient.phoneNumber);
+          this.updateForm("email", newClient.email);
         } else {
           newClient = clientStore.create({ fullName, phoneNumber, email });
         }
@@ -339,7 +362,7 @@ export class RightPane extends React.Component<IProps, IState> {
     const { form } = this.state;
     if (form.date) {
       this.updateForm(
-        'date',
+        "date",
         normalizeDate(form.date, baseDate),
         this.handleAppointmentOnBlur
       );
@@ -350,7 +373,7 @@ export class RightPane extends React.Component<IProps, IState> {
     const { form } = this.state;
     if (form.time) {
       this.updateForm(
-        'time',
+        "time",
         normalizeTime(form.time),
         this.handleAppointmentOnBlur
       );

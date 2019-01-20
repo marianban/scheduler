@@ -1,13 +1,15 @@
-import classNames from 'classnames';
-import React from 'react';
-import './ListView.css';
+import classNames from "classnames";
+import React from "react";
+import "./ListView.css";
 
 interface IListViewProps {
   children: React.ReactNode;
 }
 
 export const ListView = ({ children }: IListViewProps) => (
-  <div className="list-view">{children}</div>
+  <div className="list-view" data-testid="list-view">
+    {children}
+  </div>
 );
 
 interface IListViewItemProps {
@@ -19,15 +21,15 @@ interface IListViewItemProps {
 
 export const ListViewItem = ({
   children,
-  id = '',
+  id = "",
   isSelected = false,
   onClick
 }: IListViewItemProps) => (
   <div
-    className={classNames('list-view__item', {
-      'list-view__item--selected': isSelected
+    className={classNames("list-view__item", {
+      "list-view__item--selected": isSelected
     })}
-    data-testid={isSelected ? 'selected-list-item' : `list-item-${id}`}
+    data-testid={isSelected ? "selected-list-item" : `list-item-${id}`}
     onClick={onClick.bind(null, id)}
   >
     {children}

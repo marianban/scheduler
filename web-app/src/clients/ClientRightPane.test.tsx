@@ -1,9 +1,9 @@
-import React from 'react';
-import { RootStore } from 'RootStore';
-import { Clients } from 'test/data';
-import { renderWithProviders } from 'test/utils';
-import { ClientRightPane } from './ClientRightPane';
-import { IClient } from './IClient';
+import React from "react";
+import { RootStore } from "RootStore";
+import { Clients } from "test/data";
+import { renderWithProviders } from "test/utils";
+import { ClientRightPane } from "./ClientRightPane";
+import { IClient } from "./IClient";
 
 const renderRightPane = (rootStore?: RootStore) => {
   const result = renderWithProviders(<ClientRightPane />, rootStore);
@@ -13,12 +13,12 @@ const renderRightPane = (rootStore?: RootStore) => {
     fullName: getByLabelText(/Full Name/i) as HTMLInputElement,
     email: getByLabelText(/Email/i) as HTMLInputElement,
     phoneNumber: getByLabelText(/Phone Number/i) as HTMLInputElement,
-    newClientBtn: getByTestId('new-client-btn'),
-    deleteClientBtn: getByTestId('delete-client')
+    newClientBtn: getByTestId("new-client-btn"),
+    deleteClientBtn: getByTestId("delete-client")
   };
 };
 
-const expectClient = (
+export const expectClient = (
   {
     fullName,
     email,
@@ -35,7 +35,7 @@ const expectClient = (
   expect(phoneNumber.value).toBe(client.phoneNumber);
 };
 
-it('renders selected client', () => {
+it("renders selected client", () => {
   const rootStore = new RootStore(new Date());
   const { clientSelectionModel, clientStore } = rootStore;
   expect(clientSelectionModel.selectedClient).toBeNull();
@@ -49,7 +49,7 @@ it('renders selected client', () => {
   expectClient(result, Clients.Leonard);
 });
 
-it('can update selected client', () => {
+it("can update selected client", () => {
   const result = renderRightPane();
   const { rootStore, fullName, email, phoneNumber, type } = result;
   const { clientStore } = rootStore;
@@ -64,7 +64,7 @@ it('can update selected client', () => {
   expect(client.phoneNumber).toBe(Clients.Martin.phoneNumber);
 });
 
-it('can create new client', () => {
+it("can create new client", () => {
   const result = renderRightPane();
   const {
     rootStore,
@@ -91,7 +91,7 @@ it('can create new client', () => {
   expect(newClientBtn).not.toBeDisabled();
 });
 
-it('can delete client', () => {
+it("can delete client", () => {
   const result = renderRightPane();
   const { rootStore, deleteClientBtn, newClientBtn, fireEvent } = result;
   const { clientStore, appointmentsModel, clientSelectionModel } = rootStore;
@@ -99,14 +99,14 @@ it('can delete client', () => {
   expect(newClientBtn).toBeDisabled();
   const client = clientStore.create(Clients.Leonard);
   appointmentsModel.create({
-    date: '20/10/2018',
-    time: '13:30',
+    date: "20/10/2018",
+    time: "13:30",
     duration: 30,
     clientId: client.id
   });
   appointmentsModel.create({
-    date: '21/10/2018',
-    time: '13:30',
+    date: "21/10/2018",
+    time: "13:30",
     duration: 30,
     clientId: client.id
   });
@@ -121,7 +121,7 @@ it('can delete client', () => {
   expect(clientSelectionModel.selectedClient).toBeNull();
 });
 
-it('selects next client if the currently selected is deleted', () => {
+it("selects next client if the currently selected is deleted", () => {
   const result = renderRightPane();
   const { rootStore, deleteClientBtn, fireEvent } = result;
   const { clientStore, clientSelectionModel } = rootStore;

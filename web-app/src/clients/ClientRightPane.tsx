@@ -1,28 +1,36 @@
-import { Button } from 'components/Button';
-import { ButtonLink } from 'components/ButtonLink';
-import { TextField } from 'components/TextField';
-import { computed, reaction } from 'mobx';
-import { inject, observer } from 'mobx-react';
-import React from 'react';
-import { RootStore } from 'RootStore';
+import { Button } from "components/Button";
+import { ButtonLink } from "components/ButtonLink";
+import { TextField } from "components/TextField";
+import { computed, reaction } from "mobx";
+import { inject, observer } from "mobx-react";
+import React from "react";
+import { RootStore } from "RootStore";
+import { ClientModel, IClientValidationResult } from "./ClientModel";
+import { IClient } from "./IClient";
 
 interface IState {
   fullName: string;
   email: string;
   phoneNumber: string;
+  clientVal: IClientValidationResult;
 }
 
 interface IClientRightPaneProps {
   rootStore?: RootStore;
 }
 
-@inject('rootStore')
+@inject("rootStore")
 @observer
 export class ClientRightPane extends React.Component<
   IClientRightPaneProps,
   IState
 > {
-  public readonly state: IState = { fullName: '', email: '', phoneNumber: '' };
+  public readonly state: IState = {
+    fullName: "",
+    email: "",
+    phoneNumber: "",
+    clientVal: { isValid: true }
+  };
 
   public componentDidMount() {
     this.ensureClientSelection();
@@ -31,7 +39,7 @@ export class ClientRightPane extends React.Component<
   }
 
   public render() {
-    const { fullName, email, phoneNumber } = this.state;
+    const { fullName, email, phoneNumber, clientVal } = this.state;
 
     return (
       <aside className="app__right-pane">
@@ -50,6 +58,8 @@ export class ClientRightPane extends React.Component<
           title="Full Name"
           name="fullName"
           value={fullName}
+          isValid={!clientVal.fullName}
+          message={clientVal.fullName}
           onChange={this.handleOnChange}
           onBlur={this.handleOnBlur}
         />
@@ -57,6 +67,8 @@ export class ClientRightPane extends React.Component<
           title="Email"
           name="email"
           value={email}
+          isValid={!clientVal.email}
+          message={clientVal.email}
           onChange={this.handleOnChange}
           onBlur={this.handleOnBlur}
         />
@@ -64,6 +76,8 @@ export class ClientRightPane extends React.Component<
           title="Phone Number"
           name="phoneNumber"
           value={phoneNumber}
+          isValid={!clientVal.phoneNumber}
+          message={clientVal.phoneNumber}
           onChange={this.handleOnChange}
           onBlur={this.handleOnBlur}
         />
@@ -102,6 +116,9 @@ export class ClientRightPane extends React.Component<
   private handleOnDeleteClient = () => {
     const { clientStore, clientSelectionModel } = this.getRootStore();
     clientStore.deleteById(clientSelectionModel.selectedClient!.id);
+    this.setState({
+      clientVal: { isValid: true }
+    });
   };
 
   private ensureClientSelection() {
@@ -136,9 +153,9 @@ export class ClientRightPane extends React.Component<
         }
         if (newValue === null) {
           this.setState({
-            fullName: '',
-            email: '',
-            phoneNumber: ''
+            fullName: "",
+            email: "",
+            phoneNumber: ""
           });
         }
       }
@@ -148,19 +165,36 @@ export class ClientRightPane extends React.Component<
   private handleOnNewClientClick = () => {
     const { clientSelectionModel } = this.getRootStore();
     clientSelectionModel.unselect();
+    this.setState({
+      clientVal: { isValid: true }
+    });
   };
 
   private handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      [event.target.name]: event.target.value
-    } as Pick<IState, keyof IState>);
+    this.setState(
+      {
+        [event.target.name]: event.target.value
+      } as Pick<IState, Exclude<keyof IState, "clientVal">>,
+      () => {
+        const { clientVal } = this.state;
+        if (!clientVal.isValid) {
+          this.setState({
+            clientVal: ClientModel.validate(this.state)
+          });
+        }
+      }
+    );
   };
 
   private handleOnBlur = () => {
     const { fullName } = this.state;
     const { clientSelectionModel, clientStore } = this.getRootStore();
     const { selectedClient } = clientSelectionModel;
-    if (fullName) {
+    const clientVal = ClientModel.validate(this.state);
+    this.setState({
+      clientVal
+    });
+    if (clientVal.isValid) {
       if (selectedClient !== null) {
         selectedClient.update(this.state);
       } else {

@@ -1,7 +1,7 @@
-import { Provider } from 'mobx-react';
-import React from 'react';
-import { fireEvent, render } from 'react-testing-library';
-import { RootStore } from 'RootStore';
+import { Provider } from "mobx-react";
+import React from "react";
+import { fireEvent, render } from "react-testing-library";
+import { RootStore } from "RootStore";
 
 export const renderWithProviders = (
   ui: React.ReactElement<any>,
@@ -12,6 +12,12 @@ export const renderWithProviders = (
     type: (element: HTMLElement, value: string) => {
       fireEvent.change(element, { target: { value } });
       fireEvent.blur(element);
+    },
+    change: (element: HTMLElement, value: string) => {
+      fireEvent.change(element, { target: { value } });
+    },
+    isValid: (element: HTMLInputElement) => {
+      return element.getAttribute("data-valid") === "true";
     },
     fireEvent,
     rootStore
