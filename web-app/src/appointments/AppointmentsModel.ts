@@ -1,5 +1,5 @@
-import { action, IObservableValue, observable } from 'mobx';
-import { AppointmentModel } from './AppointmentModel';
+import { action, IObservableValue, observable } from "mobx";
+import { AppointmentModel } from "./AppointmentModel";
 
 export class AppointmentsModel {
   @observable
@@ -48,6 +48,9 @@ export class AppointmentsModel {
     this.assertExistence(appointmentId);
     const index = this.appointments.findIndex(a => a.id === appointmentId);
     this.appointments.splice(index, 1);
+    if (this.selectedAppointmentId.get() === appointmentId) {
+      this.selectedAppointmentId.set(null);
+    }
   }
 
   @action

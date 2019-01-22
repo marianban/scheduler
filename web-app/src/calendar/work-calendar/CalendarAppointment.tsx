@@ -72,6 +72,7 @@ export class CalendarAppointment extends React.Component<
           content={
             <div
               className="popover__menu-item"
+              data-testid="popover-menu-item-remove"
               onClick={this.removeAppointment}
             >
               Remove from Calendar

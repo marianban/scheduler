@@ -62,12 +62,11 @@
   grid-column: 3 / span 1;
   grid-row: 9 / span 3;
   */
-  z-index: 1;
   position: absolute;
   width: calc(100% + 1px);
   height: calc(100% + 1px);
   border: 1px solid var(--border-color);
-  background-color: #fdf6e8;
+  background-color: hsl(36, 84%, 90%);
   margin-top: -1px;
   margin-left: -1px;
   font-size: 1.2rem;
@@ -81,8 +80,9 @@
 }
 
 .work-calendar__week .appointment.appointment--selected {
-  background-color: var(--color-highlight);
+  background-color: hsl(36, 84%, 74%);
   border-color: var(--color-highlight);
+  /* box-shadow: inset 0 1px 0 hsl(39, 84%, 74%), 0 1px 3px hsla(0, 0%, 0%, 0.2); */
 }
 
 .work-calendar__week .appointment.appointment--selected:hover {
