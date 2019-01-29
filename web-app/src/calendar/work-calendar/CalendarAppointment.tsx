@@ -25,7 +25,7 @@ export const getAppointmentPosition = (
   return {
     column: column + 1,
     row:
-      Math.floor(differenceInMinutes(appointmentDate, startOfWorkDay) / 30) + 2,
+      Math.floor(differenceInMinutes(appointmentDate, startOfWorkDay) / 30) + 1,
     rowSpan: duration / 30
   };
 };

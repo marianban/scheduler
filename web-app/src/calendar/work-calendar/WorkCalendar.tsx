@@ -36,23 +36,29 @@ export class WorkCalendar extends React.Component<IWorkCalendarProps, {}> {
     );
 
     return (
-      <div className="work-calendar__week">
-        {this.renderHeader(startOfWeek, selectedDate)}
-        {this.renderFirstCol(startOfWeek)}
-        {this.renderGrid(startOfWeek)}
-        {appointmentsModel.appointments
-          .filter(appointment =>
-            isSameWeek(appointment.dateTime, selectedDate, { weekStartsOn: 1 })
-          )
-          .map(appointment => {
-            return (
-              <CalendarAppointment
-                key={appointment.id}
-                appointment={appointment}
-              />
-            );
-          })}
-      </div>
+      <>
+        <div className="work-calendar__header">
+          {this.renderHeader(startOfWeek, selectedDate)}
+        </div>
+        <div className="work-calendar__week">
+          {this.renderFirstCol(startOfWeek)}
+          {this.renderGrid(startOfWeek)}
+          {appointmentsModel.appointments
+            .filter(appointment =>
+              isSameWeek(appointment.dateTime, selectedDate, {
+                weekStartsOn: 1
+              })
+            )
+            .map(appointment => {
+              return (
+                <CalendarAppointment
+                  key={appointment.id}
+                  appointment={appointment}
+                />
+              );
+            })}
+        </div>
+      </>
     );
   }
 
@@ -95,7 +101,7 @@ export class WorkCalendar extends React.Component<IWorkCalendarProps, {}> {
         )}
         style={{
           gridColumn: 1,
-          gridRow: rowIndex + 2
+          gridRow: rowIndex + 1
         }}
       >
         <span>{format(addMinutes(startOfWeek, 30 * rowIndex), "H:mm")}</span>

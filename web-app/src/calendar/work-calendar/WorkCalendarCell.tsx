@@ -32,7 +32,7 @@ export class WorkCalendarCell extends React.PureComponent<
         })}
         style={{
           gridColumn: column + 2,
-          gridRow: row + 2
+          gridRow: row + 1
         }}
         data-testid={format(date, "d/M/yyyy HH:mm")}
         onDragOver={this.handleOnDragOver}

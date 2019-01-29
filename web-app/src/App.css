@@ -61,5 +61,6 @@
 
 .pane__bottom {
   margin-top: auto;
+  padding-top: 30px;
   display: grid;
 }

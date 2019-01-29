@@ -27,6 +27,7 @@
   opacity: 1;
   transform: scale(1);
   visibility: visible;
+  transition-delay: 300ms;
 }
 
 .popover__content:before {
