@@ -53,6 +53,7 @@
   grid-template-columns: repeat(2, minmax(auto, 1fr));
   grid-column-gap: 1rem;
   grid-auto-rows: max-content;
+  align-items: center;
 }
 
 .grid-col-span-2 {
@@ -63,4 +64,12 @@
   margin-top: auto;
   padding-top: 30px;
   display: grid;
+}
+
+input::-webkit-contacts-auto-fill-button,
+input::-webkit-credentials-auto-fill-button {
+  visibility: hidden;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
 }

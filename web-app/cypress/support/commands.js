@@ -70,7 +70,7 @@ Cypress.Commands.add('cancelSelectedAppointment', dateTime => {
     .getByTestId('cancel-appointment')
     .should('be.disabled')
     .getByTestId('new-appointment')
-    .should('have.attr', 'aria-disabled', 'true')
+    .should('be.disabled')
     .get(`[data-appointment="${dateTime}"]`)
     .should('not.exist');
 });

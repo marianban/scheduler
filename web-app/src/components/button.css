@@ -34,3 +34,30 @@
 .btn--secondary:disabled:hover {
   background-color: transparent;
 }
+
+.btn-icon {
+  background: none;
+  border: none;
+  outline: none;
+  width: auto;
+  height: auto;
+  display: inline-block;
+  justify-self: flex-end;
+  border-radius: 100%;
+  background-color: hsl(0, 0%, 95%);
+  height: 40px;
+  width: 40px;
+  transition: background-color var(--hover-transition-duration) ease-in-out;
+}
+
+.btn-icon:disabled {
+  opacity: 0.5;
+}
+
+.btn-icon:hover:not(:disabled) {
+  background-color: hsl(0, 0%, 90%);
+}
+
+.btn-icon svg {
+  fill: var(--font-color);
+}

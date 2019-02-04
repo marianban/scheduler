@@ -17,6 +17,10 @@
   width: 100%;
 }
 
+.text-box:disabled {
+  background-color: hsl(0, 0%, 95%);
+}
+
 .text-box:focus {
   box-shadow: 0 0 2pt 0pt var(--color-highlight);
   outline: none;

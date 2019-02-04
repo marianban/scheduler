@@ -1,21 +1,22 @@
-import { AppointmentModel } from "appointments/AppointmentModel";
-import { IWorkCalendarRefreshAppointment } from "calendar/work-calendar/WorkCalendar";
-import { ClientModel, IClientValidationResult } from "clients/ClientModel";
-import { IClient } from "clients/IClient";
-import { Button } from "components/Button";
-import { ButtonBarField, Option } from "components/ButtonBarField";
-import { ButtonLink } from "components/ButtonLink";
-import { TextField } from "components/TextField";
-import { IItem, TypeaheadField } from "components/TypeaheadField";
-import { ReactComponent as CalendarIcon } from "icons/calendar-alt-regular.svg";
-import { ReactComponent as ClockIcon } from "icons/clock-regular.svg";
-import { observe } from "mobx";
-import { inject, observer } from "mobx-react";
-import React from "react";
-import { RootStore } from "RootStore";
-import { normalizeDate, normalizeTime } from "utils/dateTimeUtils";
-import { field } from "validation/field";
-import "./RightPane.css";
+import { AppointmentModel } from 'appointments/AppointmentModel';
+import { IWorkCalendarRefreshAppointment } from 'calendar/work-calendar/WorkCalendar';
+import { ClientModel, IClientValidationResult } from 'clients/ClientModel';
+import { IClient } from 'clients/IClient';
+import { Button } from 'components/Button';
+import { ButtonBarField, Option } from 'components/ButtonBarField';
+import { ButtonLink } from 'components/ButtonLink';
+import { TextField } from 'components/TextField';
+import { IItem, TypeaheadField } from 'components/TypeaheadField';
+import { ReactComponent as CalendarIcon } from 'icons/calendar-alt-regular.svg';
+import { ReactComponent as ClockIcon } from 'icons/clock-regular.svg';
+import { ReactComponent as CalendarAdd } from 'icons/icon-calendar-add.svg';
+import { ReactComponent as RemoveUserIcon } from 'icons/icon-user-remove.svg';
+import { observe } from 'mobx';
+import { inject, observer } from 'mobx-react';
+import React from 'react';
+import { RootStore } from 'RootStore';
+import { normalizeDate, normalizeTime } from 'utils/dateTimeUtils';
+import './RightPane.css';
 
 interface IProps {
   rootStore?: RootStore;
@@ -34,16 +35,16 @@ interface IState {
 
 const DEFAULT_DURATION: number = 30;
 
-@inject("rootStore")
+@inject('rootStore')
 @observer
 export class RightPane extends React.Component<IProps, IState> {
   public readonly state: IState = {
     form: {
-      fullName: "",
-      phoneNumber: "",
-      email: "",
-      date: "",
-      time: "",
+      fullName: '',
+      phoneNumber: '',
+      email: '',
+      date: '',
+      time: '',
       duration: DEFAULT_DURATION
     },
     clientVal: { isValid: true }
@@ -64,13 +65,13 @@ export class RightPane extends React.Component<IProps, IState> {
     });
     this.subscriptionId = rootStore.pubSub.subscribe<
       IWorkCalendarRefreshAppointment
-    >("workCalendarRefreshAppointment", this.handleRefreshAppointment);
+    >('workCalendarRefreshAppointment', this.handleRefreshAppointment);
   }
 
   public componentWillUnmount() {
     if (this.subscriptionId !== undefined) {
       const { pubSub } = this.getRootStore();
-      pubSub.unsubscribe("workCalendarItemClick", this.subscriptionId);
+      pubSub.unsubscribe('workCalendarItemClick', this.subscriptionId);
     }
   }
 
@@ -87,14 +88,15 @@ export class RightPane extends React.Component<IProps, IState> {
       <aside className="app__right-pane">
         <div className="grid-col-2">
           <h2 className="app__right-pane__h">Appointment</h2>
-          <ButtonLink
-            className="h__btn-link app__right-pane__h"
+          <button
+            className="btn-icon pp__right-pane__h"
             onClick={this.handleOnNewAppointmentClick}
             data-testid="new-appointment"
             disabled={!appointment}
+            title="New Appointment"
           >
-            new
-          </ButtonLink>
+            <CalendarAdd height="20" />
+          </button>
         </div>
         <div className="grid-col-2">
           <TextField
@@ -140,54 +142,34 @@ export class RightPane extends React.Component<IProps, IState> {
         <TextField title="Services" />
         <div className="grid-col-2">
           <h2 className="app__right-pane__h">Client</h2>
-          <ButtonLink
-            className="h__btn-link app__right-pane__h"
+          <button
+            className="btn-icon app__right-pane__h"
             onClick={this.handleOnNewClientClick}
             data-testid="new-client-btn"
             disabled={!client}
+            title="Remove Client"
           >
-            new client
-          </ButtonLink>
+            <RemoveUserIcon height="20" />
+          </button>
         </div>
         <TypeaheadField
+          className="typeahead__full-name"
           title="Full Name"
-          name="fullName"
+          name="fn"
+          autoComplete="fn"
+          disabled={!!client}
           value={fullName}
-          items={clientStore.clients}
+          items={!!client ? [] : clientStore.clients}
           isValid={!clientVal.fullName}
           message={clientVal.fullName}
           onChange={this.handleOnChange}
           onSelected={this.handleOnSelected}
           onBlur={this.handleOnClientNameBlur}
         />
-        {/* 
-        <Validator
-          name="fullName"
-          onBlur={this.handleOnClientNameBlur}
-          onValidated=""
-        >
-          {() => (
-            <TypeaheadField
-              title="Full Name"
-              name="fullName"
-              value={fullName}
-              items={clientStore.clients}
-              onSelected={this.handleOnSelected}
-              {...field(v => ({
-                validators: [
-                  v.required('FullName is required')
-                ],
-                onBlur: this.handleOnBlur,
-                onValidated: this.handleOnValidated,
-              })}
-              className={fullName.isValid}
-            />
-          )}
-        </Validator>
-        */}
         <TextField
           title="Email"
-          name="email"
+          name="em"
+          autoComplete="em"
           value={email}
           isValid={!clientVal.email}
           message={clientVal.email}
@@ -196,7 +178,8 @@ export class RightPane extends React.Component<IProps, IState> {
         />
         <TextField
           title="Phone Number"
-          name="phoneNumber"
+          name="pn"
+          autoComplete="pn"
           value={phoneNumber}
           isValid={!clientVal.phoneNumber}
           message={clientVal.phoneNumber}
@@ -233,11 +216,11 @@ export class RightPane extends React.Component<IProps, IState> {
     this.setState({
       client: undefined,
       form: {
-        fullName: "",
-        email: "",
-        phoneNumber: "",
-        date: "",
-        time: "",
+        fullName: '',
+        email: '',
+        phoneNumber: '',
+        date: '',
+        time: '',
         duration: DEFAULT_DURATION
       }
     });
@@ -260,11 +243,11 @@ export class RightPane extends React.Component<IProps, IState> {
         client: undefined,
         appointment: undefined,
         form: {
-          fullName: "",
-          email: "",
-          phoneNumber: "",
-          date: "",
-          time: "",
+          fullName: '',
+          email: '',
+          phoneNumber: '',
+          date: '',
+          time: '',
           duration: DEFAULT_DURATION
         },
         clientVal: { isValid: true }
@@ -275,7 +258,8 @@ export class RightPane extends React.Component<IProps, IState> {
 
   private handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.name) {
-      this.updateForm(event.target.name, event.target.value, () => {
+      const targetName = this.getInputName(event.target.name);
+      this.updateForm(targetName, event.target.value, () => {
         const { clientVal } = this.state;
         if (!clientVal.isValid) {
           this.setState({
@@ -285,6 +269,19 @@ export class RightPane extends React.Component<IProps, IState> {
       });
     }
   };
+
+  private getInputName(name: string) {
+    switch (name) {
+      case 'fn':
+        return 'fullName';
+      case 'pn':
+        return 'phoneNumber';
+      case 'em':
+        return 'email';
+      default:
+        return name;
+    }
+  }
 
   private handleOnSelected = (item: IItem) => {
     const client = item as ClientModel;
@@ -307,8 +304,8 @@ export class RightPane extends React.Component<IProps, IState> {
         {
           form: {
             ...this.state.form,
-            email: "",
-            phoneNumber: ""
+            email: '',
+            phoneNumber: ''
           }
         },
         () => {
@@ -338,9 +335,9 @@ export class RightPane extends React.Component<IProps, IState> {
         const { clientStore } = this.getRootStore();
         if (clientStore.exists(form)) {
           newClient = clientStore.getByFullName(form.fullName);
-          this.updateForm("fullName", newClient.fullName);
-          this.updateForm("phoneNumber", newClient.phoneNumber);
-          this.updateForm("email", newClient.email);
+          this.updateForm('fullName', newClient.fullName);
+          this.updateForm('phoneNumber', newClient.phoneNumber);
+          this.updateForm('email', newClient.email);
         } else {
           newClient = clientStore.create({ fullName, phoneNumber, email });
         }
@@ -362,7 +359,7 @@ export class RightPane extends React.Component<IProps, IState> {
     const { form } = this.state;
     if (form.date) {
       this.updateForm(
-        "date",
+        'date',
         normalizeDate(form.date, baseDate),
         this.handleAppointmentOnBlur
       );
@@ -373,7 +370,7 @@ export class RightPane extends React.Component<IProps, IState> {
     const { form } = this.state;
     if (form.time) {
       this.updateForm(
-        "time",
+        'time',
         normalizeTime(form.time),
         this.handleAppointmentOnBlur
       );

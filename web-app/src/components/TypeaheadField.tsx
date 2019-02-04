@@ -1,13 +1,13 @@
-import classNames from "classnames";
-import Downshift from "downshift";
-import machSorter from "match-sorter";
-import React from "react";
-import { FieldContainer, IFieldContainerProps } from "./FieldContainer";
-import { Label } from "./Label";
-import { ITextBoxProps, TextBox } from "./TextBox";
-import "./TypeaheadField.css";
+import classNames from 'classnames';
+import Downshift from 'downshift';
+import machSorter from 'match-sorter';
+import React from 'react';
+import { FieldContainer, IFieldContainerProps } from './FieldContainer';
+import { Label } from './Label';
+import { ITextBoxProps, TextBox } from './TextBox';
+import './TypeaheadField.css';
 
-declare module "match-sorter";
+declare module 'match-sorter';
 
 export interface IItem {
   value: string;
@@ -35,7 +35,7 @@ export class TypeaheadField extends React.Component<
     return (
       <Downshift
         itemToString={this.itemToString}
-        onChange={this.handleOnMenuItemSelected}
+        onSelect={this.handleOnMenuItemSelected}
       >
         {({
           getInputProps,
@@ -58,20 +58,20 @@ export class TypeaheadField extends React.Component<
                 />
               </FieldContainer>
             </Label>
-            <ul {...getMenuProps({ className: "typeahead-field__menu" })}>
+            <ul {...getMenuProps({ className: 'typeahead-field__menu' })}>
               {isOpen
                 ? machSorter(items.slice(), inputValue, {
-                    keys: ["value"]
+                    keys: ['value']
                   }).map((item: IItem, index: number) => (
                     <li
                       {...getItemProps({
                         key: item.value,
                         index,
                         item,
-                        className: classNames("typeahead-field__menu__item", {
-                          "typeahead-field__menu__item--highlighted":
+                        className: classNames('typeahead-field__menu__item', {
+                          'typeahead-field__menu__item--highlighted':
                             highlightedIndex === index,
-                          "typeahead-field__menu__item--selected":
+                          'typeahead-field__menu__item--selected':
                             selectedItem === item
                         })
                       })}
@@ -88,7 +88,7 @@ export class TypeaheadField extends React.Component<
   }
 
   private itemToString = (item: IItem) => {
-    return item ? item.value : "";
+    return item ? item.value : '';
   };
 
   private handleOnMenuItemSelected = (item: IItem) => {

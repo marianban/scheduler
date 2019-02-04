@@ -20,3 +20,10 @@
 .app__right-pane .grid-col-2:first-child .app__right-pane__h {
   margin-top: 0px;
 }
+
+.typeahead__full-name:disabled {
+  background-color: transparent;
+  border: none;
+  font-weight: bold;
+  padding: 0;
+}
