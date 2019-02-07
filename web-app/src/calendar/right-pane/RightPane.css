@@ -21,9 +21,21 @@
   margin-top: 0px;
 }
 
-.typeahead__full-name:disabled {
+.typeahead__full-name {
+  width: auto;
+}
+
+.typeahead__full-name input:disabled {
   background-color: transparent;
   border: none;
   font-weight: bold;
   padding: 0;
+}
+
+.typeahead__full-name .text-box__suffix {
+  right: 0;
+}
+
+.icon__edit-full-name {
+  fill: var(--font-color);
 }

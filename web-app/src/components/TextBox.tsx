@@ -10,11 +10,11 @@ export class TextBox extends React.Component<ITextBoxProps, {}> {
   public render() {
     const { className, suffix, ...rest } = this.props;
     return (
-      <div className="text-box__container">
+      <div className={classNames('text-box__container', className)}>
         <input
           {...rest}
           type="text"
-          className={classNames('text-box', className)}
+          className="text-box"
           onChange={this.handleOnChange}
           onBlur={this.handleOnBlur}
         />

@@ -4,12 +4,12 @@ import { ClientModel, IClientValidationResult } from 'clients/ClientModel';
 import { IClient } from 'clients/IClient';
 import { Button } from 'components/Button';
 import { ButtonBarField, Option } from 'components/ButtonBarField';
-import { ButtonLink } from 'components/ButtonLink';
 import { TextField } from 'components/TextField';
 import { IItem, TypeaheadField } from 'components/TypeaheadField';
 import { ReactComponent as CalendarIcon } from 'icons/calendar-alt-regular.svg';
 import { ReactComponent as ClockIcon } from 'icons/clock-regular.svg';
 import { ReactComponent as CalendarAdd } from 'icons/icon-calendar-add.svg';
+import { ReactComponent as EditIcon } from 'icons/icon-edit.svg';
 import { ReactComponent as RemoveUserIcon } from 'icons/icon-user-remove.svg';
 import { observe } from 'mobx';
 import { inject, observer } from 'mobx-react';
@@ -31,6 +31,7 @@ interface IState {
   client?: ClientModel;
   appointment?: AppointmentModel;
   clientVal: IClientValidationResult;
+  editName: boolean;
 }
 
 const DEFAULT_DURATION: number = 30;
@@ -47,7 +48,8 @@ export class RightPane extends React.Component<IProps, IState> {
       time: '',
       duration: DEFAULT_DURATION
     },
-    clientVal: { isValid: true }
+    clientVal: { isValid: true },
+    editName: false
   };
 
   private subscriptionId?: string;
@@ -80,7 +82,8 @@ export class RightPane extends React.Component<IProps, IState> {
       form: { fullName, phoneNumber, email, date, time, duration },
       client,
       appointment,
-      clientVal
+      clientVal,
+      editName
     } = this.state;
 
     const { clientStore } = this.getRootStore();
@@ -157,7 +160,7 @@ export class RightPane extends React.Component<IProps, IState> {
           title="Full Name"
           name="fn"
           autoComplete="fn"
-          disabled={!!client}
+          disabled={!!client && !editName}
           value={fullName}
           items={!!client ? [] : clientStore.clients}
           isValid={!clientVal.fullName}
@@ -165,6 +168,15 @@ export class RightPane extends React.Component<IProps, IState> {
           onChange={this.handleOnChange}
           onSelected={this.handleOnSelected}
           onBlur={this.handleOnClientNameBlur}
+          suffix={
+            !!client && !editName ? (
+              <button className="btn-icon" onClick={this.editClientName}>
+                <EditIcon height="20" />
+              </button>
+            ) : (
+              undefined
+            )
+          }
         />
         <TextField
           title="Email"
@@ -306,7 +318,8 @@ export class RightPane extends React.Component<IProps, IState> {
             ...this.state.form,
             email: '',
             phoneNumber: ''
-          }
+          },
+          editName: false
         },
         () => {
           this.handleAppointmentOnBlur();
@@ -442,6 +455,12 @@ export class RightPane extends React.Component<IProps, IState> {
         email: appointment.getClientEmail(rootStore),
         phoneNumber: appointment.getClientPhoneNumber(rootStore)
       }
+    });
+  };
+
+  private editClientName = () => {
+    this.setState({
+      editName: true
     });
   };
 
