@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "src",
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -15,10 +15,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
-    "experimentalDecorators": true,
-    "paths": {
-      "*": ["src/*"]
-    }
+    "experimentalDecorators": true
   },
   "files": [
     "node_modules/jest-dom/extend-expect.d.ts",

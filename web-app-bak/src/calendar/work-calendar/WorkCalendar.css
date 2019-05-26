@@ -1,0 +1,130 @@
+.work-calendar__week {
+  display: grid;
+  grid-template-columns: 60px repeat(7, 1fr);
+  grid-template-rows: repeat(17, 5rem);
+  border-radius: 5px;
+  border: 1px solid transparent;
+  position: relative;
+  height: calc(100vh - 200px);
+  overflow: auto;
+}
+
+.work-calendar__week .work-calendar__week__day {
+  border-bottom: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  background-color: #fff;
+  z-index: 0;
+  transition: background-color var(--hover-transition-duration) ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.work-calendar__week .work-calendar__week__day:not(.work-calendar__week__hour) {
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.work-calendar__week .work-calendar__week__day:hover {
+  /* background-color: #f8f8f8; */
+}
+
+.work-calendar__week .work-calendar__week__day--last {
+  border-right: none;
+}
+
+.work-calendar__header {
+  display: grid;
+  grid-template-columns: 60px repeat(7, 1fr);
+  grid-template-rows: repeat(1, 5rem);
+}
+
+.work-calendar__header .work-calendar__week__day__name {
+  color: #969696;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  margin-right: 0.2rem;
+  margin-bottom: 0.5rem;
+  flex-direction: column;
+}
+
+.work-calendar__header .work-calendar__week__day__name--selected {
+  color: var(--color-highlight);
+}
+
+.work-calendar__header .work-calendar__week__day__name .day__number {
+  font-size: 2rem;
+}
+
+.work-calendar__header .work-calendar__week__day__name .day__name {
+  text-transform: uppercase;
+}
+
+.work-calendar__week .work-calendar__week__hour {
+  background-color: transparent;
+  border: none;
+  color: var(--font-color-secondary);
+}
+
+.work-calendar__week .appointment {
+  border-bottom: transparent;
+  /*
+  grid-column: 3 / span 1;
+  grid-row: 9 / span 3;
+  */
+  position: absolute;
+  width: calc(100% + 1px);
+  height: calc(100% + 1px);
+  border: 1px solid var(--border-color);
+  background-color: hsl(251, 49%, 97%);
+  /* background-color: hsl(36, 84%, 90%); */
+  margin-top: -1px;
+  margin-left: -1px;
+  font-size: 1.2rem;
+  line-height: 1.5rem;
+  padding: 0.3rem;
+  cursor: pointer;
+  transition: background-color var(--hover-transition-duration) ease-in-out;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.work-calendar__week .appointment:hover {
+  /* without this the drag functionality does not work properly (part of neighborhood cells is dragged as well)
+     on the other hand it breaks popover behavior (shown under cell in some cases). setting z-index on hover fixes both */
+  z-index: 1;
+}
+
+.work-calendar__week .appointment.appointment--selected {
+  /* background-color: hsl(36, 84%, 74%); */
+  border-color: var(--color-highlight);
+  background-color: #fbedd2;
+  /* box-shadow: inset 0 1px 0 hsl(39, 84%, 74%), 0 1px 3px hsla(0, 0%, 0%, 0.2); */
+  border-width: 3px;
+}
+
+.work-calendar__week .appointment.appointment--selected:hover {
+  /* background-color: hsl(36, 84%, 74%); */
+  border-color: var(--color-highlight);
+}
+
+.work-calendar__week .appointment:hover {
+  /* border-color: var(--color-highlight); */
+  background-color: #fbedd2;
+}
+
+.appointment__icon {
+  transition: opacity 250ms ease-in-out;
+  opacity: 0;
+}
+
+.work-calendar__week .work-calendar__week__day:hover .appointment__icon {
+  opacity: 0.3;
+}
+
+.work-calendar__week .work-calendar__week__day:hover .appointment__icon:hover {
+  opacity: 1;
+}

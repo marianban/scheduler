@@ -1,0 +1,63 @@
+.btn {
+  background: var(--color-primary);
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  border-radius: var(--control-border-radius);
+  height: var(--control-height);
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+  transition: background-color var(--hover-transition-duration) ease-in-out;
+}
+
+.btn:hover {
+  background-color: #5db4f2;
+}
+
+.btn--secondary {
+  background-color: transparent;
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  font-weight: 300;
+}
+
+.btn--secondary:hover {
+  background-color: var(--color-bg-secondary);
+}
+
+.btn--secondary:disabled {
+  border-color: var(--control-disabled);
+  color: var(--control-disabled);
+}
+
+.btn--secondary:disabled:hover {
+  background-color: transparent;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  outline: none;
+  width: auto;
+  height: auto;
+  display: inline-block;
+  justify-self: flex-end;
+  border-radius: 100%;
+  background-color: hsl(0, 0%, 95%);
+  height: 40px;
+  width: 40px;
+  transition: background-color var(--hover-transition-duration) ease-in-out;
+}
+
+.btn-icon:disabled {
+  opacity: 0.5;
+}
+
+.btn-icon:hover:not(:disabled) {
+  background-color: hsl(0, 0%, 90%);
+}
+
+.btn-icon svg {
+  fill: var(--font-color);
+}

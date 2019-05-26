@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`cant't create clients with duplicate ids 1`] = `"cannot create client with duplicate id"`;

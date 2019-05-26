@@ -10,9 +10,7 @@ it('date fns parse example', () => {
 it('should create date with specified precision', () => {
   const date = new Date(2018, 4, 10, 12, 12, 20, 300);
   const preciseDate = toPrecision(date, 'days');
-  expect(preciseDate.toLocaleString()).toMatchInlineSnapshot(
-    `"2018-5-10 00:00:00"`
-  );
+  expect(preciseDate.getTime()).toMatchInlineSnapshot(`1525903200000`);
 });
 
 const expectDate = (date: Date, day: number, month: number, year: number) => {

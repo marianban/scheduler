@@ -1,0 +1,45 @@
+.client-photo {
+  width: 50px;
+  border-radius: 50%;
+}
+
+.client-photo-container {
+  position: relative;
+  margin: 5px;
+}
+
+.client-photo-container::after {
+  content: '';
+  display: block;
+  position: absolute;
+  box-shadow: inset 0 0 8px 0px rgba(0, 0, 0, 0.5);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  top: 0;
+}
+
+.client-icon {
+  margin: 5px;
+  height: 1.5rem;
+}
+
+.client-icon path {
+  fill: var(--font-color);
+}
+
+.client-details {
+  margin-left: auto;
+  display: flex;
+}
+
+.client-detail {
+  display: flex;
+  align-items: center;
+  margin-left: 2rem;
+}
+
+.client-full-name {
+  font-size: 1.5rem;
+  margin-left: 2rem;
+}
