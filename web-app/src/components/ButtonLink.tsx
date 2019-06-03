@@ -19,7 +19,7 @@ export class ButtonLink extends React.Component<IProps, {}> {
     return (
       <a
         {...rest}
-        href=""
+        href="#"
         role="button"
         className={classNames(className, {
           'btn-link--disabled': disabled

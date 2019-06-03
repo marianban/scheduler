@@ -29,3 +29,5 @@ window.addEventListener('popstate', () => {
     NProgress.done();
   }, 250);
 });
+
+serviceWorker.unregister();

@@ -1,15 +1,15 @@
-import format from "date-fns/format";
-import parse from "date-fns/parse";
+import format from 'date-fns/format';
+import parse from 'date-fns/parse';
 
 type Precision =
-  | "milliseconds"
-  | "seconds"
-  | "minutes"
-  | "hours"
-  | "days"
-  | "days"
-  | "month"
-  | "year";
+  | 'milliseconds'
+  | 'seconds'
+  | 'minutes'
+  | 'hours'
+  | 'days'
+  | 'days'
+  | 'month'
+  | 'year';
 
 const getArg = (args: number[], index: number) => args[index] || 0;
 
@@ -46,18 +46,18 @@ export const toPrecision = (date: Date, precision: Precision) => {
 };
 
 export const parseDate = (value: string, baseDate: Date = new Date()) => {
-  const matches = value.match(/(\d+)[\.\-\/]?(\d*)[\.\-\/]?(\d*)/);
+  const matches = value.match(/(\d+)[.\-/]?(\d*)[.\-/]?(\d*)/);
   if (!matches) {
     throw new Error(`Unable to parse date: ${value}`);
   }
   const [day, month, year] = matches.slice(1);
-  const date = `${day}${month && "."}${month}${year && "."}${year}`;
-  const pattern = `dd${month && ".MM"}${year && ".yyyy"}`;
-  return parse(date, pattern, toPrecision(baseDate, "days"));
+  const date = `${day}${month && '.'}${month}${year && '.'}${year}`;
+  const pattern = `dd${month && '.MM'}${year && '.yyyy'}`;
+  return parse(date, pattern, toPrecision(baseDate, 'days'));
 };
 
 export const normalizeDate = (value: string, baseDate: Date) => {
-  return format(parseDate(value, baseDate), "d/M/yyyy");
+  return format(parseDate(value, baseDate), 'd/M/yyyy');
 };
 
 export const normalizeTime = (value: string) => {
@@ -66,5 +66,5 @@ export const normalizeTime = (value: string) => {
     throw new Error(`Unable to parse time: ${value}`);
   }
   const [hour, minute] = matches.slice(1);
-  return `${hour}:${minute || "00"}`;
+  return `${hour}:${minute || '00'}`;
 };

@@ -51,13 +51,13 @@ export class ClientList extends React.Component<IClientListProps, {}> {
         onClick={this.selectClient}
       >
         <div className="client-photo-container">
-          <img className="client-photo" src={imgSrc} />
+          <img className="client-photo" src={imgSrc} alt={fullName} />
         </div>
         <span className="client-full-name">{fullName}</span>
         <div className="client-details">
           <div className="client-detail">
             <CalendarIcon className="client-icon" />
-            <a href="">Tomorrow at 11:00</a>
+            <a href="#">Tomorrow at 11:00</a>
           </div>
           <div className="client-detail">
             <MobileIcon className="client-icon" />
