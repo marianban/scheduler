@@ -1,0 +1,10 @@
+{
+    "AppSyncApiName": "salonsy",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authsalonsy907bb107",
+            "Outputs.UserPoolId"
+        ]
+    }
+}

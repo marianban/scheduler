@@ -1,0 +1,21 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "salonsy-dev-20190604194656-authRole",
+            "UnauthRoleArn": "arn:aws:iam::482339376943:role/salonsy-dev-20190604194656-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::482339376943:role/salonsy-dev-20190604194656-authRole",
+            "Region": "eu-central-1",
+            "DeploymentBucketName": "salonsy-dev-20190604194656-deployment",
+            "UnauthRoleName": "salonsy-dev-20190604194656-unauthRole",
+            "StackName": "salonsy-dev-20190604194656",
+            "StackId": "arn:aws:cloudformation:eu-central-1:482339376943:stack/salonsy-dev-20190604194656/bf3f23d0-86f0-11e9-9a51-0ac7c3b3e9ea"
+        },
+        "categories": {
+            "auth": {
+                "salonsy907bb107": {
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"463146397853469\",\"client_secret\":\"ad47f57dba14944c7b555210b07797a4\"}]"
+                }
+            }
+        }
+    }
+}

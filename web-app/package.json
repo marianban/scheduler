@@ -3,17 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1",
+    "aws-amplify": "^1.1.28",
     "classnames": "^2.2.6",
     "date-fns": "^2.0.0-alpha.16",
     "downshift": "3.1.10",
+    "match-sorter": "^2.3.0",
     "mobx": "^5.8.0",
     "mobx-react": "^5.4.3",
     "nprogress": "^0.2.0",
-    "uuid": "^3.3.2",
-    "match-sorter": "^2.3.0"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-scripts": "3.0.1",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.6",
