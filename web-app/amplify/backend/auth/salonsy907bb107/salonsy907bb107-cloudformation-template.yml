@@ -144,7 +144,13 @@ Parameters:
             
   hostedUIProviderCreds:
     Type: String
+              
+  addCallbackOnUpdate:
+    Type: String
             
+  addLogoutOnUpdate:
+    Type: String
+          
   oAuthMetadata:
     Type: String
           

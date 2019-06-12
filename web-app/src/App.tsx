@@ -5,10 +5,9 @@ import './App.css';
 import Header from './header/Header';
 import { RootStore } from './RootStore';
 import { Routes } from './Routes';
-import { awsmobile } from './aws-exports';
-import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib/types';
+import * as awsmobile from './aws-exports.js';
 
-Amplify.configure(awsmobile);
+Amplify.configure((awsmobile as any).default);
 
 const DevTools = lazy(() =>
   process.env.NODE_ENV === 'production'
@@ -22,55 +21,41 @@ interface IAppProps {
   path: string;
 }
 
-class App extends React.Component<IAppProps, {}> {
+interface IAppState {
+  user: any;
+}
+
+class App extends React.Component<IAppProps, IAppState> {
   state = { user: null };
 
   componentDidMount() {
     Hub.listen('auth', ({ payload: { event, data } }) => {
       switch (event) {
         case 'signIn':
-          this.setState({ user: data });
+          Auth.currentAuthenticatedUser()
+            .then(user => this.setState({ user }))
+            .catch(() => console.log('Not signed in'));
           break;
         case 'signOut':
           this.setState({ user: null });
           break;
       }
     });
-
-    Auth.currentAuthenticatedUser()
-      .then(user => this.setState({ user }))
-      .catch(() => console.log('Not signed in'));
   }
 
   public render() {
     const { user } = this.state;
     const { path } = this.props;
     return (
-      <>
-        {user ? (
-          <Provider rootStore={rootStore}>
-            <div className="app">
-              <Header path={path} />
-              <Routes path={path} />
-              <Suspense fallback={null}>
-                <DevTools />
-              </Suspense>
-            </div>
-          </Provider>
-        ) : (
-          <div>
-            <button
-              onClick={() =>
-                Auth.federatedSignIn({
-                  provider: CognitoHostedUIIdentityProvider.Facebook
-                })
-              }
-            >
-              Open Facebook
-            </button>
-          </div>
-        )}
-      </>
+      <Provider rootStore={rootStore}>
+        <div className="app">
+          <Header path={path} user={user} />
+          <Routes path={path} />
+          <Suspense fallback={null}>
+            <DevTools />
+          </Suspense>
+        </div>
+      </Provider>
     );
   }
 }

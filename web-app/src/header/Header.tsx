@@ -1,43 +1,83 @@
 import classNames from 'classnames';
 import { Link } from 'components/Link';
 import { TextBox } from 'components/TextBox';
-import React from 'react';
+import React, { useState } from 'react';
+import { Auth } from 'aws-amplify';
+import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib/types';
 import { ReactComponent as BellIcon } from './bell-regular.svg';
 import './Header.css';
 import { ReactComponent as SearchIcon } from './search-solid.svg';
+import { ReactComponent as CheveronDownIcon } from 'icons/icon-cheveron-down.svg';
+import { ReactComponent as CalendarAltIcon } from 'icons/calendar-alt-regular.svg';
+import { ReactComponent as SmileIcon } from 'icons/smile-regular.svg';
 
 interface IHeaderProps {
   path: string;
+  user: any;
 }
 
-const Header = ({ path }: IHeaderProps) => (
-  <header className="app__header">
-    <nav className="header__nav">
-      <Link
-        href="/"
-        title="Calendar"
-        className={classNames('header__nav__calendar', {
-          'header__nav__item--active': path === '/'
-        })}
-      >
-        Calendar
-      </Link>
-      <Link
-        href="/clients"
-        title="Clients"
-        className={classNames('header__nav__clients', {
-          'header__nav__item--active': path === '/clients'
-        })}
-      >
-        Clients
-      </Link>
-    </nav>
-    <div className="header__utils">
-      <TextBox suffix={<SearchIcon className="appointment__calendar-icon" />} />
-      <BellIcon />
-      <div className="dropdown">Majo</div>
-    </div>
-  </header>
-);
+const Header = ({ path, user }: IHeaderProps) => {
+  const [showDropDown, setShowDropDown] = useState(false);
+  console.log(user);
+  return (
+    <header className="app__header">
+      <nav className="header__nav">
+        <Link
+          href="/"
+          title="Calendar"
+          className={classNames('header__nav__calendar', {
+            'header__nav__item--active': path === '/'
+          })}
+        >
+          <CalendarAltIcon height="15px" /> Calendar
+        </Link>
+        <Link
+          href="/clients"
+          title="Clients"
+          className={classNames('header__nav__clients', {
+            'header__nav__item--active': path === '/clients'
+          })}
+        >
+          <SmileIcon height="15px" /> Clients
+        </Link>
+      </nav>
+      <div className="header__utils">
+        {user ? (
+          <>
+            <TextBox
+              suffix={<SearchIcon className="appointment__calendar-icon" />}
+            />
+            <BellIcon />
+            <img
+              src="https://graph.facebook.com/v3.3/10217047963143391/picture"
+              className="user__picture"
+            />
+            <div
+              className="dropdown"
+              onClick={() => setShowDropDown(!showDropDown)}
+            >
+              {user.attributes.name} <CheveronDownIcon height="30" />
+              {showDropDown && (
+                <ul className="dropdown__menu">
+                  <li onClick={() => Auth.signOut()}>Sign Out</li>
+                </ul>
+              )}
+            </div>
+          </>
+        ) : (
+          <button
+            onClick={() =>
+              Auth.federatedSignIn({
+                provider: CognitoHostedUIIdentityProvider.Facebook
+              })
+            }
+          >
+            Sign In
+          </button>
+        )}
+      </div>
+    </header>
+  );
+};
 
 export default Header;

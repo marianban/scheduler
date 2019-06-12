@@ -12,9 +12,13 @@
   align-items: center;
 }
 
+.header__nav svg {
+  margin-right: 0.5rem;
+}
+
 .header__nav > a {
+  color: #fff;
   text-decoration: none;
-  color: white;
   display: flex;
   align-items: center;
   margin-right: 2rem;
@@ -27,6 +31,7 @@
   background-color: rgba(0, 0, 0, 0.1);
 }
 
+/*
 .header__nav > a::before {
   content: '';
   background-repeat: no-repeat;
@@ -34,11 +39,13 @@
   height: 20px;
   margin-right: 0.3rem;
 }
+*/
 
+/*
 .header__nav__calendar::before {
   background-image: url(/icons/calendar-alt-regular.svg);
 }
-
+*/
 .header__nav__clients::before {
   background-image: url(/icons/smile-regular.svg);
 }
@@ -48,8 +55,16 @@
 }
 
 .header__nav__item--active {
-  background-color: var(--color-highlight);
+  background-color: #fff;
   font-weight: 600;
+}
+
+.header__nav__item--active path {
+  fill: var(--font-color);
+}
+
+a.header__nav__item--active {
+  color: var(--font-color);
 }
 
 .header__utils {
@@ -71,9 +86,68 @@
 
 .app__header .text-box__container {
   width: 200px;
+  display: none;
+  /* TODO: implement search box */
 }
 
 .app__header .text-box:focus {
   background-color: #fff;
   box-shadow: none;
+}
+
+.dropdown {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  border-radius: 10px;
+  padding-left: 1rem;
+  margin-left: -1rem;
+}
+
+.dropdown:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.dropdown__menu {
+  position: absolute;
+  top: 3rem;
+  z-index: var(--layer-popover-menu);
+  background-color: #fff;
+  color: var(--font-color);
+  padding: 1rem 0;
+  width: 100%;
+  border-radius: 3px;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+  cursor: default;
+}
+
+.dropdown__menu li {
+  padding: 0 1rem;
+  line-height: 2rem;
+  animation-duration: var(--hover-transition-duration);
+  animation-name: show;
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.dropdown__menu li:hover {
+  background-color: var(--color-primary);
+  cursor: pointer;
+  color: #fff;
+}
+
+.user__picture {
+  border-radius: 50%;
+  height: 30px;
+  box-shadow: inset 0 2px 4px 0 hsla(0, 0%, 0%, 0.2);
 }
