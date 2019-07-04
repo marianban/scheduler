@@ -10,6 +10,7 @@ import { ReactComponent as SearchIcon } from './search-solid.svg';
 import { ReactComponent as CheveronDownIcon } from 'icons/icon-cheveron-down.svg';
 import { ReactComponent as CalendarAltIcon } from 'icons/calendar-alt-regular.svg';
 import { ReactComponent as SmileIcon } from 'icons/smile-regular.svg';
+import { DropDownButton } from 'components/DropdownButton';
 
 interface IHeaderProps {
   path: string;
@@ -18,7 +19,6 @@ interface IHeaderProps {
 
 const Header = ({ path, user }: IHeaderProps) => {
   const [showDropDown, setShowDropDown] = useState(false);
-  console.log(user);
   return (
     <header className="app__header">
       <nav className="header__nav">
@@ -51,12 +51,23 @@ const Header = ({ path, user }: IHeaderProps) => {
             <img
               src="https://graph.facebook.com/v3.3/10217047963143391/picture"
               className="user__picture"
+              alt={user.attributes.name}
             />
+            <DropDownButton
+              text={
+                <>
+                  {user.attributes.name} <CheveronDownIcon height="30" />
+                </>
+              }
+            >
+              <DropDownButton.Item onClick={() => Auth.signOut()}>
+                <>Sign Out</>
+              </DropDownButton.Item>
+            </DropDownButton>
             <div
               className="dropdown"
               onClick={() => setShowDropDown(!showDropDown)}
             >
-              {user.attributes.name} <CheveronDownIcon height="30" />
               {showDropDown && (
                 <ul className="dropdown__menu">
                   <li onClick={() => Auth.signOut()}>Sign Out</li>

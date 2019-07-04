@@ -17,18 +17,16 @@ export class ButtonLink extends React.Component<IProps, {}> {
   public render() {
     const { className, children, disabled, ...rest } = this.props;
     return (
-      <a
+      <button
         {...rest}
-        href="#"
-        role="button"
-        className={classNames(className, {
+        className={classNames('btn-link', className, {
           'btn-link--disabled': disabled
         })}
         aria-disabled={disabled}
         onClick={this.handleOnClick}
       >
         {children}
-      </a>
+      </button>
     );
   }
 

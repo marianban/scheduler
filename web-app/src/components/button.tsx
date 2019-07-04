@@ -11,7 +11,7 @@ export const Button = ({
   className,
   children,
   ...rest
-}: IProps & React.HTMLProps<HTMLButtonElement>) => (
+}: IProps & React.HTMLAttributes<HTMLButtonElement>) => (
   <button className={classNames('btn', className)} {...rest}>
     {children}
   </button>

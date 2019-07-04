@@ -57,7 +57,7 @@ export class ClientList extends React.Component<IClientListProps, {}> {
         <div className="client-details">
           <div className="client-detail">
             <CalendarIcon className="client-icon" />
-            <a href="#">Tomorrow at 11:00</a>
+            <a href="link/#">Tomorrow at 11:00</a>
           </div>
           <div className="client-detail">
             <MobileIcon className="client-icon" />
