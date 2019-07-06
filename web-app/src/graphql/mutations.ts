@@ -1,51 +1,123 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
-export const createTask = `mutation CreateTask($input: CreateTaskInput!) {
-  createTask(input: $input) {
+export const createUser = `mutation CreateUser($input: CreateUserInput!) {
+  createUser(input: $input) {
     id
-    title
-    description
-    status
+    username
+    email
+    phone
+    createdAt
+    role
+    facility {
+      id
+      name
+      createdAt
+      owner
+    }
+    owner
   }
 }
 `;
-export const updateTask = `mutation UpdateTask($input: UpdateTaskInput!) {
-  updateTask(input: $input) {
+export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
+  updateUser(input: $input) {
     id
-    title
-    description
-    status
+    username
+    email
+    phone
+    createdAt
+    role
+    facility {
+      id
+      name
+      createdAt
+      owner
+    }
+    owner
   }
 }
 `;
-export const deleteTask = `mutation DeleteTask($input: DeleteTaskInput!) {
-  deleteTask(input: $input) {
+export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
+  deleteUser(input: $input) {
     id
-    title
-    description
-    status
+    username
+    email
+    phone
+    createdAt
+    role
+    facility {
+      id
+      name
+      createdAt
+      owner
+    }
+    owner
   }
 }
 `;
-export const createPrivateNote = `mutation CreatePrivateNote($input: CreatePrivateNoteInput!) {
-  createPrivateNote(input: $input) {
+export const createFacility = `mutation CreateFacility($input: CreateFacilityInput!) {
+  createFacility(input: $input) {
     id
-    content
+    name
+    createdAt
+    owner
   }
 }
 `;
-export const updatePrivateNote = `mutation UpdatePrivateNote($input: UpdatePrivateNoteInput!) {
-  updatePrivateNote(input: $input) {
+export const updateFacility = `mutation UpdateFacility($input: UpdateFacilityInput!) {
+  updateFacility(input: $input) {
     id
-    content
+    name
+    createdAt
+    owner
   }
 }
 `;
-export const deletePrivateNote = `mutation DeletePrivateNote($input: DeletePrivateNoteInput!) {
-  deletePrivateNote(input: $input) {
+export const deleteFacility = `mutation DeleteFacility($input: DeleteFacilityInput!) {
+  deleteFacility(input: $input) {
     id
-    content
+    name
+    createdAt
+    owner
+  }
+}
+`;
+export const createAppointment = `mutation CreateAppointment($input: CreateAppointmentInput!) {
+  createAppointment(input: $input) {
+    id
+    createdAt
+    owner
+    acceptedBy
+    facilityId
+    date
+    time
+    duration
+  }
+}
+`;
+export const updateAppointment = `mutation UpdateAppointment($input: UpdateAppointmentInput!) {
+  updateAppointment(input: $input) {
+    id
+    createdAt
+    owner
+    acceptedBy
+    facilityId
+    date
+    time
+    duration
+  }
+}
+`;
+export const deleteAppointment = `mutation DeleteAppointment($input: DeleteAppointmentInput!) {
+  deleteAppointment(input: $input) {
+    id
+    createdAt
+    owner
+    acceptedBy
+    facilityId
+    date
+    time
+    duration
   }
 }
 `;

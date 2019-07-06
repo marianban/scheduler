@@ -1,46 +1,95 @@
 /* tslint:disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateTaskInput = {
+export type CreateUserInput = {
   id?: string | null,
-  title: string,
-  description?: string | null,
-  status?: string | null,
+  username: string,
+  email: string,
+  phone?: string | null,
+  createdAt: string,
+  role: UserRole,
+  owner?: string | null,
+  userFacilityId?: string | null,
 };
 
-export type UpdateTaskInput = {
+export enum UserRole {
+  admin = "admin",
+  owner = "owner",
+  employee = "employee",
+  customer = "customer",
+}
+
+
+export type UpdateUserInput = {
   id: string,
-  title?: string | null,
-  description?: string | null,
-  status?: string | null,
+  username?: string | null,
+  email?: string | null,
+  phone?: string | null,
+  createdAt?: string | null,
+  role?: UserRole | null,
+  owner?: string | null,
+  userFacilityId?: string | null,
 };
 
-export type DeleteTaskInput = {
+export type DeleteUserInput = {
   id?: string | null,
 };
 
-export type CreatePrivateNoteInput = {
+export type CreateFacilityInput = {
   id?: string | null,
-  content: string,
+  name: string,
+  createdAt: string,
+  owner?: string | null,
 };
 
-export type UpdatePrivateNoteInput = {
+export type UpdateFacilityInput = {
   id: string,
-  content?: string | null,
+  name?: string | null,
+  createdAt?: string | null,
+  owner?: string | null,
 };
 
-export type DeletePrivateNoteInput = {
+export type DeleteFacilityInput = {
   id?: string | null,
 };
 
-export type ModelTaskFilterInput = {
+export type CreateAppointmentInput = {
+  id?: string | null,
+  createdAt: string,
+  owner?: string | null,
+  acceptedBy?: string | null,
+  facilityId: string,
+  date: string,
+  time: string,
+  duration: number,
+};
+
+export type UpdateAppointmentInput = {
+  id: string,
+  createdAt?: string | null,
+  owner?: string | null,
+  acceptedBy?: string | null,
+  facilityId?: string | null,
+  date?: string | null,
+  time?: string | null,
+  duration?: number | null,
+};
+
+export type DeleteAppointmentInput = {
+  id?: string | null,
+};
+
+export type ModelUserFilterInput = {
   id?: ModelIDFilterInput | null,
-  title?: ModelStringFilterInput | null,
-  description?: ModelStringFilterInput | null,
-  status?: ModelStringFilterInput | null,
-  and?: Array< ModelTaskFilterInput | null > | null,
-  or?: Array< ModelTaskFilterInput | null > | null,
-  not?: ModelTaskFilterInput | null,
+  username?: ModelStringFilterInput | null,
+  email?: ModelStringFilterInput | null,
+  phone?: ModelStringFilterInput | null,
+  createdAt?: ModelStringFilterInput | null,
+  role?: ModelUserRoleFilterInput | null,
+  owner?: ModelStringFilterInput | null,
+  and?: Array< ModelUserFilterInput | null > | null,
+  or?: Array< ModelUserFilterInput | null > | null,
+  not?: ModelUserFilterInput | null,
 };
 
 export type ModelIDFilterInput = {
@@ -69,206 +118,473 @@ export type ModelStringFilterInput = {
   beginsWith?: string | null,
 };
 
-export type ModelPrivateNoteFilterInput = {
+export type ModelUserRoleFilterInput = {
+  eq?: UserRole | null,
+  ne?: UserRole | null,
+};
+
+export type ModelFacilityFilterInput = {
   id?: ModelIDFilterInput | null,
-  content?: ModelStringFilterInput | null,
-  and?: Array< ModelPrivateNoteFilterInput | null > | null,
-  or?: Array< ModelPrivateNoteFilterInput | null > | null,
-  not?: ModelPrivateNoteFilterInput | null,
+  name?: ModelStringFilterInput | null,
+  createdAt?: ModelStringFilterInput | null,
+  owner?: ModelStringFilterInput | null,
+  and?: Array< ModelFacilityFilterInput | null > | null,
+  or?: Array< ModelFacilityFilterInput | null > | null,
+  not?: ModelFacilityFilterInput | null,
 };
 
-export type CreateTaskMutationVariables = {
-  input: CreateTaskInput,
+export type ModelAppointmentFilterInput = {
+  id?: ModelIDFilterInput | null,
+  createdAt?: ModelStringFilterInput | null,
+  owner?: ModelStringFilterInput | null,
+  acceptedBy?: ModelStringFilterInput | null,
+  facilityId?: ModelIDFilterInput | null,
+  date?: ModelStringFilterInput | null,
+  time?: ModelStringFilterInput | null,
+  duration?: ModelIntFilterInput | null,
+  and?: Array< ModelAppointmentFilterInput | null > | null,
+  or?: Array< ModelAppointmentFilterInput | null > | null,
+  not?: ModelAppointmentFilterInput | null,
 };
 
-export type CreateTaskMutation = {
-  createTask:  {
-    __typename: "Task",
+export type ModelIntFilterInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  contains?: number | null,
+  notContains?: number | null,
+  between?: Array< number | null > | null,
+};
+
+export type CreateUserMutationVariables = {
+  input: CreateUserInput,
+};
+
+export type CreateUserMutation = {
+  createUser:  {
+    __typename: "User",
     id: string,
-    title: string,
-    description: string | null,
-    status: string | null,
+    username: string,
+    email: string,
+    phone: string | null,
+    createdAt: string,
+    role: UserRole,
+    facility:  {
+      __typename: "Facility",
+      id: string,
+      name: string,
+      createdAt: string,
+      owner: string | null,
+    } | null,
+    owner: string | null,
   } | null,
 };
 
-export type UpdateTaskMutationVariables = {
-  input: UpdateTaskInput,
+export type UpdateUserMutationVariables = {
+  input: UpdateUserInput,
 };
 
-export type UpdateTaskMutation = {
-  updateTask:  {
-    __typename: "Task",
+export type UpdateUserMutation = {
+  updateUser:  {
+    __typename: "User",
     id: string,
-    title: string,
-    description: string | null,
-    status: string | null,
+    username: string,
+    email: string,
+    phone: string | null,
+    createdAt: string,
+    role: UserRole,
+    facility:  {
+      __typename: "Facility",
+      id: string,
+      name: string,
+      createdAt: string,
+      owner: string | null,
+    } | null,
+    owner: string | null,
   } | null,
 };
 
-export type DeleteTaskMutationVariables = {
-  input: DeleteTaskInput,
+export type DeleteUserMutationVariables = {
+  input: DeleteUserInput,
 };
 
-export type DeleteTaskMutation = {
-  deleteTask:  {
-    __typename: "Task",
+export type DeleteUserMutation = {
+  deleteUser:  {
+    __typename: "User",
     id: string,
-    title: string,
-    description: string | null,
-    status: string | null,
+    username: string,
+    email: string,
+    phone: string | null,
+    createdAt: string,
+    role: UserRole,
+    facility:  {
+      __typename: "Facility",
+      id: string,
+      name: string,
+      createdAt: string,
+      owner: string | null,
+    } | null,
+    owner: string | null,
   } | null,
 };
 
-export type CreatePrivateNoteMutationVariables = {
-  input: CreatePrivateNoteInput,
+export type CreateFacilityMutationVariables = {
+  input: CreateFacilityInput,
 };
 
-export type CreatePrivateNoteMutation = {
-  createPrivateNote:  {
-    __typename: "PrivateNote",
+export type CreateFacilityMutation = {
+  createFacility:  {
+    __typename: "Facility",
     id: string,
-    content: string,
+    name: string,
+    createdAt: string,
+    owner: string | null,
   } | null,
 };
 
-export type UpdatePrivateNoteMutationVariables = {
-  input: UpdatePrivateNoteInput,
+export type UpdateFacilityMutationVariables = {
+  input: UpdateFacilityInput,
 };
 
-export type UpdatePrivateNoteMutation = {
-  updatePrivateNote:  {
-    __typename: "PrivateNote",
+export type UpdateFacilityMutation = {
+  updateFacility:  {
+    __typename: "Facility",
     id: string,
-    content: string,
+    name: string,
+    createdAt: string,
+    owner: string | null,
   } | null,
 };
 
-export type DeletePrivateNoteMutationVariables = {
-  input: DeletePrivateNoteInput,
+export type DeleteFacilityMutationVariables = {
+  input: DeleteFacilityInput,
 };
 
-export type DeletePrivateNoteMutation = {
-  deletePrivateNote:  {
-    __typename: "PrivateNote",
+export type DeleteFacilityMutation = {
+  deleteFacility:  {
+    __typename: "Facility",
     id: string,
-    content: string,
+    name: string,
+    createdAt: string,
+    owner: string | null,
   } | null,
 };
 
-export type GetTaskQueryVariables = {
+export type CreateAppointmentMutationVariables = {
+  input: CreateAppointmentInput,
+};
+
+export type CreateAppointmentMutation = {
+  createAppointment:  {
+    __typename: "Appointment",
+    id: string,
+    createdAt: string,
+    owner: string | null,
+    acceptedBy: string | null,
+    facilityId: string,
+    date: string,
+    time: string,
+    duration: number,
+  } | null,
+};
+
+export type UpdateAppointmentMutationVariables = {
+  input: UpdateAppointmentInput,
+};
+
+export type UpdateAppointmentMutation = {
+  updateAppointment:  {
+    __typename: "Appointment",
+    id: string,
+    createdAt: string,
+    owner: string | null,
+    acceptedBy: string | null,
+    facilityId: string,
+    date: string,
+    time: string,
+    duration: number,
+  } | null,
+};
+
+export type DeleteAppointmentMutationVariables = {
+  input: DeleteAppointmentInput,
+};
+
+export type DeleteAppointmentMutation = {
+  deleteAppointment:  {
+    __typename: "Appointment",
+    id: string,
+    createdAt: string,
+    owner: string | null,
+    acceptedBy: string | null,
+    facilityId: string,
+    date: string,
+    time: string,
+    duration: number,
+  } | null,
+};
+
+export type GetUserQueryVariables = {
   id: string,
 };
 
-export type GetTaskQuery = {
-  getTask:  {
-    __typename: "Task",
+export type GetUserQuery = {
+  getUser:  {
+    __typename: "User",
     id: string,
-    title: string,
-    description: string | null,
-    status: string | null,
+    username: string,
+    email: string,
+    phone: string | null,
+    createdAt: string,
+    role: UserRole,
+    facility:  {
+      __typename: "Facility",
+      id: string,
+      name: string,
+      createdAt: string,
+      owner: string | null,
+    } | null,
+    owner: string | null,
   } | null,
 };
 
-export type ListTasksQueryVariables = {
-  filter?: ModelTaskFilterInput | null,
+export type ListUsersQueryVariables = {
+  filter?: ModelUserFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListTasksQuery = {
-  listTasks:  {
-    __typename: "ModelTaskConnection",
+export type ListUsersQuery = {
+  listUsers:  {
+    __typename: "ModelUserConnection",
     items:  Array< {
-      __typename: "Task",
+      __typename: "User",
       id: string,
-      title: string,
-      description: string | null,
-      status: string | null,
+      username: string,
+      email: string,
+      phone: string | null,
+      createdAt: string,
+      role: UserRole,
+      facility:  {
+        __typename: "Facility",
+        id: string,
+        name: string,
+        createdAt: string,
+        owner: string | null,
+      } | null,
+      owner: string | null,
     } | null > | null,
     nextToken: string | null,
   } | null,
 };
 
-export type GetPrivateNoteQueryVariables = {
+export type GetFacilityQueryVariables = {
   id: string,
 };
 
-export type GetPrivateNoteQuery = {
-  getPrivateNote:  {
-    __typename: "PrivateNote",
+export type GetFacilityQuery = {
+  getFacility:  {
+    __typename: "Facility",
     id: string,
-    content: string,
+    name: string,
+    createdAt: string,
+    owner: string | null,
   } | null,
 };
 
-export type ListPrivateNotesQueryVariables = {
-  filter?: ModelPrivateNoteFilterInput | null,
+export type ListFacilitysQueryVariables = {
+  filter?: ModelFacilityFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListPrivateNotesQuery = {
-  listPrivateNotes:  {
-    __typename: "ModelPrivateNoteConnection",
+export type ListFacilitysQuery = {
+  listFacilitys:  {
+    __typename: "ModelFacilityConnection",
     items:  Array< {
-      __typename: "PrivateNote",
+      __typename: "Facility",
       id: string,
-      content: string,
+      name: string,
+      createdAt: string,
+      owner: string | null,
     } | null > | null,
     nextToken: string | null,
   } | null,
 };
 
-export type OnCreateTaskSubscription = {
-  onCreateTask:  {
-    __typename: "Task",
+export type GetAppointmentQueryVariables = {
+  id: string,
+};
+
+export type GetAppointmentQuery = {
+  getAppointment:  {
+    __typename: "Appointment",
     id: string,
-    title: string,
-    description: string | null,
-    status: string | null,
+    createdAt: string,
+    owner: string | null,
+    acceptedBy: string | null,
+    facilityId: string,
+    date: string,
+    time: string,
+    duration: number,
   } | null,
 };
 
-export type OnUpdateTaskSubscription = {
-  onUpdateTask:  {
-    __typename: "Task",
-    id: string,
-    title: string,
-    description: string | null,
-    status: string | null,
+export type ListAppointmentsQueryVariables = {
+  filter?: ModelAppointmentFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListAppointmentsQuery = {
+  listAppointments:  {
+    __typename: "ModelAppointmentConnection",
+    items:  Array< {
+      __typename: "Appointment",
+      id: string,
+      createdAt: string,
+      owner: string | null,
+      acceptedBy: string | null,
+      facilityId: string,
+      date: string,
+      time: string,
+      duration: number,
+    } | null > | null,
+    nextToken: string | null,
   } | null,
 };
 
-export type OnDeleteTaskSubscription = {
-  onDeleteTask:  {
-    __typename: "Task",
+export type OnCreateUserSubscription = {
+  onCreateUser:  {
+    __typename: "User",
     id: string,
-    title: string,
-    description: string | null,
-    status: string | null,
+    username: string,
+    email: string,
+    phone: string | null,
+    createdAt: string,
+    role: UserRole,
+    facility:  {
+      __typename: "Facility",
+      id: string,
+      name: string,
+      createdAt: string,
+      owner: string | null,
+    } | null,
+    owner: string | null,
   } | null,
 };
 
-export type OnCreatePrivateNoteSubscription = {
-  onCreatePrivateNote:  {
-    __typename: "PrivateNote",
+export type OnUpdateUserSubscription = {
+  onUpdateUser:  {
+    __typename: "User",
     id: string,
-    content: string,
+    username: string,
+    email: string,
+    phone: string | null,
+    createdAt: string,
+    role: UserRole,
+    facility:  {
+      __typename: "Facility",
+      id: string,
+      name: string,
+      createdAt: string,
+      owner: string | null,
+    } | null,
+    owner: string | null,
   } | null,
 };
 
-export type OnUpdatePrivateNoteSubscription = {
-  onUpdatePrivateNote:  {
-    __typename: "PrivateNote",
+export type OnDeleteUserSubscription = {
+  onDeleteUser:  {
+    __typename: "User",
     id: string,
-    content: string,
+    username: string,
+    email: string,
+    phone: string | null,
+    createdAt: string,
+    role: UserRole,
+    facility:  {
+      __typename: "Facility",
+      id: string,
+      name: string,
+      createdAt: string,
+      owner: string | null,
+    } | null,
+    owner: string | null,
   } | null,
 };
 
-export type OnDeletePrivateNoteSubscription = {
-  onDeletePrivateNote:  {
-    __typename: "PrivateNote",
+export type OnCreateFacilitySubscription = {
+  onCreateFacility:  {
+    __typename: "Facility",
     id: string,
-    content: string,
+    name: string,
+    createdAt: string,
+    owner: string | null,
+  } | null,
+};
+
+export type OnUpdateFacilitySubscription = {
+  onUpdateFacility:  {
+    __typename: "Facility",
+    id: string,
+    name: string,
+    createdAt: string,
+    owner: string | null,
+  } | null,
+};
+
+export type OnDeleteFacilitySubscription = {
+  onDeleteFacility:  {
+    __typename: "Facility",
+    id: string,
+    name: string,
+    createdAt: string,
+    owner: string | null,
+  } | null,
+};
+
+export type OnCreateAppointmentSubscription = {
+  onCreateAppointment:  {
+    __typename: "Appointment",
+    id: string,
+    createdAt: string,
+    owner: string | null,
+    acceptedBy: string | null,
+    facilityId: string,
+    date: string,
+    time: string,
+    duration: number,
+  } | null,
+};
+
+export type OnUpdateAppointmentSubscription = {
+  onUpdateAppointment:  {
+    __typename: "Appointment",
+    id: string,
+    createdAt: string,
+    owner: string | null,
+    acceptedBy: string | null,
+    facilityId: string,
+    date: string,
+    time: string,
+    duration: number,
+  } | null,
+};
+
+export type OnDeleteAppointmentSubscription = {
+  onDeleteAppointment:  {
+    __typename: "Appointment",
+    id: string,
+    createdAt: string,
+    owner: string | null,
+    acceptedBy: string | null,
+    facilityId: string,
+    date: string,
+    time: string,
+    duration: number,
   } | null,
 };

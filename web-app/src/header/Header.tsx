@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { Link } from 'components/Link';
 import { TextBox } from 'components/TextBox';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Auth } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib/types';
 import { ReactComponent as BellIcon } from './bell-regular.svg';
@@ -11,14 +11,16 @@ import { ReactComponent as CheveronDownIcon } from 'icons/icon-cheveron-down.svg
 import { ReactComponent as CalendarAltIcon } from 'icons/calendar-alt-regular.svg';
 import { ReactComponent as SmileIcon } from 'icons/smile-regular.svg';
 import { DropDownButton } from 'components/DropdownButton';
+import { UserContext } from 'App';
 
 interface IHeaderProps {
   path: string;
   user: any;
 }
 
-const Header = ({ path, user }: IHeaderProps) => {
+const Header = ({ path }: IHeaderProps) => {
   const [showDropDown, setShowDropDown] = useState(false);
+  const user = useContext(UserContext);
   return (
     <header className="app__header">
       <nav className="header__nav">
@@ -51,12 +53,12 @@ const Header = ({ path, user }: IHeaderProps) => {
             <img
               src="https://graph.facebook.com/v3.3/10217047963143391/picture"
               className="user__picture"
-              alt={user.attributes.name}
+              alt={user.fullName}
             />
             <DropDownButton
               text={
                 <>
-                  {user.attributes.name} <CheveronDownIcon height="30" />
+                  {user.fullName} <CheveronDownIcon height="30" />
                 </>
               }
             >

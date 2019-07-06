@@ -9,7 +9,10 @@ interface IProps {
   onClick: (event: React.SyntheticEvent) => void;
 }
 
-export class ButtonLink extends React.Component<IProps, {}> {
+export class ButtonLink extends React.Component<
+  IProps & React.ButtonHTMLAttributes<HTMLButtonElement>,
+  {}
+> {
   public static defaultProps = {
     disabled: false
   };

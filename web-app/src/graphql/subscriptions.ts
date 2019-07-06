@@ -1,51 +1,123 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
-export const onCreateTask = `subscription OnCreateTask {
-  onCreateTask {
+export const onCreateUser = `subscription OnCreateUser {
+  onCreateUser {
     id
-    title
-    description
-    status
+    username
+    email
+    phone
+    createdAt
+    role
+    facility {
+      id
+      name
+      createdAt
+      owner
+    }
+    owner
   }
 }
 `;
-export const onUpdateTask = `subscription OnUpdateTask {
-  onUpdateTask {
+export const onUpdateUser = `subscription OnUpdateUser {
+  onUpdateUser {
     id
-    title
-    description
-    status
+    username
+    email
+    phone
+    createdAt
+    role
+    facility {
+      id
+      name
+      createdAt
+      owner
+    }
+    owner
   }
 }
 `;
-export const onDeleteTask = `subscription OnDeleteTask {
-  onDeleteTask {
+export const onDeleteUser = `subscription OnDeleteUser {
+  onDeleteUser {
     id
-    title
-    description
-    status
+    username
+    email
+    phone
+    createdAt
+    role
+    facility {
+      id
+      name
+      createdAt
+      owner
+    }
+    owner
   }
 }
 `;
-export const onCreatePrivateNote = `subscription OnCreatePrivateNote {
-  onCreatePrivateNote {
+export const onCreateFacility = `subscription OnCreateFacility {
+  onCreateFacility {
     id
-    content
+    name
+    createdAt
+    owner
   }
 }
 `;
-export const onUpdatePrivateNote = `subscription OnUpdatePrivateNote {
-  onUpdatePrivateNote {
+export const onUpdateFacility = `subscription OnUpdateFacility {
+  onUpdateFacility {
     id
-    content
+    name
+    createdAt
+    owner
   }
 }
 `;
-export const onDeletePrivateNote = `subscription OnDeletePrivateNote {
-  onDeletePrivateNote {
+export const onDeleteFacility = `subscription OnDeleteFacility {
+  onDeleteFacility {
     id
-    content
+    name
+    createdAt
+    owner
+  }
+}
+`;
+export const onCreateAppointment = `subscription OnCreateAppointment {
+  onCreateAppointment {
+    id
+    createdAt
+    owner
+    acceptedBy
+    facilityId
+    date
+    time
+    duration
+  }
+}
+`;
+export const onUpdateAppointment = `subscription OnUpdateAppointment {
+  onUpdateAppointment {
+    id
+    createdAt
+    owner
+    acceptedBy
+    facilityId
+    date
+    time
+    duration
+  }
+}
+`;
+export const onDeleteAppointment = `subscription OnDeleteAppointment {
+  onDeleteAppointment {
+    id
+    createdAt
+    owner
+    acceptedBy
+    facilityId
+    date
+    time
+    duration
   }
 }
 `;

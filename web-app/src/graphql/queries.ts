@@ -1,47 +1,102 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
-export const getTask = `query GetTask($id: ID!) {
-  getTask(id: $id) {
+export const getUser = `query GetUser($id: ID!) {
+  getUser(id: $id) {
     id
-    title
-    description
-    status
+    username
+    email
+    phone
+    createdAt
+    role
+    facility {
+      id
+      name
+      createdAt
+      owner
+    }
+    owner
   }
 }
 `;
-export const listTasks = `query ListTasks(
-  $filter: ModelTaskFilterInput
+export const listUsers = `query ListUsers(
+  $filter: ModelUserFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  listTasks(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      title
-      description
-      status
+      username
+      email
+      phone
+      createdAt
+      role
+      facility {
+        id
+        name
+        createdAt
+        owner
+      }
+      owner
     }
     nextToken
   }
 }
 `;
-export const getPrivateNote = `query GetPrivateNote($id: ID!) {
-  getPrivateNote(id: $id) {
+export const getFacility = `query GetFacility($id: ID!) {
+  getFacility(id: $id) {
     id
-    content
+    name
+    createdAt
+    owner
   }
 }
 `;
-export const listPrivateNotes = `query ListPrivateNotes(
-  $filter: ModelPrivateNoteFilterInput
+export const listFacilitys = `query ListFacilitys(
+  $filter: ModelFacilityFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  listPrivateNotes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listFacilitys(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      content
+      name
+      createdAt
+      owner
+    }
+    nextToken
+  }
+}
+`;
+export const getAppointment = `query GetAppointment($id: ID!) {
+  getAppointment(id: $id) {
+    id
+    createdAt
+    owner
+    acceptedBy
+    facilityId
+    date
+    time
+    duration
+  }
+}
+`;
+export const listAppointments = `query ListAppointments(
+  $filter: ModelAppointmentFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listAppointments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      createdAt
+      owner
+      acceptedBy
+      facilityId
+      date
+      time
+      duration
     }
     nextToken
   }
