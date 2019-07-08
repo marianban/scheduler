@@ -4,9 +4,9 @@
 export const getUser = `query GetUser($id: ID!) {
   getUser(id: $id) {
     id
-    username
+    fullName
     email
-    phone
+    phoneNumber
     createdAt
     role
     facility {
@@ -27,9 +27,9 @@ export const listUsers = `query ListUsers(
   listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      username
+      fullName
       email
-      phone
+      phoneNumber
       createdAt
       role
       facility {

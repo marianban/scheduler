@@ -5,7 +5,11 @@ import {
   CreateUserInput,
   CreateUserMutation,
   ListUsersQuery,
-  ListUsersQueryVariables
+  ListUsersQueryVariables,
+  UpdateUserInput,
+  UpdateUserMutation,
+  DeleteUserInput,
+  DeleteUserMutation
 } from './API';
 import * as queries from './graphql/queries';
 import * as mutations from './graphql/mutations';
@@ -34,4 +38,20 @@ export const createUser = async (
     graphqlOperation(mutations.createUser, { input })
   )) as GraphQLResult;
   return result.data as CreateUserMutation;
+};
+
+export const updateUser = async (
+  input: UpdateUserInput
+): Promise<UpdateUserMutation> => {
+  const result = (await API.graphql(
+    graphqlOperation(mutations.updateUser, { input })
+  )) as GraphQLResult;
+  return result.data as UpdateUserMutation;
+};
+
+export const deleteUser = async (input: DeleteUserInput) => {
+  const result = (await API.graphql(
+    graphqlOperation(mutations.deleteUser, { input })
+  )) as GraphQLResult;
+  return result.data as DeleteUserMutation;
 };

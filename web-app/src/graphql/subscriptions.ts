@@ -4,9 +4,9 @@
 export const onCreateUser = `subscription OnCreateUser {
   onCreateUser {
     id
-    username
+    fullName
     email
-    phone
+    phoneNumber
     createdAt
     role
     facility {
@@ -22,9 +22,9 @@ export const onCreateUser = `subscription OnCreateUser {
 export const onUpdateUser = `subscription OnUpdateUser {
   onUpdateUser {
     id
-    username
+    fullName
     email
-    phone
+    phoneNumber
     createdAt
     role
     facility {
@@ -40,9 +40,9 @@ export const onUpdateUser = `subscription OnUpdateUser {
 export const onDeleteUser = `subscription OnDeleteUser {
   onDeleteUser {
     id
-    username
+    fullName
     email
-    phone
+    phoneNumber
     createdAt
     role
     facility {

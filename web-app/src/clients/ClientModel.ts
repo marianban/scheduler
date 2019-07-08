@@ -2,6 +2,8 @@ import { IItem } from 'components/TypeaheadField';
 import { action, observable } from 'mobx';
 import { v4 } from 'uuid';
 import { IClient } from './IClient';
+import { IClientModel } from './IClientModel';
+import { UserRole } from 'API';
 
 export interface IValidationResult {
   isValid: boolean;
@@ -9,7 +11,7 @@ export interface IValidationResult {
 
 export type IClientValidationResult = IValidationResult & Partial<IClient>;
 
-export class ClientModel implements IClient, IItem {
+export class ClientModel implements IClientModel, IItem {
   public static validate(client: IClient): IClientValidationResult {
     const result: IClientValidationResult = { isValid: true };
     if (!client.fullName) {
@@ -37,13 +39,24 @@ export class ClientModel implements IClient, IItem {
   @observable
   public email!: string;
 
+  public readonly createdAt!: string;
+
+  // TODO: prevent editing on ui
+  public readonly role: UserRole = UserRole.admin;
+
   constructor(
     fullName: string,
     phoneNumber: string,
     email: string,
     id: string = v4()
   ) {
-    this.init(fullName, phoneNumber, email, id);
+    this.init({
+      fullName,
+      phoneNumber,
+      email,
+      id,
+      createdAt: new Date().toISOString()
+    });
   }
 
   public get value(): string {
@@ -76,12 +89,7 @@ export class ClientModel implements IClient, IItem {
   }
 
   @action
-  private init(
-    fullName: string,
-    phoneNumber: string,
-    email: string,
-    id: string
-  ) {
+  private init({ fullName, phoneNumber, email, id }: IClientModel) {
     this.fullName = fullName;
     this.phoneNumber = phoneNumber;
     this.email = email;

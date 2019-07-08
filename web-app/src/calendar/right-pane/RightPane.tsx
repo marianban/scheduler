@@ -340,12 +340,12 @@ export class RightPane extends React.Component<IProps, IState> {
       clientVal
     });
     if (clientVal.isValid) {
+      const { clientStore } = this.getRootStore();
       if (client && client.equals(form)) {
-        client.update(form);
+        clientStore.update(client, form);
         newClient = client;
       } else {
         const { fullName, email, phoneNumber } = form;
-        const { clientStore } = this.getRootStore();
         if (clientStore.exists(form)) {
           newClient = clientStore.getByFullName(form.fullName);
           this.updateForm('fullName', newClient.fullName);

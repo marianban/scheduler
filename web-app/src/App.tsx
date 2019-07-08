@@ -9,6 +9,7 @@ import * as awsmobile from './aws-exports';
 import { getUser, createUser } from 'GraphQLOperations';
 import { UserRole } from 'API';
 import { CurrentUser } from 'models/CurrentUser';
+import { Application } from 'Application';
 
 Amplify.configure((awsmobile as any).default);
 
@@ -19,6 +20,7 @@ const DevTools = lazy(() =>
 );
 
 const rootStore = new RootStore(new Date());
+const application = new Application(rootStore);
 
 interface IAppProps {
   path: string;
@@ -31,6 +33,7 @@ interface IAppState {
 export const UserContext = React.createContext<CurrentUser | null>(null);
 
 class App extends React.Component<IAppProps, IAppState> {
+  application: Application | null = null;
   state = { user: null };
 
   componentDidMount() {
@@ -43,6 +46,7 @@ class App extends React.Component<IAppProps, IAppState> {
           break;
         case 'signOut':
           this.setState({ user: null });
+          application.disconnectBackend();
           break;
       }
     });
@@ -56,12 +60,14 @@ class App extends React.Component<IAppProps, IAppState> {
       this.setState({
         user: {
           id: result.getUser.id,
-          fullName: result.getUser.username,
+          fullName: result.getUser.fullName,
           email: result.getUser.email,
           createdAt: result.getUser.createdAt,
-          role: result.getUser.role
+          role: result.getUser.role,
+          phoneNumber: ''
         }
       });
+      application.connectBackend();
     } else {
       this.registerUser(getUserInput.id, user);
     }
@@ -70,8 +76,9 @@ class App extends React.Component<IAppProps, IAppState> {
   private registerUser = async (id: any, user: any) => {
     const createUserResult = await createUser({
       id,
-      username: user.attributes.name,
+      fullName: user.attributes.name,
       email: user.attributes.email,
+      phoneNumber: '0908000000',
       createdAt: new Date().toISOString(),
       role: UserRole.admin
     });
@@ -79,7 +86,7 @@ class App extends React.Component<IAppProps, IAppState> {
       this.setState({
         user: {
           id: createUserResult.createUser.id,
-          fullName: createUserResult.createUser.username,
+          fullName: createUserResult.createUser.fullName,
           email: createUserResult.createUser.email,
           createdAt: createUserResult.createUser.createdAt,
           role: createUserResult.createUser.role

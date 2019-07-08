@@ -3,9 +3,9 @@
 
 export type CreateUserInput = {
   id?: string | null,
-  username: string,
+  fullName: string,
   email: string,
-  phone?: string | null,
+  phoneNumber: string,
   createdAt: string,
   role: UserRole,
   owner?: string | null,
@@ -22,9 +22,9 @@ export enum UserRole {
 
 export type UpdateUserInput = {
   id: string,
-  username?: string | null,
+  fullName?: string | null,
   email?: string | null,
-  phone?: string | null,
+  phoneNumber?: string | null,
   createdAt?: string | null,
   role?: UserRole | null,
   owner?: string | null,
@@ -81,9 +81,9 @@ export type DeleteAppointmentInput = {
 
 export type ModelUserFilterInput = {
   id?: ModelIDFilterInput | null,
-  username?: ModelStringFilterInput | null,
+  fullName?: ModelStringFilterInput | null,
   email?: ModelStringFilterInput | null,
-  phone?: ModelStringFilterInput | null,
+  phoneNumber?: ModelStringFilterInput | null,
   createdAt?: ModelStringFilterInput | null,
   role?: ModelUserRoleFilterInput | null,
   owner?: ModelStringFilterInput | null,
@@ -167,9 +167,9 @@ export type CreateUserMutation = {
   createUser:  {
     __typename: "User",
     id: string,
-    username: string,
+    fullName: string,
     email: string,
-    phone: string | null,
+    phoneNumber: string,
     createdAt: string,
     role: UserRole,
     facility:  {
@@ -191,9 +191,9 @@ export type UpdateUserMutation = {
   updateUser:  {
     __typename: "User",
     id: string,
-    username: string,
+    fullName: string,
     email: string,
-    phone: string | null,
+    phoneNumber: string,
     createdAt: string,
     role: UserRole,
     facility:  {
@@ -215,9 +215,9 @@ export type DeleteUserMutation = {
   deleteUser:  {
     __typename: "User",
     id: string,
-    username: string,
+    fullName: string,
     email: string,
-    phone: string | null,
+    phoneNumber: string,
     createdAt: string,
     role: UserRole,
     facility:  {
@@ -335,9 +335,9 @@ export type GetUserQuery = {
   getUser:  {
     __typename: "User",
     id: string,
-    username: string,
+    fullName: string,
     email: string,
-    phone: string | null,
+    phoneNumber: string,
     createdAt: string,
     role: UserRole,
     facility:  {
@@ -363,9 +363,9 @@ export type ListUsersQuery = {
     items:  Array< {
       __typename: "User",
       id: string,
-      username: string,
+      fullName: string,
       email: string,
-      phone: string | null,
+      phoneNumber: string,
       createdAt: string,
       role: UserRole,
       facility:  {
@@ -461,9 +461,9 @@ export type OnCreateUserSubscription = {
   onCreateUser:  {
     __typename: "User",
     id: string,
-    username: string,
+    fullName: string,
     email: string,
-    phone: string | null,
+    phoneNumber: string,
     createdAt: string,
     role: UserRole,
     facility:  {
@@ -481,9 +481,9 @@ export type OnUpdateUserSubscription = {
   onUpdateUser:  {
     __typename: "User",
     id: string,
-    username: string,
+    fullName: string,
     email: string,
-    phone: string | null,
+    phoneNumber: string,
     createdAt: string,
     role: UserRole,
     facility:  {
@@ -501,9 +501,9 @@ export type OnDeleteUserSubscription = {
   onDeleteUser:  {
     __typename: "User",
     id: string,
-    username: string,
+    fullName: string,
     email: string,
-    phone: string | null,
+    phoneNumber: string,
     createdAt: string,
     role: UserRole,
     facility:  {

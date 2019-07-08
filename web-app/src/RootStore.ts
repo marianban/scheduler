@@ -18,11 +18,15 @@ export class RootStore {
     this.appointmentsModel = new AppointmentsModel();
     this.clientSelectionModel = new ClientSelectionModel();
     this.calendarStore = new CalendarStore(currentDate);
-    this.clientStore.onClientDeleted(this.handleClientDeleted);
+    this.clientStore.onClientDeleted(this.cancelDeletedClientAppointments);
+    this.clientStore.onClientDeleted(this.unselectDeletedClient);
   }
 
-  private handleClientDeleted = (clientId: string) => {
+  private cancelDeletedClientAppointments = (clientId: string) => {
     this.appointmentsModel.cancelByClientId(clientId);
+  };
+
+  private unselectDeletedClient = (clientId: string) => {
     if (
       this.clientSelectionModel.selectedClient !== null &&
       this.clientSelectionModel.selectedClient.id === clientId

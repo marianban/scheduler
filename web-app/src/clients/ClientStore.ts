@@ -1,11 +1,18 @@
 import { ClientModel } from 'clients/ClientModel';
 import { IClient } from 'clients/IClient';
+import { IClientModel } from 'clients/IClientModel';
 import { action, observable } from 'mobx';
 
 export class ClientStore {
   @observable
   public clients!: ClientModel[];
   private clientDeletedCallbacks: Array<(clientId: string) => void> = [];
+  private clientUpdatedCallbacks: Array<
+    (clientId: Readonly<ClientModel>) => void
+  > = [];
+  private clientCreatedCallbacks: Array<
+    (client: Readonly<ClientModel>) => void
+  > = [];
 
   constructor() {
     this.init();
@@ -25,6 +32,31 @@ export class ClientStore {
     }
     this.clients.push(client);
     return client;
+  }
+
+  public onClientCreated(callback: (client: Readonly<ClientModel>) => void) {
+    this.clientCreatedCallbacks.push(callback);
+  }
+
+  public callClientCreatedCallbacks(client: Readonly<ClientModel>) {
+    this.clientCreatedCallbacks.forEach(callback => {
+      callback(client);
+    });
+  }
+
+  @action
+  public update(client: ClientModel, data: Partial<IClient>) {
+    client.update(data);
+  }
+
+  public onClientUpdated(callback: (client: Readonly<ClientModel>) => void) {
+    this.clientUpdatedCallbacks.push(callback);
+  }
+
+  public callClientUpdatedCallbacks(client: Readonly<ClientModel>) {
+    this.clientUpdatedCallbacks.forEach(callback => {
+      callback(client);
+    });
   }
 
   @action
@@ -70,6 +102,13 @@ export class ClientStore {
     }
     return client;
   };
+
+  @action
+  public initClients(clients: IClientModel[]) {
+    this.clients = clients.map(
+      c => new ClientModel(c.fullName, c.phoneNumber, c.email, c.id)
+    );
+  }
 
   @action
   private init() {
