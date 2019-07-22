@@ -1,13 +1,13 @@
 import { Provider } from 'mobx-react';
 import React, { lazy, Suspense } from 'react';
+import { Routes } from 'Routes';
 import Amplify, { Auth, Hub } from 'aws-amplify';
 import './App.css';
 import Header from './header/Header';
 import { RootStore } from './RootStore';
-import { Routes } from './Routes';
 import * as awsmobile from './aws-exports';
-import { getUser, createUser } from 'GraphQLOperations';
-import { UserRole } from 'API';
+import { getUser, createUser, updateUser } from 'GraphQLOperations';
+import { UserRole, GetUserQuery } from 'API';
 import { CurrentUser } from 'models/CurrentUser';
 import { Application } from 'Application';
 
@@ -63,20 +63,53 @@ class App extends React.Component<IAppProps, IAppState> {
       throw new Error('unable to find facebook identity');
     }
     if (result.getUser) {
+      await this.connectFacebookIdentity(result, facebookIdentity);
+    } else {
+      await this.registerUser(getUserInput.id, user, facebookIdentity);
+    }
+    application.connectBackend();
+  };
+
+  private connectFacebookIdentity = async (
+    userQuery: GetUserQuery,
+    facebookIdentity: any
+  ) => {
+    if (userQuery.getUser!.facebookUserId !== null) {
       this.setState({
         user: {
-          id: result.getUser.id,
-          fullName: result.getUser.fullName,
-          email: result.getUser.email,
-          createdAt: result.getUser.createdAt,
-          role: result.getUser.role,
-          facebookUserId: facebookIdentity.userId,
-          phoneNumber: ''
+          id: userQuery.getUser!.id,
+          fullName: userQuery.getUser!.fullName,
+          email: userQuery.getUser!.email,
+          createdAt: userQuery.getUser!.createdAt,
+          role: userQuery.getUser!.role,
+          facebookUserId: userQuery.getUser!.facebookUserId,
+          phoneNumber: userQuery.getUser!.phoneNumber
         }
       });
-      application.connectBackend();
+      return Promise.resolve();
+    }
+
+    const updateUserResult = await updateUser({
+      id: userQuery.getUser!.id,
+      fullName: userQuery.getUser!.fullName,
+      email: userQuery.getUser!.email,
+      createdAt: userQuery.getUser!.createdAt,
+      role: userQuery.getUser!.role,
+      facebookUserId: facebookIdentity.userId
+    });
+    if (updateUserResult.updateUser) {
+      this.setState({
+        user: {
+          id: updateUserResult.updateUser.id,
+          fullName: updateUserResult.updateUser.fullName,
+          email: updateUserResult.updateUser.email,
+          createdAt: updateUserResult.updateUser.createdAt,
+          role: updateUserResult.updateUser.role,
+          facebookUserId: updateUserResult.updateUser.facebookUserId
+        }
+      });
     } else {
-      this.registerUser(getUserInput.id, user, facebookIdentity);
+      throw new Error('Unable to register user');
     }
   };
 

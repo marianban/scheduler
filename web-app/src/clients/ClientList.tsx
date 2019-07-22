@@ -6,7 +6,6 @@ import { ReactComponent as MobileIcon } from 'icons/mobile-alt-solid.svg';
 import { inject, observer } from 'mobx-react';
 import React from 'react';
 import { RootStore } from 'RootStore';
-import clientPhoto from './client.jpg';
 import './ClientList.css';
 
 interface IClientListProps {
@@ -23,8 +22,7 @@ export class ClientList extends React.Component<IClientListProps, {}> {
       <ListView>
         {clients.map(client =>
           this.renderClient({
-            ...client,
-            imgSrc: clientPhoto
+            ...client
           })
         )}
       </ListView>
@@ -36,10 +34,8 @@ export class ClientList extends React.Component<IClientListProps, {}> {
     email,
     phoneNumber,
     id,
-    imgSrc
-  }: {
-    imgSrc: string;
-  } & Partial<ClientModel>) {
+    facebookUserId
+  }: Partial<ClientModel>) {
     const { clientSelectionModel } = this.getRootStore();
     const selectedClient = clientSelectionModel.selectedClient;
     const isSelected = selectedClient !== null && selectedClient.id === id;
@@ -51,7 +47,11 @@ export class ClientList extends React.Component<IClientListProps, {}> {
         onClick={this.selectClient}
       >
         <div className="client-photo-container">
-          <img className="client-photo" src={imgSrc} alt={fullName} />
+          <img
+            className="client-photo"
+            src={`https://graph.facebook.com/v3.3/${facebookUserId}/picture`}
+            alt={fullName}
+          />
         </div>
         <span className="client-full-name">{fullName}</span>
         <div className="client-details">

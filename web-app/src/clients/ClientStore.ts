@@ -113,7 +113,14 @@ export class ClientStore {
   @action
   public initClients(clients: IClientModel[]) {
     this.clients = clients.map(
-      c => new ClientModel(c.fullName, c.phoneNumber, c.email, c.id)
+      c =>
+        new ClientModel(
+          c.fullName,
+          c.phoneNumber,
+          c.email,
+          c.id,
+          c.facebookUserId
+        )
     );
   }
 

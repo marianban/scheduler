@@ -51,7 +51,9 @@ const Header = ({ path }: IHeaderProps) => {
             />
             <BellIcon />
             <img
-              src="https://graph.facebook.com/v3.3/10217047963143391/picture"
+              src={`https://graph.facebook.com/v3.3/${
+                user.facebookUserId
+              }/picture`}
               className="user__picture"
               alt={user.fullName}
             />
