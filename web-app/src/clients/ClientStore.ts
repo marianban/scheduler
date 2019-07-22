@@ -1,3 +1,4 @@
+import { v4 } from 'uuid';
 import { ClientModel } from 'clients/ClientModel';
 import { IClient } from 'clients/IClient';
 import { IClientModel } from 'clients/IClientModel';
@@ -19,12 +20,18 @@ export class ClientStore {
   }
 
   @action
-  public create(data: IClient & { id?: string }) {
+  public create({
+    fullName,
+    phoneNumber,
+    email,
+    id = v4()
+  }: IClient & { id?: string }) {
     const client = new ClientModel(
-      data.fullName,
-      data.phoneNumber,
-      data.email,
-      data.id
+      fullName,
+      phoneNumber,
+      email,
+      // allow clients without facebookId
+      id
     );
     const exists = this.clients.some(c => c.id === client.id);
     if (exists) {

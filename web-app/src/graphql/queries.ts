@@ -16,6 +16,7 @@ export const getUser = `query GetUser($id: ID!) {
       owner
     }
     owner
+    facebookUserId
   }
 }
 `;
@@ -39,6 +40,7 @@ export const listUsers = `query ListUsers(
         owner
       }
       owner
+      facebookUserId
     }
     nextToken
   }

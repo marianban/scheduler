@@ -16,6 +16,7 @@ export const onCreateUser = `subscription OnCreateUser {
       owner
     }
     owner
+    facebookUserId
   }
 }
 `;
@@ -34,6 +35,7 @@ export const onUpdateUser = `subscription OnUpdateUser {
       owner
     }
     owner
+    facebookUserId
   }
 }
 `;
@@ -52,6 +54,7 @@ export const onDeleteUser = `subscription OnDeleteUser {
       owner
     }
     owner
+    facebookUserId
   }
 }
 `;

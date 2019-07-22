@@ -333,7 +333,7 @@ export class RightPane extends React.Component<IProps, IState> {
 
   private handleClientOnBlur = () => {
     const { form, client, appointment } = this.state;
-    let newClient: ClientModel | null = null;
+    let newClient: ClientModel | undefined = undefined;
 
     const clientVal = ClientModel.validate(form);
     this.setState({
@@ -359,7 +359,7 @@ export class RightPane extends React.Component<IProps, IState> {
         });
       }
     }
-    if (appointment && newClient !== null) {
+    if (appointment && newClient) {
       appointment.update({
         ...this.formToAppointment(),
         clientId: newClient.id

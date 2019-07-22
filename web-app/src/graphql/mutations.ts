@@ -16,6 +16,7 @@ export const createUser = `mutation CreateUser($input: CreateUserInput!) {
       owner
     }
     owner
+    facebookUserId
   }
 }
 `;
@@ -34,6 +35,7 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
       owner
     }
     owner
+    facebookUserId
   }
 }
 `;
@@ -52,6 +54,7 @@ export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
       owner
     }
     owner
+    facebookUserId
   }
 }
 `;

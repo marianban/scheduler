@@ -9,6 +9,7 @@ export type CreateUserInput = {
   createdAt: string,
   role: UserRole,
   owner?: string | null,
+  facebookUserId?: string | null,
   userFacilityId?: string | null,
 };
 
@@ -28,6 +29,7 @@ export type UpdateUserInput = {
   createdAt?: string | null,
   role?: UserRole | null,
   owner?: string | null,
+  facebookUserId?: string | null,
   userFacilityId?: string | null,
 };
 
@@ -87,6 +89,7 @@ export type ModelUserFilterInput = {
   createdAt?: ModelStringFilterInput | null,
   role?: ModelUserRoleFilterInput | null,
   owner?: ModelStringFilterInput | null,
+  facebookUserId?: ModelStringFilterInput | null,
   and?: Array< ModelUserFilterInput | null > | null,
   or?: Array< ModelUserFilterInput | null > | null,
   not?: ModelUserFilterInput | null,
@@ -180,6 +183,7 @@ export type CreateUserMutation = {
       owner: string | null,
     } | null,
     owner: string | null,
+    facebookUserId: string | null,
   } | null,
 };
 
@@ -204,6 +208,7 @@ export type UpdateUserMutation = {
       owner: string | null,
     } | null,
     owner: string | null,
+    facebookUserId: string | null,
   } | null,
 };
 
@@ -228,6 +233,7 @@ export type DeleteUserMutation = {
       owner: string | null,
     } | null,
     owner: string | null,
+    facebookUserId: string | null,
   } | null,
 };
 
@@ -348,6 +354,7 @@ export type GetUserQuery = {
       owner: string | null,
     } | null,
     owner: string | null,
+    facebookUserId: string | null,
   } | null,
 };
 
@@ -376,6 +383,7 @@ export type ListUsersQuery = {
         owner: string | null,
       } | null,
       owner: string | null,
+      facebookUserId: string | null,
     } | null > | null,
     nextToken: string | null,
   } | null,
@@ -474,6 +482,7 @@ export type OnCreateUserSubscription = {
       owner: string | null,
     } | null,
     owner: string | null,
+    facebookUserId: string | null,
   } | null,
 };
 
@@ -494,6 +503,7 @@ export type OnUpdateUserSubscription = {
       owner: string | null,
     } | null,
     owner: string | null,
+    facebookUserId: string | null,
   } | null,
 };
 
@@ -514,6 +524,7 @@ export type OnDeleteUserSubscription = {
       owner: string | null,
     } | null,
     owner: string | null,
+    facebookUserId: string | null,
   } | null,
 };
 

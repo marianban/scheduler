@@ -1,3 +1,7 @@
 import { IClient } from './IClient';
 
-export type IClientModel = IClient & { id: string; createdAt: string };
+export type IClientModel = IClient & {
+  id: string;
+  createdAt: string;
+  facebookUserId: string | null;
+};

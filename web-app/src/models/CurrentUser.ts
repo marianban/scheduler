@@ -7,4 +7,5 @@ export type CurrentUser = {
   phoneNumber?: string;
   createdAt: string;
   role: UserRole;
+  facebookUserId: string | null;
 };

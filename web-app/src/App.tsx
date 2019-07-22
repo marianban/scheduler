@@ -54,8 +54,14 @@ class App extends React.Component<IAppProps, IAppState> {
 
   private initUser = async (user: any) => {
     const getUserInput = { id: user.attributes.sub };
-    debugger;
     const result = await getUser(getUserInput);
+    const identities = JSON.parse(user.attributes.identities);
+    const facebookIdentity = identities.find(
+      (i: any) => i.providerName === 'Facebook'
+    );
+    if (!facebookIdentity) {
+      throw new Error('unable to find facebook identity');
+    }
     if (result.getUser) {
       this.setState({
         user: {
@@ -64,23 +70,25 @@ class App extends React.Component<IAppProps, IAppState> {
           email: result.getUser.email,
           createdAt: result.getUser.createdAt,
           role: result.getUser.role,
+          facebookUserId: facebookIdentity.userId,
           phoneNumber: ''
         }
       });
       application.connectBackend();
     } else {
-      this.registerUser(getUserInput.id, user);
+      this.registerUser(getUserInput.id, user, facebookIdentity);
     }
   };
 
-  private registerUser = async (id: any, user: any) => {
+  private registerUser = async (id: any, user: any, facebookIdentity: any) => {
     const createUserResult = await createUser({
       id,
       fullName: user.attributes.name,
       email: user.attributes.email,
       phoneNumber: '0908000000',
       createdAt: new Date().toISOString(),
-      role: UserRole.admin
+      role: UserRole.admin,
+      facebookUserId: facebookIdentity.userId
     });
     if (createUserResult.createUser) {
       this.setState({
@@ -89,7 +97,8 @@ class App extends React.Component<IAppProps, IAppState> {
           fullName: createUserResult.createUser.fullName,
           email: createUserResult.createUser.email,
           createdAt: createUserResult.createUser.createdAt,
-          role: createUserResult.createUser.role
+          role: createUserResult.createUser.role,
+          facebookUserId: createUserResult.createUser.facebookUserId
         }
       });
     } else {

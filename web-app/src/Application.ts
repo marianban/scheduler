@@ -41,7 +41,7 @@ export class Application {
     createUser(client);
   }
 
-  updateClient(client: Readonly<ClientModel>) {
+  private updateClient(client: Readonly<ClientModel>) {
     updateUser(client);
   }
 

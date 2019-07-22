@@ -8,6 +8,7 @@ type User @model @key(name: "ByEmail", fields: ["email"]) {
   # uniq id of the the facility (salon, barbershop)
   facility: Facility @connection
   owner: String
+  facebookUserId: String
 }
 
 type Facility @model {
