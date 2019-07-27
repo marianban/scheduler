@@ -194,7 +194,7 @@ export class ClientRightPane extends React.Component<
     });
     if (clientVal.isValid) {
       if (selectedClient !== null) {
-        selectedClient.update(this.state);
+        clientStore.update(selectedClient, this.state);
       } else {
         const client = clientStore.create(this.state);
         clientSelectionModel.select(client);

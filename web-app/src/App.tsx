@@ -40,9 +40,8 @@ class App extends React.Component<IAppProps, IAppState> {
     Hub.listen('auth', ({ payload: { event, data } }) => {
       switch (event) {
         case 'signIn':
-          Auth.currentAuthenticatedUser()
-            .then(this.initUser)
-            .catch(e => console.log('Not signed in', e));
+          console.log('signed in');
+          this.setAuthenticatedUser();
           break;
         case 'signOut':
           this.setState({ user: null });
@@ -50,7 +49,14 @@ class App extends React.Component<IAppProps, IAppState> {
           break;
       }
     });
+    this.setAuthenticatedUser();
   }
+
+  private setAuthenticatedUser = () => {
+    Auth.currentAuthenticatedUser()
+      .then(this.initUser)
+      .catch(e => console.log('Not signed in', e));
+  };
 
   private initUser = async (user: any) => {
     const getUserInput = { id: user.attributes.sub };

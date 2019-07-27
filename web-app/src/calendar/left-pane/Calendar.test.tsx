@@ -25,7 +25,8 @@ const renderCalendar = () => {
     rootStore,
     prevBtn,
     nextBtn,
-    monthTitle
+    monthTitle,
+    getDay: (day: number) => getByTestId(`day-${day}`)
   };
 };
 
@@ -35,18 +36,18 @@ describe('calendar', () => {
     expect(monthTitle).toHaveTextContent(toCalendarTitle(date));
   });
   it('highlights current date', () => {
-    const { getByText } = renderCalendar();
-    const day = getByText(new RegExp(`^${date.getDate()}$`));
+    const { getDay } = renderCalendar();
+    const day = getDay(date.getDate());
     expect(day).toHaveClass('calendar__day--today');
   });
   it('highlights current date', () => {
-    const { getByText } = renderCalendar();
-    const day = getByText(new RegExp(`^${date.getDate()}$`));
+    const { getDay } = renderCalendar();
+    const day = getDay(date.getDate());
     expect(day.parentElement).toHaveClass('calendar__week--this');
   });
   it('highlights current date', () => {
-    const { getByText, getByTestId } = renderCalendar();
-    const day = getByTestId('day-1');
+    const { getDay } = renderCalendar();
+    const day = getDay(1);
     fireEvent.click(day);
     expect(day).toHaveClass('calendar__day--selected');
   });

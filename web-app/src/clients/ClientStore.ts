@@ -38,6 +38,7 @@ export class ClientStore {
       throw new Error('cannot create client with duplicate id');
     }
     this.clients.push(client);
+    this.callClientCreatedCallbacks(client);
     return client;
   }
 
@@ -54,6 +55,7 @@ export class ClientStore {
   @action
   public update(client: ClientModel, data: Partial<IClient>) {
     client.update(data);
+    this.callClientUpdatedCallbacks(client);
   }
 
   public onClientUpdated(callback: (client: Readonly<ClientModel>) => void) {
