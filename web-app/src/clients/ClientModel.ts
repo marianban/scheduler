@@ -27,6 +27,10 @@ export class ClientModel implements IClientModel, IItem {
         result.isValid = false;
       }
     }
+    if (!client.phoneNumber) {
+      result.phoneNumber = 'Invalid Format';
+      result.isValid = false;
+    }
     return result;
   }
 
