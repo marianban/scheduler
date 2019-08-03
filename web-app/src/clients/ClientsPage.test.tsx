@@ -1,7 +1,7 @@
-import React from "react";
-import { renderWithProviders } from "test/utils";
-import { ClientsPage } from "./ClientsPage";
-import { IClient } from "./IClient";
+import React from 'react';
+import { renderWithProviders } from 'test/utils';
+import { ClientsPage } from './ClientsPage';
+import { IClient } from './IClient';
 
 const renderClientsPage = () => {
   const result = renderWithProviders(<ClientsPage />);
@@ -11,10 +11,10 @@ const renderClientsPage = () => {
     fullName: getByLabelText(/Full Name/i) as HTMLInputElement,
     email: getByLabelText(/Email/i) as HTMLInputElement,
     phoneNumber: getByLabelText(/Phone Number/i) as HTMLInputElement,
-    newClientBtn: getByTestId("new-client-btn"),
-    deleteClientBtn: getByTestId("delete-client"),
+    newClientBtn: getByTestId('new-client-btn'),
+    deleteClientBtn: getByTestId('delete-client'),
     includesClient: (client: IClient) => {
-      const clientList = getByTestId("list-view");
+      const clientList = getByTestId('list-view');
       const includes =
         clientList.innerHTML.includes(client.fullName) &&
         clientList.innerHTML.includes(client.email) &&
@@ -22,8 +22,8 @@ const renderClientsPage = () => {
       return includes;
     },
     clientsCount: () => {
-      const clientLists = getByTestId("list-view");
-      return clientLists.querySelectorAll(".list-view__item").length;
+      const clientLists = getByTestId('list-view');
+      return clientLists.querySelectorAll('.list-view__item').length;
     }
   };
 };
@@ -44,25 +44,29 @@ it("can't create invalid client", () => {
   expect(isValid(fullName)).toBe(false);
   expect(isValid(email)).toBe(true);
   expect(isValid(phoneNumber)).toBe(true);
-  type(fullName, "Marian");
+  type(fullName, 'Marian');
   expect(isValid(fullName)).toBe(true);
-  type(fullName, "");
+  type(fullName, '');
   expect(isValid(fullName)).toBe(false);
-  change(fullName, "Leo");
+  change(fullName, 'Leo');
   expect(isValid(fullName)).toBe(true);
+  change(phoneNumber, '0908042407');
+  expect(isValid(phoneNumber)).toBe(true);
 });
 
 it("clear's validation if new client is created", () => {
   const {
     email,
     fullName,
+    phoneNumber,
     fireEvent,
     isValid,
     newClientBtn,
     type
   } = renderClientsPage();
-  type(fullName, "Leo");
-  type(email, "leo");
+  type(fullName, 'Leo');
+  type(email, 'leo');
+  type(phoneNumber, '0908042407');
   expect(isValid(email)).toBe(false);
   fireEvent.click(newClientBtn);
   expect(isValid(email)).toBe(true);
@@ -72,14 +76,16 @@ it("clear's validation if client is deleted", () => {
   const {
     email,
     fullName,
+    phoneNumber,
     fireEvent,
     isValid,
     clientsCount,
     deleteClientBtn,
     type
   } = renderClientsPage();
-  type(fullName, "Leo");
-  type(email, "leo");
+  type(fullName, 'Leo');
+  type(email, 'leo');
+  type(phoneNumber, '0908042407');
   expect(isValid(email)).toBe(false);
   expect(clientsCount()).toBe(1);
   fireEvent.click(deleteClientBtn);

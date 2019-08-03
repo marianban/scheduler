@@ -1,8 +1,8 @@
-type User @model @key(name: "ByEmail", fields: ["email"]) {
+type User @model {
   id: ID!
   fullName: String!
-  email: String!
-  phoneNumber: String!
+  email: String
+  phoneNumber: String
   createdAt: String!
   role: UserRole!
   # uniq id of the the facility (salon, barbershop)

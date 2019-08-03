@@ -85,11 +85,11 @@ class App extends React.Component<IAppProps, IAppState> {
         user: {
           id: userQuery.getUser!.id,
           fullName: userQuery.getUser!.fullName,
-          email: userQuery.getUser!.email,
+          email: userQuery.getUser!.email || '',
           createdAt: userQuery.getUser!.createdAt,
           role: userQuery.getUser!.role,
           facebookUserId: userQuery.getUser!.facebookUserId,
-          phoneNumber: userQuery.getUser!.phoneNumber
+          phoneNumber: userQuery.getUser!.phoneNumber || ''
         }
       });
       return Promise.resolve();
@@ -108,7 +108,8 @@ class App extends React.Component<IAppProps, IAppState> {
         user: {
           id: updateUserResult.updateUser.id,
           fullName: updateUserResult.updateUser.fullName,
-          email: updateUserResult.updateUser.email,
+          email: updateUserResult.updateUser.email || '',
+          phoneNumber: updateUserResult.updateUser.phoneNumber || '',
           createdAt: updateUserResult.updateUser.createdAt,
           role: updateUserResult.updateUser.role,
           facebookUserId: updateUserResult.updateUser.facebookUserId
@@ -134,7 +135,8 @@ class App extends React.Component<IAppProps, IAppState> {
         user: {
           id: createUserResult.createUser.id,
           fullName: createUserResult.createUser.fullName,
-          email: createUserResult.createUser.email,
+          email: createUserResult.createUser.email || '',
+          phoneNumber: createUserResult.createUser.phoneNumber || '',
           createdAt: createUserResult.createUser.createdAt,
           role: createUserResult.createUser.role,
           facebookUserId: createUserResult.createUser.facebookUserId

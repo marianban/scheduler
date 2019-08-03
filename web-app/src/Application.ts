@@ -27,25 +27,41 @@ export class Application {
     this.store.clientStore.onClientUpdated(() => {});
   }
 
-  private async loadClients() {
+  private loadClients = async () => {
     const result = await getUsers({});
     if (result.listUsers && result.listUsers.items) {
       const clients = result.listUsers.items.map(i => i!);
-      this.store.clientStore.initClients(clients);
+      this.store.clientStore.initClients(clients.map(this.toClientModel));
     } else {
       console.error('System was unable to load users');
     }
-  }
+  };
 
-  private createClient(client: Readonly<ClientModel>) {
-    createUser(client);
-  }
+  private createClient = (client: Readonly<ClientModel>) => {
+    createUser(this.fromClientModel(client));
+  };
 
-  private updateClient(client: Readonly<ClientModel>) {
-    updateUser(client);
-  }
+  private updateClient = (client: Readonly<ClientModel>) => {
+    updateUser(this.fromClientModel(client));
+  };
 
-  private deleteClient(clientId: string) {
+  private deleteClient = (clientId: string) => {
     deleteUser({ id: clientId });
+  };
+
+  private fromClientModel(client: Readonly<ClientModel>) {
+    return {
+      ...client,
+      email: client.email === '' ? null : client.email,
+      phoneNumber: client.phoneNumber === '' ? null : client.phoneNumber
+    };
+  }
+
+  private toClientModel(client: any) {
+    return {
+      ...client,
+      email: client.email === null ? '' : client.email,
+      phoneNumber: client.phoneNumber === null ? '' : client.phoneNumber
+    };
   }
 }
