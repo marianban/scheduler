@@ -2,18 +2,17 @@ import { ClientModel } from 'clients/ClientModel';
 import { IClient } from 'clients/IClient';
 import { IClientModel } from 'clients/IClientModel';
 import { action, observable } from 'mobx';
+import { callCallbacks } from 'utils/utils';
 import { v4 } from 'uuid';
 
 export class ClientStore {
   @observable
   public clients!: ClientModel[];
-  private clientDeletedCallbacks: Array<(clientId: string) => void> = [];
-  private clientUpdatedCallbacks: Array<
+  private deletedCallbacks: Array<(clientId: string) => void> = [];
+  private updatedCallbacks: Array<
     (clientId: Readonly<ClientModel>) => void
   > = [];
-  private clientCreatedCallbacks: Array<
-    (client: Readonly<ClientModel>) => void
-  > = [];
+  private createdCallbacks: Array<(client: Readonly<ClientModel>) => void> = [];
 
   constructor() {
     this.init();
@@ -38,34 +37,22 @@ export class ClientStore {
       throw new Error('cannot create client with duplicate id');
     }
     this.clients.unshift(client);
-    this.callClientCreatedCallbacks(client);
+    callCallbacks(this.createdCallbacks, client);
     return client;
   }
 
   public onClientCreated(callback: (client: Readonly<ClientModel>) => void) {
-    this.clientCreatedCallbacks.push(callback);
-  }
-
-  public callClientCreatedCallbacks(client: Readonly<ClientModel>) {
-    this.clientCreatedCallbacks.forEach(callback => {
-      callback(client);
-    });
+    this.createdCallbacks.push(callback);
   }
 
   @action
   public update(client: ClientModel, data: Partial<IClient>) {
     client.update(data);
-    this.callClientUpdatedCallbacks(client);
+    callCallbacks(this.updatedCallbacks, client);
   }
 
   public onClientUpdated(callback: (client: Readonly<ClientModel>) => void) {
-    this.clientUpdatedCallbacks.push(callback);
-  }
-
-  public callClientUpdatedCallbacks(client: Readonly<ClientModel>) {
-    this.clientUpdatedCallbacks.forEach(callback => {
-      callback(client);
-    });
+    this.updatedCallbacks.push(callback);
   }
 
   @action
@@ -75,17 +62,11 @@ export class ClientStore {
       throw new Error('specified client does not exists');
     }
     this.clients.splice(index, 1);
-    this.callClientDeletedCallbacks(clientId);
+    callCallbacks(this.deletedCallbacks, clientId);
   }
 
   public onClientDeleted(callback: (clientId: string) => void) {
-    this.clientDeletedCallbacks.push(callback);
-  }
-
-  public callClientDeletedCallbacks(clientId: string) {
-    this.clientDeletedCallbacks.forEach(callback => {
-      callback(clientId);
-    });
+    this.deletedCallbacks.push(callback);
   }
 
   public exists = (client: Partial<IClient>) => {

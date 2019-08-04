@@ -12,8 +12,8 @@ export class TextBox extends React.Component<ITextBoxProps, {}> {
     return (
       <div className={classNames('text-box__container', className)}>
         <input
-          {...rest}
           type="text"
+          {...rest}
           className="text-box"
           onChange={this.handleOnChange}
           onBlur={this.handleOnBlur}

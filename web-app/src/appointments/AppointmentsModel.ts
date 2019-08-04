@@ -1,11 +1,16 @@
-import { action, IObservableValue, observable } from "mobx";
-import { AppointmentModel } from "./AppointmentModel";
+import { action, IObservableValue, observable } from 'mobx';
+import { callCallbacks } from 'utils/utils';
+import { AppointmentModel } from './AppointmentModel';
 
 export class AppointmentsModel {
   @observable
   public appointments!: AppointmentModel[];
   @observable
   public selectedAppointmentId!: IObservableValue<string | null>;
+  private canceledCallbacks: Array<(clientId: string) => void> = [];
+  private createdCallbacks: Array<
+    (client: Readonly<AppointmentModel>) => void
+  > = [];
 
   constructor() {
     this.init();
@@ -30,7 +35,14 @@ export class AppointmentsModel {
       clientId
     );
     this.appointments.push(appointment);
+    callCallbacks(this.createdCallbacks, appointment);
     return appointment;
+  }
+
+  public onAppointmentCreated(
+    callback: (client: Readonly<AppointmentModel>) => void
+  ) {
+    this.createdCallbacks.push(callback);
   }
 
   @action
@@ -51,6 +63,11 @@ export class AppointmentsModel {
     if (this.selectedAppointmentId.get() === appointmentId) {
       this.selectedAppointmentId.set(null);
     }
+    callCallbacks(this.canceledCallbacks, appointmentId);
+  }
+
+  public onAppointmentCanceled(callback: (appointmentId: string) => void) {
+    this.canceledCallbacks.push(callback);
   }
 
   @action
