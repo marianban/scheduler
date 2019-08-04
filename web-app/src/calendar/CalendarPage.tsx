@@ -1,4 +1,4 @@
-import { Button } from 'components/Button';
+import { Button } from 'components/button';
 import React from 'react';
 import LeftPane from './left-pane/LeftPane';
 import { RightPane } from './right-pane/RightPane';

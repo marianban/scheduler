@@ -2,7 +2,7 @@ import { AppointmentModel } from 'appointments/AppointmentModel';
 import { IWorkCalendarRefreshAppointment } from 'calendar/work-calendar/WorkCalendar';
 import { ClientModel, IClientValidationResult } from 'clients/ClientModel';
 import { IClient } from 'clients/IClient';
-import { Button } from 'components/Button';
+import { Button } from 'components/button';
 import { ButtonBarField, Option } from 'components/ButtonBarField';
 import { TextField } from 'components/TextField';
 import { IItem, TypeaheadField } from 'components/TypeaheadField';
