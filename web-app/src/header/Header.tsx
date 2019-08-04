@@ -1,17 +1,17 @@
+import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib/types';
+import { UserContext } from 'App';
+import { Auth } from 'aws-amplify';
 import classNames from 'classnames';
+import { DropDownButton } from 'components/DropdownButton';
 import { Link } from 'components/Link';
 import { TextBox } from 'components/TextBox';
-import React, { useState, useContext } from 'react';
-import { Auth } from 'aws-amplify';
-import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib/types';
+import { ReactComponent as CalendarAltIcon } from 'icons/calendar-alt-regular.svg';
+import { ReactComponent as CheveronDownIcon } from 'icons/icon-cheveron-down.svg';
+import { ReactComponent as SmileIcon } from 'icons/smile-regular.svg';
+import React, { useContext, useState } from 'react';
 import { ReactComponent as BellIcon } from './bell-regular.svg';
 import './Header.css';
 import { ReactComponent as SearchIcon } from './search-solid.svg';
-import { ReactComponent as CheveronDownIcon } from 'icons/icon-cheveron-down.svg';
-import { ReactComponent as CalendarAltIcon } from 'icons/calendar-alt-regular.svg';
-import { ReactComponent as SmileIcon } from 'icons/smile-regular.svg';
-import { DropDownButton } from 'components/DropdownButton';
-import { UserContext } from 'App';
 
 interface IHeaderProps {
   path: string;

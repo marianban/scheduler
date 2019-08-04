@@ -1,4 +1,4 @@
-import { Button } from 'components/button';
+import { Button } from 'components/Button';
 import { ButtonLink } from 'components/ButtonLink';
 import { TextField } from 'components/TextField';
 import { computed, reaction } from 'mobx';
