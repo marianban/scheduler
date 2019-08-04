@@ -48,14 +48,24 @@ export class ClientList extends React.Component<IClientListProps, {}> {
         onClick={this.selectClient}
       >
         <div className="client-photo-container">
-          <object
-            data={`https://graph.facebook.com/v3.3/${facebookUserId}/picture`}
-            type="image/jpeg"
-            height="50"
-            className="client-photo"
-          >
+          {facebookUserId && (
+            <object
+              data={`https://graph.facebook.com/v3.3/${facebookUserId}/picture`}
+              type="image/jpeg"
+              height="50"
+              className="client-photo"
+              title={fullName}
+            >
+              <img
+                className="client-photo"
+                src={UserMobileIcon}
+                alt={fullName}
+              />
+            </object>
+          )}
+          {!facebookUserId && (
             <img className="client-photo" src={UserMobileIcon} alt={fullName} />
-          </object>
+          )}
         </div>
         <span className="client-full-name">{fullName}</span>
         <div className="client-details">
