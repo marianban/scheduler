@@ -2,6 +2,7 @@ import { ClientModel } from 'clients/ClientModel';
 import { ListView, ListViewItem } from 'components/ListView';
 import { ReactComponent as EmailIcon } from 'icons/at-solid.svg';
 import { ReactComponent as CalendarIcon } from 'icons/calendar-alt-regular.svg';
+import UserMobileIcon from 'icons/icon-user.svg';
 import { ReactComponent as MobileIcon } from 'icons/mobile-alt-solid.svg';
 import { inject, observer } from 'mobx-react';
 import React from 'react';
@@ -47,11 +48,14 @@ export class ClientList extends React.Component<IClientListProps, {}> {
         onClick={this.selectClient}
       >
         <div className="client-photo-container">
-          <img
+          <object
+            data={`https://graph.facebook.com/v3.3/${facebookUserId}/picture`}
+            type="image/jpeg"
+            height="50"
             className="client-photo"
-            src={`https://graph.facebook.com/v3.3/${facebookUserId}/picture`}
-            alt={fullName}
-          />
+          >
+            <img className="client-photo" src={UserMobileIcon} alt={fullName} />
+          </object>
         </div>
         <span className="client-full-name">{fullName}</span>
         <div className="client-details">
