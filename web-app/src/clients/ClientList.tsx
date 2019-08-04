@@ -56,6 +56,7 @@ export class ClientList extends React.Component<IClientListProps, {}> {
               className="client-photo"
               title={fullName}
             >
+              {/* fallback image in case the original image can't be loaded */}
               <img
                 className="client-photo"
                 src={UserMobileIcon}
