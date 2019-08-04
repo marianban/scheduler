@@ -152,3 +152,14 @@ Cypress.Commands.add(
     });
   }
 );
+
+Cypress.Commands.add('newClient', () => {
+  cy.getByTestId(/new-client-btn/i)
+    .click()
+    .getByLabelText(/full name/i)
+    .should('be.empty')
+    .getByLabelText(/email/i)
+    .should('be.empty')
+    .getByLabelText(/phone number/i)
+    .should('be.empty');
+});

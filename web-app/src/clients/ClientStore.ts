@@ -1,8 +1,8 @@
-import { v4 } from 'uuid';
 import { ClientModel } from 'clients/ClientModel';
 import { IClient } from 'clients/IClient';
 import { IClientModel } from 'clients/IClientModel';
 import { action, observable } from 'mobx';
+import { v4 } from 'uuid';
 
 export class ClientStore {
   @observable
@@ -37,7 +37,7 @@ export class ClientStore {
     if (exists) {
       throw new Error('cannot create client with duplicate id');
     }
-    this.clients.push(client);
+    this.clients.unshift(client);
     this.callClientCreatedCallbacks(client);
     return client;
   }
