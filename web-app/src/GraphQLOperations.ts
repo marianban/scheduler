@@ -1,19 +1,22 @@
+import { GraphQLResult } from '@aws-amplify/api/lib/types';
 import { API, graphqlOperation } from 'aws-amplify';
 import {
-  GetUserQueryVariables,
-  GetUserQuery,
+  CreateAppointmentInput,
   CreateUserInput,
   CreateUserMutation,
+  DeleteAppointmentInput,
+  DeleteAppointmentMutation,
+  DeleteUserInput,
+  DeleteUserMutation,
+  GetUserQuery,
+  GetUserQueryVariables,
   ListUsersQuery,
   ListUsersQueryVariables,
   UpdateUserInput,
-  UpdateUserMutation,
-  DeleteUserInput,
-  DeleteUserMutation
+  UpdateUserMutation
 } from './API';
-import * as queries from './graphql/queries';
 import * as mutations from './graphql/mutations';
-import { GraphQLResult } from '@aws-amplify/api/lib/types';
+import * as queries from './graphql/queries';
 
 export const getUser = async (
   variables: GetUserQueryVariables
@@ -54,4 +57,18 @@ export const deleteUser = async (input: DeleteUserInput) => {
     graphqlOperation(mutations.deleteUser, { input })
   )) as GraphQLResult;
   return result.data as DeleteUserMutation;
+};
+
+export const createAppointment = async (input: CreateAppointmentInput) => {
+  const result = (await API.graphql(
+    graphqlOperation(mutations.createAppointment, { input })
+  )) as GraphQLResult;
+  return result.data as CreateUserMutation;
+};
+
+export const deleteAppointment = async (input: DeleteAppointmentInput) => {
+  const result = (await API.graphql(
+    graphqlOperation(mutations.deleteAppointment, { input })
+  )) as GraphQLResult;
+  return result.data as DeleteAppointmentMutation;
 };

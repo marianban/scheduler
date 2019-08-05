@@ -30,7 +30,7 @@ type Appointment @model {
   createdAt: String!
   owner: String
   acceptedBy: String
-  facilityId: ID!
+  facilityId: ID
   date: String!
   time: String!
   duration: Int!
