@@ -2,17 +2,15 @@ import { ClientModel } from 'clients/ClientModel';
 import { IClient } from 'clients/IClient';
 import { IClientModel } from 'clients/IClientModel';
 import { action, observable } from 'mobx';
-import { callCallbacks } from 'utils/utils';
+import { CallbackHandler, UnsubscribeCallback } from 'utils/CallbackHandler';
 import { v4 } from 'uuid';
 
 export class ClientStore {
   @observable
   public clients!: ClientModel[];
-  private deletedCallbacks: Array<(clientId: string) => void> = [];
-  private updatedCallbacks: Array<
-    (clientId: Readonly<ClientModel>) => void
-  > = [];
-  private createdCallbacks: Array<(client: Readonly<ClientModel>) => void> = [];
+  private deletedCallbacks = new CallbackHandler<string>();
+  private updatedCallbacks = new CallbackHandler<ClientModel>();
+  private createdCallbacks = new CallbackHandler<ClientModel>();
 
   constructor() {
     this.init();
@@ -37,22 +35,26 @@ export class ClientStore {
       throw new Error('cannot create client with duplicate id');
     }
     this.clients.unshift(client);
-    callCallbacks(this.createdCallbacks, client);
+    this.createdCallbacks.handle(client);
     return client;
   }
 
-  public onClientCreated(callback: (client: Readonly<ClientModel>) => void) {
-    this.createdCallbacks.push(callback);
+  public onClientCreated(
+    callback: (client: Readonly<ClientModel>) => void
+  ): UnsubscribeCallback {
+    return this.createdCallbacks.add(callback);
   }
 
   @action
   public update(client: ClientModel, data: Partial<IClient>) {
     client.update(data);
-    callCallbacks(this.updatedCallbacks, client);
+    this.updatedCallbacks.handle(client);
   }
 
-  public onClientUpdated(callback: (client: Readonly<ClientModel>) => void) {
-    this.updatedCallbacks.push(callback);
+  public onClientUpdated(
+    callback: (client: Readonly<ClientModel>) => void
+  ): UnsubscribeCallback {
+    return this.updatedCallbacks.add(callback);
   }
 
   @action
@@ -62,11 +64,13 @@ export class ClientStore {
       throw new Error('specified client does not exists');
     }
     this.clients.splice(index, 1);
-    callCallbacks(this.deletedCallbacks, clientId);
+    this.deletedCallbacks.handle(clientId);
   }
 
-  public onClientDeleted(callback: (clientId: string) => void) {
-    this.deletedCallbacks.push(callback);
+  public onClientDeleted(
+    callback: (clientId: string) => void
+  ): UnsubscribeCallback {
+    return this.deletedCallbacks.add(callback);
   }
 
   public exists = (client: Partial<IClient>) => {

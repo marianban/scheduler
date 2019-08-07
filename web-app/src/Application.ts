@@ -1,30 +1,40 @@
-import { RootStore } from './RootStore';
+import { ClientModel } from 'clients/ClientModel';
+import { UnsubscribeCallback } from 'utils/CallbackHandler';
 import {
-  getUsers,
-  deleteUser,
   createUser,
+  deleteUser,
+  getUsers,
   updateUser
 } from './GraphQLOperations';
-import { ClientModel } from 'clients/ClientModel';
+import { RootStore } from './RootStore';
 
 export class Application {
   private readonly store: RootStore;
+  private unsubscribeDelete!: UnsubscribeCallback;
+  private unsubscribeCreate!: UnsubscribeCallback;
+  private unsubscribeUpdate!: UnsubscribeCallback;
 
   constructor(store: RootStore) {
     this.store = store;
   }
 
   public connectBackend() {
-    this.store.clientStore.onClientDeleted(this.deleteClient);
-    this.store.clientStore.onClientCreated(this.createClient);
-    this.store.clientStore.onClientUpdated(this.updateClient);
+    this.unsubscribeDelete = this.store.clientStore.onClientDeleted(
+      this.deleteClient
+    );
+    this.unsubscribeCreate = this.store.clientStore.onClientCreated(
+      this.createClient
+    );
+    this.unsubscribeUpdate = this.store.clientStore.onClientUpdated(
+      this.updateClient
+    );
     this.loadClients();
   }
 
   public disconnectBackend() {
-    this.store.clientStore.onClientDeleted(() => {});
-    this.store.clientStore.onClientCreated(() => {});
-    this.store.clientStore.onClientUpdated(() => {});
+    this.unsubscribeDelete();
+    this.unsubscribeCreate();
+    this.unsubscribeUpdate();
   }
 
   private loadClients = async () => {

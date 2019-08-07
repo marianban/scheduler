@@ -1,5 +1,5 @@
 import { action, IObservableValue, observable } from 'mobx';
-import { callCallbacks } from 'utils/utils';
+import { CallbackHandler, UnsubscribeCallback } from 'utils/CallbackHandler';
 import { AppointmentModel } from './AppointmentModel';
 
 export class AppointmentsModel {
@@ -7,10 +7,8 @@ export class AppointmentsModel {
   public appointments!: AppointmentModel[];
   @observable
   public selectedAppointmentId!: IObservableValue<string | null>;
-  private canceledCallbacks: Array<(clientId: string) => void> = [];
-  private createdCallbacks: Array<
-    (client: Readonly<AppointmentModel>) => void
-  > = [];
+  private canceledCallbacks = new CallbackHandler<string>();
+  private createdCallbacks = new CallbackHandler<AppointmentModel>();
 
   constructor() {
     this.init();
@@ -28,21 +26,21 @@ export class AppointmentsModel {
     duration?: number;
     clientId?: string;
   }) {
-    const appointment = new AppointmentModel(
+    const appointment = AppointmentModel.from(
       date,
-      time,
+      time || '00:00',
       duration || 30,
       clientId
     );
     this.appointments.push(appointment);
-    callCallbacks(this.createdCallbacks, appointment);
+    this.createdCallbacks.handle(appointment);
     return appointment;
   }
 
   public onAppointmentCreated(
     callback: (client: Readonly<AppointmentModel>) => void
-  ) {
-    this.createdCallbacks.push(callback);
+  ): UnsubscribeCallback {
+    return this.createdCallbacks.add(callback);
   }
 
   @action
@@ -63,11 +61,13 @@ export class AppointmentsModel {
     if (this.selectedAppointmentId.get() === appointmentId) {
       this.selectedAppointmentId.set(null);
     }
-    callCallbacks(this.canceledCallbacks, appointmentId);
+    this.canceledCallbacks.handle(appointmentId);
   }
 
-  public onAppointmentCanceled(callback: (appointmentId: string) => void) {
-    this.canceledCallbacks.push(callback);
+  public onAppointmentCanceled(
+    callback: (appointmentId: string) => void
+  ): UnsubscribeCallback {
+    return this.canceledCallbacks.add(callback);
   }
 
   @action
