@@ -5,7 +5,7 @@ import './NextAppointments.css';
 const NextAppointments = () => {
   return (
     <div className="next__appointments">
-      <h3>Today</h3>
+      <h2>Today</h2>
       <NextAppointment />
       <NextAppointment />
     </div>

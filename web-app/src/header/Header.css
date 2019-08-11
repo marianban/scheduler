@@ -32,7 +32,7 @@
 }
 
 .header__nav > a:active {
-  background-color: #fff !important;
+  background-color: var(--color-highlight) !important;
   font-weight: 600 !important;
   color: var(--font-color);
 }
@@ -54,7 +54,7 @@
 }
 
 .header__nav__item--active {
-  background-color: #fff;
+  background-color: #fce588;
   font-weight: 600;
 }
 

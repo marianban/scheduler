@@ -1,8 +1,8 @@
 .calendar {
   display: grid;
   grid-template-areas:
-    "month"
-    "weeks";
+    'month'
+    'weeks';
 }
 
 .calendar__month {
@@ -109,7 +109,6 @@
   border-radius: 50%;
   background-color: var(--color-highlight);
   width: 2.8rem;
-  color: #fff;
 }
 
 .calendar__day--another-month {
@@ -118,7 +117,6 @@
 
 .calendar__week--this {
   background-color: rgba(235, 163, 30, 0.1);
-  border: 1px solid rgba(235, 163, 30, 0.2);
   border-radius: 3px;
   overflow: visible;
 }

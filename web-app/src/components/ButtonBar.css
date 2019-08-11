@@ -28,7 +28,6 @@
 
 .btn-bar__option--selected {
   background-color: var(--color-highlight);
-  color: white;
   border-color: var(--color-highlight);
 }
 
