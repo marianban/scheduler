@@ -20,32 +20,31 @@
   color: #fff;
   text-decoration: none;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   margin-right: 2rem;
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
-  transition: background-color 125ms ease-in-out;
+  padding: 1rem 1.5rem;
+  border-radius: 2rem;
+  transition: all 250ms ease-in-out;
+}
+
+.header__nav > a path {
+  transition: all 250ms ease-in-out;
+}
+
+.header__nav > a:active {
+  background-color: #fff !important;
+  font-weight: 600 !important;
+  color: var(--font-color);
+}
+
+.header__nav > a:active path {
+  fill: var(--font-color);
 }
 
 .header__nav > a:hover:not(.header__nav__item--active) {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-/*
-.header__nav > a::before {
-  content: '';
-  background-repeat: no-repeat;
-  width: 20px;
-  height: 20px;
-  margin-right: 0.3rem;
-}
-*/
-
-/*
-.header__nav__calendar::before {
-  background-image: url(/icons/calendar-alt-regular.svg);
-}
-*/
 .header__nav__clients::before {
   background-image: url(/icons/smile-regular.svg);
 }
