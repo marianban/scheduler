@@ -1,15 +1,16 @@
+import { GetUserQuery, UserRole } from 'API';
+import { Application } from 'Application';
+import Amplify, { Auth, Hub } from 'aws-amplify';
+import { ErrorBoundary } from 'components/ErrorBoundary';
+import { createUser, getUser, updateUser } from 'GraphQLOperations';
 import { Provider } from 'mobx-react';
+import { CurrentUser } from 'models/CurrentUser';
 import React, { lazy, Suspense } from 'react';
 import { Routes } from 'Routes';
-import Amplify, { Auth, Hub } from 'aws-amplify';
 import './App.css';
+import * as awsmobile from './aws-exports';
 import Header from './header/Header';
 import { RootStore } from './RootStore';
-import * as awsmobile from './aws-exports';
-import { getUser, createUser, updateUser } from 'GraphQLOperations';
-import { UserRole, GetUserQuery } from 'API';
-import { CurrentUser } from 'models/CurrentUser';
-import { Application } from 'Application';
 
 Amplify.configure((awsmobile as any).default);
 
@@ -36,7 +37,7 @@ class App extends React.Component<IAppProps, IAppState> {
   application: Application | null = null;
   state = { user: null };
 
-  componentDidMount() {
+  async componentDidMount() {
     Hub.listen('auth', ({ payload: { event, data } }) => {
       switch (event) {
         case 'signIn':
@@ -49,11 +50,11 @@ class App extends React.Component<IAppProps, IAppState> {
           break;
       }
     });
-    this.setAuthenticatedUser();
+    await this.setAuthenticatedUser();
   }
 
-  private setAuthenticatedUser = () => {
-    Auth.currentAuthenticatedUser()
+  private setAuthenticatedUser = async () => {
+    await Auth.currentAuthenticatedUser()
       .then(this.initUser)
       .catch(e => console.log('Not signed in', e));
   };
@@ -73,7 +74,7 @@ class App extends React.Component<IAppProps, IAppState> {
     } else {
       await this.registerUser(getUserInput.id, user, facebookIdentity);
     }
-    application.connectBackend();
+    await application.connectBackend();
   };
 
   private connectFacebookIdentity = async (
@@ -155,7 +156,9 @@ class App extends React.Component<IAppProps, IAppState> {
         <UserContext.Provider value={user}>
           <div className="app">
             <Header path={path} user={user} />
-            <Routes path={path} />
+            <ErrorBoundary>
+              <Routes path={path} />
+            </ErrorBoundary>
             <Suspense fallback={null}>
               <DevTools />
             </Suspense>

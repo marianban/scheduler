@@ -3,4 +3,5 @@ export interface IAppointment {
   clientId?: string;
   dateTime: Date;
   duration: number;
+  createdAt: Date;
 }

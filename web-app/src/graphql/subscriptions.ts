@@ -90,10 +90,10 @@ export const onCreateAppointment = `subscription OnCreateAppointment {
     id
     createdAt
     owner
+    clientId
     acceptedBy
     facilityId
-    date
-    time
+    dateTime
     duration
   }
 }
@@ -103,10 +103,10 @@ export const onUpdateAppointment = `subscription OnUpdateAppointment {
     id
     createdAt
     owner
+    clientId
     acceptedBy
     facilityId
-    date
-    time
+    dateTime
     duration
   }
 }
@@ -116,10 +116,10 @@ export const onDeleteAppointment = `subscription OnDeleteAppointment {
     id
     createdAt
     owner
+    clientId
     acceptedBy
     facilityId
-    date
-    time
+    dateTime
     duration
   }
 }

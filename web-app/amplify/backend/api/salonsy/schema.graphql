@@ -29,9 +29,9 @@ type Appointment @model {
   id: ID!
   createdAt: String!
   owner: String
+  clientId: String
   acceptedBy: String
   facilityId: ID
-  date: String!
-  time: String!
+  dateTime: String!
   duration: Int!
 }

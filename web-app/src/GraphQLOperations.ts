@@ -10,8 +10,12 @@ import {
   DeleteUserMutation,
   GetUserQuery,
   GetUserQueryVariables,
+  ListAppointmentsQuery,
+  ListAppointmentsQueryVariables,
   ListUsersQuery,
   ListUsersQueryVariables,
+  UpdateAppointmentInput,
+  UpdateAppointmentMutation,
   UpdateUserInput,
   UpdateUserMutation
 } from './API';
@@ -59,11 +63,27 @@ export const deleteUser = async (input: DeleteUserInput) => {
   return result.data as DeleteUserMutation;
 };
 
+export const getAppointments = async (
+  variables: ListAppointmentsQueryVariables
+) => {
+  const result = (await API.graphql(
+    graphqlOperation(queries.listAppointments, variables)
+  )) as GraphQLResult;
+  return result.data as ListAppointmentsQuery;
+};
+
 export const createAppointment = async (input: CreateAppointmentInput) => {
   const result = (await API.graphql(
     graphqlOperation(mutations.createAppointment, { input })
   )) as GraphQLResult;
   return result.data as CreateUserMutation;
+};
+
+export const updateAppointment = async (input: UpdateAppointmentInput) => {
+  const result = (await API.graphql(
+    graphqlOperation(mutations.updateAppointment, { input })
+  )) as GraphQLResult;
+  return result.data as UpdateAppointmentMutation;
 };
 
 export const deleteAppointment = async (input: DeleteAppointmentInput) => {

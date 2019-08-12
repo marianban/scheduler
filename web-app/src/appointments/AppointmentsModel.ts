@@ -1,6 +1,7 @@
 import { action, IObservableValue, observable } from 'mobx';
 import { CallbackHandler, UnsubscribeCallback } from 'utils/CallbackHandler';
 import { AppointmentModel } from './AppointmentModel';
+import { IAppointment } from './IAppointment';
 
 export class AppointmentsModel {
   @observable
@@ -9,6 +10,7 @@ export class AppointmentsModel {
   public selectedAppointmentId!: IObservableValue<string | null>;
   private canceledCallbacks = new CallbackHandler<string>();
   private createdCallbacks = new CallbackHandler<AppointmentModel>();
+  private updatedCallbacks = new CallbackHandler<AppointmentModel>();
 
   constructor() {
     this.init();
@@ -30,11 +32,31 @@ export class AppointmentsModel {
       date,
       time || '00:00',
       duration || 30,
+      new Date(),
       clientId
     );
     this.appointments.push(appointment);
     this.createdCallbacks.handle(appointment);
     return appointment;
+  }
+
+  public update(
+    appointment: AppointmentModel,
+    data: {
+      date?: string;
+      time?: string;
+      duration?: number;
+      clientId?: string;
+    }
+  ) {
+    appointment.update(data);
+    this.updatedCallbacks.handle(appointment);
+  }
+
+  public onAppointmentUpdated(
+    callback: (client: Readonly<AppointmentModel>) => void
+  ): UnsubscribeCallback {
+    return this.updatedCallbacks.add(callback);
   }
 
   public onAppointmentCreated(
@@ -84,6 +106,20 @@ export class AppointmentsModel {
   public findById(appointmentId: string) {
     this.assertExistence(appointmentId);
     return this.appointments.find(a => a.id === appointmentId)!;
+  }
+
+  @action
+  public initAppointments(appointments: IAppointment[]) {
+    this.appointments = appointments.map(
+      a =>
+        new AppointmentModel(
+          a.dateTime,
+          a.duration,
+          a.createdAt,
+          a.clientId,
+          a.id
+        )
+    );
   }
 
   @action

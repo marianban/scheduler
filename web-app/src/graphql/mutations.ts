@@ -90,10 +90,10 @@ export const createAppointment = `mutation CreateAppointment($input: CreateAppoi
     id
     createdAt
     owner
+    clientId
     acceptedBy
     facilityId
-    date
-    time
+    dateTime
     duration
   }
 }
@@ -103,10 +103,10 @@ export const updateAppointment = `mutation UpdateAppointment($input: UpdateAppoi
     id
     createdAt
     owner
+    clientId
     acceptedBy
     facilityId
-    date
-    time
+    dateTime
     duration
   }
 }
@@ -116,10 +116,10 @@ export const deleteAppointment = `mutation DeleteAppointment($input: DeleteAppoi
     id
     createdAt
     owner
+    clientId
     acceptedBy
     facilityId
-    date
-    time
+    dateTime
     duration
   }
 }

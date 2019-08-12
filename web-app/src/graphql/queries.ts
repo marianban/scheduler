@@ -76,10 +76,10 @@ export const getAppointment = `query GetAppointment($id: ID!) {
     id
     createdAt
     owner
+    clientId
     acceptedBy
     facilityId
-    date
-    time
+    dateTime
     duration
   }
 }
@@ -94,10 +94,10 @@ export const listAppointments = `query ListAppointments(
       id
       createdAt
       owner
+      clientId
       acceptedBy
       facilityId
-      date
-      time
+      dateTime
       duration
     }
     nextToken

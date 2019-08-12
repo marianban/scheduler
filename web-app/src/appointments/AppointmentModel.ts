@@ -15,19 +15,27 @@ export class AppointmentModel implements IAppointment {
   public dateTime!: Date;
   @observable
   public duration!: number;
+  public createdAt!: Date;
 
   constructor(
     dateTime: Date,
     duration: number,
+    createdAt: Date,
     clientId?: string,
     id: string = v4()
   ) {
-    this.init(dateTime, duration, id, clientId);
+    this.init(dateTime, duration, id, createdAt, clientId);
   }
 
-  static from(date: string, time: string, duration: number, clientId?: string) {
+  static from(
+    date: string,
+    time: string,
+    duration: number,
+    createdAt: Date,
+    clientId?: string
+  ) {
     const dateTime = AppointmentModel.parseDateTime(date, time || '00:00');
-    return new AppointmentModel(dateTime, duration, clientId);
+    return new AppointmentModel(dateTime, duration, createdAt, clientId);
   }
 
   @action
@@ -101,11 +109,13 @@ export class AppointmentModel implements IAppointment {
     dateTime: Date,
     duration: number,
     id: string,
+    createdAt: Date,
     clientId?: string
   ) {
     this.id = id;
-    this.dateTime = dateTime; // this.parseDateTime(date, time);
+    this.dateTime = dateTime;
     this.duration = duration;
+    this.createdAt = createdAt;
     if (clientId) {
       this.clientId = clientId;
     }

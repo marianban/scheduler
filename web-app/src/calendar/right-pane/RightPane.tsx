@@ -360,7 +360,8 @@ export class RightPane extends React.Component<IProps, IState> {
       }
     }
     if (appointment && newClient) {
-      appointment.update({
+      const { appointmentsModel } = this.getRootStore();
+      appointmentsModel.update(appointment, {
         ...this.formToAppointment(),
         clientId: newClient.id
       });
@@ -407,11 +408,11 @@ export class RightPane extends React.Component<IProps, IState> {
   private handleAppointmentOnBlur = () => {
     const { form, appointment } = this.state;
     if (form.date && form.time) {
+      const { appointmentsModel } = this.getRootStore();
       // TODO: validate date time formats
       if (appointment) {
-        appointment.update(this.formToAppointment());
+        appointmentsModel.update(appointment, this.formToAppointment());
       } else {
-        const { appointmentsModel } = this.getRootStore();
         const newAppointment = appointmentsModel.create(
           this.formToAppointment()
         );

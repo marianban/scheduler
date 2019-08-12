@@ -1,9 +1,14 @@
+import { AppointmentModel } from 'appointments/AppointmentModel';
 import { ClientModel } from 'clients/ClientModel';
 import { UnsubscribeCallback } from 'utils/CallbackHandler';
 import {
+  createAppointment,
   createUser,
+  deleteAppointment,
   deleteUser,
+  getAppointments,
   getUsers,
+  updateAppointment,
   updateUser
 } from './GraphQLOperations';
 import { RootStore } from './RootStore';
@@ -13,12 +18,15 @@ export class Application {
   private unsubscribeDelete!: UnsubscribeCallback;
   private unsubscribeCreate!: UnsubscribeCallback;
   private unsubscribeUpdate!: UnsubscribeCallback;
+  private unsubscribeCreateAppointment!: UnsubscribeCallback;
+  private unsubscribeCancelAppointment!: UnsubscribeCallback;
+  private unsubscribeUpdateAppointment!: UnsubscribeCallback;
 
   constructor(store: RootStore) {
     this.store = store;
   }
 
-  public connectBackend() {
+  public async connectBackend() {
     this.unsubscribeDelete = this.store.clientStore.onClientDeleted(
       this.deleteClient
     );
@@ -28,13 +36,25 @@ export class Application {
     this.unsubscribeUpdate = this.store.clientStore.onClientUpdated(
       this.updateClient
     );
-    this.loadClients();
+    this.unsubscribeCreateAppointment = this.store.appointmentsModel.onAppointmentCreated(
+      this.createAppointment
+    );
+    this.unsubscribeCancelAppointment = this.store.appointmentsModel.onAppointmentCanceled(
+      this.cancelAppointment
+    );
+    this.unsubscribeUpdateAppointment = this.store.appointmentsModel.onAppointmentUpdated(
+      this.updateAppointment
+    );
+    await Promise.all([this.loadClients(), this.loadAppointments()]);
   }
 
   public disconnectBackend() {
     this.unsubscribeDelete();
     this.unsubscribeCreate();
     this.unsubscribeUpdate();
+    this.unsubscribeCreateAppointment();
+    this.unsubscribeCancelAppointment();
+    this.unsubscribeUpdateAppointment();
   }
 
   private loadClients = async () => {
@@ -72,6 +92,51 @@ export class Application {
       ...client,
       email: client.email === null ? '' : client.email,
       phoneNumber: client.phoneNumber === null ? '' : client.phoneNumber
+    };
+  }
+
+  private loadAppointments = async () => {
+    const result = await getAppointments({});
+    if (result.listAppointments && result.listAppointments.items) {
+      const appointments = result.listAppointments.items.map(i => i!);
+      this.store.appointmentsModel.initAppointments(
+        appointments.map(this.toAppointmentModel)
+      );
+    } else {
+      console.error('System was unable to load appointments');
+    }
+  };
+
+  private createAppointment = (appointment: Readonly<AppointmentModel>) => {
+    console.log('createAppointment', appointment);
+    createAppointment(this.fromAppointmentModel(appointment));
+  };
+
+  private cancelAppointment = (appointmentId: string) => {
+    console.log('cancelAppointment', this.cancelAppointment);
+    deleteAppointment({ id: appointmentId });
+  };
+
+  private updateAppointment = (appointment: Readonly<AppointmentModel>) => {
+    console.log('updateAppointment', appointment);
+    updateAppointment(this.fromAppointmentModel(appointment));
+  };
+
+  private fromAppointmentModel(appointment: Readonly<AppointmentModel>) {
+    return {
+      ...appointment,
+      createdAt: appointment.createdAt.toISOString(),
+      dateTime: appointment.dateTime.toISOString(),
+      clientId: appointment.hasClient() ? appointment.clientId : null
+    };
+  }
+
+  private toAppointmentModel(appointment: any) {
+    return {
+      ...appointment,
+      createdAt: new Date(appointment.createdAt),
+      dateTime: new Date(appointment.dateTime),
+      clientId: appointment.clientId === null ? undefined : appointment.clientId
     };
   }
 }
