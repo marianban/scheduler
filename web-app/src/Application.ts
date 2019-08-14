@@ -1,16 +1,7 @@
 import { AppointmentModel } from 'appointments/AppointmentModel';
 import { ClientModel } from 'clients/ClientModel';
 import { UnsubscribeCallback } from 'utils/CallbackHandler';
-import {
-  createAppointment,
-  createUser,
-  deleteAppointment,
-  deleteUser,
-  getAppointments,
-  getUsers,
-  updateAppointment,
-  updateUser
-} from './GraphQLOperations';
+import { createAppointment, createUser, deleteAppointment, deleteUser, getAppointments, getUsers, updateAppointment, updateUser } from './GraphQLOperations';
 import { RootStore } from './RootStore';
 
 export class Application {
@@ -45,7 +36,8 @@ export class Application {
     this.unsubscribeUpdateAppointment = this.store.appointmentsModel.onAppointmentUpdated(
       this.updateAppointment
     );
-    await Promise.all([this.loadClients(), this.loadAppointments()]);
+    await this.loadClients();
+    await this.loadAppointments();
   }
 
   public disconnectBackend() {

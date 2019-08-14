@@ -306,6 +306,11 @@ export class RightPane extends React.Component<IProps, IState> {
       },
       client
     });
+    const { appointment } = this.state;
+    if (appointment) {
+      const { appointmentsModel } = this.getRootStore();
+      appointmentsModel.update(appointment, { clientId: client.id });
+    }
   };
 
   private handleOnClientNameBlur = () => {
