@@ -94,24 +94,6 @@ export class ClientRightPane extends React.Component<
     );
   }
 
-  private initClientForm() {
-    const { clientSelectionModel } = this.getRootStore();
-    if (clientSelectionModel.selectedClient !== null) {
-      const { selectedClient } = clientSelectionModel;
-      this.setState({
-        fullName: selectedClient.fullName,
-        phoneNumber: selectedClient.phoneNumber,
-        email: selectedClient.email
-      });
-    }
-  }
-
-  @computed
-  private get isNewClient() {
-    const { clientSelectionModel } = this.getRootStore();
-    return clientSelectionModel.selectedClient === null;
-  }
-
   private handleOnDeleteClient = () => {
     const { clientStore, clientSelectionModel } = this.getRootStore();
     clientStore.deleteById(clientSelectionModel.selectedClient!.id);
@@ -119,47 +101,6 @@ export class ClientRightPane extends React.Component<
       clientVal: { isValid: true }
     });
   };
-
-  private ensureClientSelection() {
-    const { clientSelectionModel, clientStore } = this.getRootStore();
-    reaction(
-      () => clientStore.clients.length,
-      (clientsLength: number, r) => {
-        if (clientsLength > 0 && clientSelectionModel.selectedClient === null) {
-          clientSelectionModel.select(clientStore.clients[0]);
-          r.dispose();
-        }
-      },
-      { fireImmediately: true }
-    );
-  }
-
-  private observeClientSelectionChange() {
-    const { clientSelectionModel } = this.getRootStore();
-    computed(() => clientSelectionModel.selectedClient).observe(
-      ({ oldValue, newValue }) => {
-        if (
-          newValue !== null &&
-          (oldValue === null ||
-            oldValue === undefined ||
-            oldValue.id !== newValue.id)
-        ) {
-          this.setState({
-            fullName: newValue.fullName,
-            email: newValue.email,
-            phoneNumber: newValue.phoneNumber
-          });
-        }
-        if (newValue === null) {
-          this.setState({
-            fullName: '',
-            email: '',
-            phoneNumber: ''
-          });
-        }
-      }
-    );
-  }
 
   private handleOnNewClientClick = () => {
     const { clientSelectionModel } = this.getRootStore();
@@ -201,6 +142,65 @@ export class ClientRightPane extends React.Component<
       }
     }
   };
+
+  private initClientForm() {
+    const { clientSelectionModel } = this.getRootStore();
+    if (clientSelectionModel.selectedClient !== null) {
+      const { selectedClient } = clientSelectionModel;
+      this.setState({
+        fullName: selectedClient.fullName,
+        phoneNumber: selectedClient.phoneNumber,
+        email: selectedClient.email
+      });
+    }
+  }
+
+  @computed
+  private get isNewClient() {
+    const { clientSelectionModel } = this.getRootStore();
+    return clientSelectionModel.selectedClient === null;
+  }
+
+  private ensureClientSelection() {
+    const { clientSelectionModel, clientStore } = this.getRootStore();
+    reaction(
+      () => clientStore.clients.length,
+      (clientsLength: number, r) => {
+        if (clientsLength > 0 && clientSelectionModel.selectedClient === null) {
+          clientSelectionModel.select(clientStore.clients[0]);
+          r.dispose();
+        }
+      },
+      { fireImmediately: true }
+    );
+  }
+
+  private observeClientSelectionChange() {
+    const { clientSelectionModel } = this.getRootStore();
+    computed(() => clientSelectionModel.selectedClient).observe(
+      ({ oldValue, newValue }) => {
+        if (
+          newValue !== null &&
+          (oldValue === null ||
+            oldValue === undefined ||
+            oldValue.id !== newValue.id)
+        ) {
+          this.setState({
+            fullName: newValue.fullName,
+            email: newValue.email,
+            phoneNumber: newValue.phoneNumber
+          });
+        }
+        if (newValue === null) {
+          this.setState({
+            fullName: '',
+            email: '',
+            phoneNumber: ''
+          });
+        }
+      }
+    );
+  }
 
   private getRootStore = () => {
     return this.props.rootStore!;
