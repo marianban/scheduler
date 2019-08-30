@@ -11,10 +11,10 @@ import { ReactComponent as ClockIcon } from 'icons/clock-regular.svg';
 import { ReactComponent as CalendarAdd } from 'icons/icon-calendar-add.svg';
 import { ReactComponent as EditIcon } from 'icons/icon-edit.svg';
 import { ReactComponent as RemoveUserIcon } from 'icons/icon-user-remove.svg';
-import { observe } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import React from 'react';
 import { RootStore } from 'RootStore';
+import { UnsubscribeCallback } from 'utils/CallbackHandler';
 import { normalizeDate, normalizeTime } from 'utils/dateTimeUtils';
 import './RightPane.css';
 
@@ -53,24 +53,21 @@ export class RightPane extends React.Component<IProps, IState> {
   };
 
   private subscriptionId?: string;
+  private unsubscribeSelectionChange!: UnsubscribeCallback;
 
   public componentDidMount() {
     const rootStore = this.getRootStore();
     const { appointmentsModel } = rootStore;
-    observe(appointmentsModel.selectedAppointmentId, appointmentId => {
-      if (appointmentId.newValue !== null) {
-        const appointment = appointmentsModel.findById(appointmentId.newValue);
-        this.appointmentToForm(appointment);
-      } else {
-        this.clearAppointmentForm();
-      }
-    });
+    this.unsubscribeSelectionChange = appointmentsModel.onAppointmentSelectionChange(
+      this.handleAppointmentSelectionChange
+    );
     this.subscriptionId = rootStore.pubSub.subscribe<
       IWorkCalendarRefreshAppointment
     >('workCalendarRefreshAppointment', this.handleRefreshAppointment);
   }
 
   public componentWillUnmount() {
+    this.unsubscribeSelectionChange();
     if (this.subscriptionId !== undefined) {
       const { pubSub } = this.getRootStore();
       pubSub.unsubscribe('workCalendarItemClick', this.subscriptionId);
@@ -249,23 +246,14 @@ export class RightPane extends React.Component<IProps, IState> {
     this.clearAppointmentForm();
   };
 
-  private clearAppointmentForm = (callback: () => void = () => {}) => {
-    this.setState(
-      {
-        client: undefined,
-        appointment: undefined,
-        form: {
-          fullName: '',
-          email: '',
-          phoneNumber: '',
-          date: '',
-          time: '',
-          duration: DEFAULT_DURATION
-        },
-        clientVal: { isValid: true }
-      },
-      callback
-    );
+  private handleAppointmentSelectionChange = (appointmentId: string | null) => {
+    const { appointmentsModel } = this.getRootStore();
+    if (appointmentId !== null) {
+      const appointment = appointmentsModel.findById(appointmentId);
+      this.appointmentToForm(appointment);
+    } else {
+      this.clearAppointmentForm();
+    }
   };
 
   private handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -281,19 +269,6 @@ export class RightPane extends React.Component<IProps, IState> {
       });
     }
   };
-
-  private getInputName(name: string) {
-    switch (name) {
-      case 'fn':
-        return 'fullName';
-      case 'pn':
-        return 'phoneNumber';
-      case 'em':
-        return 'email';
-      default:
-        return name;
-    }
-  }
 
   private handleOnSelected = (item: IItem) => {
     const client = item as ClientModel;
@@ -396,20 +371,6 @@ export class RightPane extends React.Component<IProps, IState> {
     }
   };
 
-  private updateForm = (name: string, value: string, callback?: () => void) => {
-    this.setState(
-      prevState =>
-        ({
-          ...prevState,
-          form: {
-            ...prevState.form,
-            [name]: value
-          }
-        } as Pick<IState, keyof IState>),
-      callback
-    );
-  };
-
   private handleAppointmentOnBlur = () => {
     const { form, appointment } = this.state;
     if (form.date && form.time) {
@@ -429,6 +390,61 @@ export class RightPane extends React.Component<IProps, IState> {
     }
   };
 
+  private handleRefreshAppointment = ({
+    appointmentId
+  }: IWorkCalendarRefreshAppointment) => {
+    const { appointment } = this.state;
+    if (appointment && appointment.id === appointmentId) {
+      this.appointmentToForm(appointment);
+    }
+  };
+
+  private updateForm = (name: string, value: string, callback?: () => void) => {
+    this.setState(
+      prevState =>
+        ({
+          ...prevState,
+          form: {
+            ...prevState.form,
+            [name]: value
+          }
+        } as Pick<IState, keyof IState>),
+      callback
+    );
+  };
+
+  private clearAppointmentForm = (callback: () => void = () => {}) => {
+    this.setState(
+      {
+        client: undefined,
+        appointment: undefined,
+        form: {
+          fullName: '',
+          email: '',
+          phoneNumber: '',
+          date: '',
+          time: '',
+          duration: DEFAULT_DURATION
+        },
+        clientVal: { isValid: true }
+      },
+      callback
+    );
+  };
+
+  private getInputName(name: string) {
+    switch (name) {
+      case 'fn':
+        return 'fullName';
+      case 'pn':
+        return 'phoneNumber';
+      case 'em':
+        return 'email';
+      default:
+        return name;
+    }
+  }
+
   private formToAppointment = () => {
     const { form, client } = this.state;
     return {
@@ -437,15 +453,6 @@ export class RightPane extends React.Component<IProps, IState> {
       duration: form.duration,
       clientId: client && client.id
     };
-  };
-
-  private handleRefreshAppointment = ({
-    appointmentId
-  }: IWorkCalendarRefreshAppointment) => {
-    const { appointment } = this.state;
-    if (appointment && appointment.id === appointmentId) {
-      this.appointmentToForm(appointment);
-    }
   };
 
   private appointmentToForm = (appointment: AppointmentModel) => {

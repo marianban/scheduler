@@ -11,6 +11,7 @@ export class AppointmentsModel {
   private canceledCallbacks = new CallbackHandler<string>();
   private createdCallbacks = new CallbackHandler<AppointmentModel>();
   private updatedCallbacks = new CallbackHandler<AppointmentModel>();
+  private selectedCallbacks = new CallbackHandler<string | null>();
 
   constructor() {
     this.init();
@@ -81,7 +82,7 @@ export class AppointmentsModel {
     const index = this.appointments.findIndex(a => a.id === appointmentId);
     this.appointments.splice(index, 1);
     if (this.selectedAppointmentId.get() === appointmentId) {
-      this.selectedAppointmentId.set(null);
+      this.unselect();
     }
     this.canceledCallbacks.handle(appointmentId);
   }
@@ -96,11 +97,19 @@ export class AppointmentsModel {
   public select(appointmentId: string) {
     this.assertExistence(appointmentId);
     this.selectedAppointmentId.set(appointmentId);
+    this.selectedCallbacks.handle(appointmentId);
   }
 
   @action
   public unselect() {
     this.selectedAppointmentId.set(null);
+    this.selectedCallbacks.handle(null);
+  }
+
+  public onAppointmentSelectionChange(
+    callback: (appointmentId: string | null) => void
+  ): UnsubscribeCallback {
+    return this.selectedCallbacks.add(callback);
   }
 
   public findById(appointmentId: string) {
