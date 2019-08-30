@@ -17,6 +17,7 @@ export class TextBox extends React.Component<ITextBoxProps, {}> {
           className="text-box"
           onChange={this.handleOnChange}
           onBlur={this.handleOnBlur}
+          autoComplete="off"
         />
         {suffix && <div className="text-box__suffix">{suffix}</div>}
       </div>
