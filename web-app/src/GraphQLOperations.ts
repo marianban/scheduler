@@ -33,7 +33,7 @@ export const getUser = async (
 
 export const getUsers = async (variables: ListUsersQueryVariables) => {
   const result = (await API.graphql(
-    graphqlOperation(queries.listUsers, variables)
+    graphqlOperation(queries.listUsers, { limit: 1000, ...variables })
   )) as GraphQLResult;
   return result.data as ListUsersQuery;
 };
@@ -67,7 +67,7 @@ export const getAppointments = async (
   variables: ListAppointmentsQueryVariables
 ) => {
   const result = (await API.graphql(
-    graphqlOperation(queries.listAppointments, variables)
+    graphqlOperation(queries.listAppointments, { limit: 1000, ...variables })
   )) as GraphQLResult;
   return result.data as ListAppointmentsQuery;
 };
