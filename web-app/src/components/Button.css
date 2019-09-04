@@ -58,6 +58,7 @@
   background-color: hsl(0, 0%, 90%);
 }
 
-.btn-icon svg {
+.btn-icon svg .primary,
+.btn-icon svg .secondary {
   fill: var(--font-color);
 }
