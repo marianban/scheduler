@@ -1,9 +1,9 @@
+import { UserRole } from 'API';
 import { IItem } from 'components/TypeaheadField';
 import { action, observable } from 'mobx';
 import { v4 } from 'uuid';
 import { IClient } from './IClient';
 import { IClientModel } from './IClientModel';
-import { UserRole } from 'API';
 
 export interface IValidationResult {
   isValid: boolean;
@@ -64,6 +64,10 @@ export class ClientModel implements IClientModel, IItem {
 
   public get value(): string {
     return this.fullName;
+  }
+
+  public get key(): string {
+    return this.id;
   }
 
   @action

@@ -1,4 +1,4 @@
-.typeahead-field__label {
+.typeahead-field {
   position: relative;
 }
 
@@ -9,6 +9,7 @@
   border-radius: 3px;
   margin-top: 5px;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+  width: 100%;
 }
 
 .typeahead-field__menu li {
@@ -21,7 +22,6 @@
 
 .typeahead-field__menu__item--highlighted {
   background-color: var(--color-highlight);
-  color: #fff;
 }
 
 .typeahead-field__menu__item--selected {

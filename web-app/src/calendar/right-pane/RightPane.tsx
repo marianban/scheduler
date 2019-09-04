@@ -202,7 +202,7 @@ export class RightPane extends React.Component<IProps, IState> {
             disabled={!appointment}
             onClick={this.handleOnCancelAppointment}
           >
-            Remove from Calendar
+            Cancel Appointment
           </Button>
         </div>
       </aside>

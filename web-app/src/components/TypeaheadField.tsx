@@ -11,6 +11,7 @@ declare module 'match-sorter';
 
 export interface IItem {
   value: string;
+  key: string;
 }
 
 interface ITypeaheadFieldProps {
@@ -58,29 +59,29 @@ export class TypeaheadField extends React.Component<
                 />
               </FieldContainer>
             </Label>
-            <ul {...getMenuProps({ className: 'typeahead-field__menu' })}>
-              {isOpen
-                ? machSorter(items.slice(), inputValue, {
-                    keys: ['value']
-                  }).map((item: IItem, index: number) => (
-                    <li
-                      {...getItemProps({
-                        key: item.value,
-                        index,
-                        item,
-                        className: classNames('typeahead-field__menu__item', {
-                          'typeahead-field__menu__item--highlighted':
-                            highlightedIndex === index,
-                          'typeahead-field__menu__item--selected':
-                            selectedItem === item
-                        })
-                      })}
-                    >
-                      {item.value}
-                    </li>
-                  ))
-                : null}
-            </ul>
+            {isOpen ? (
+              <ul {...getMenuProps({ className: 'typeahead-field__menu' })}>
+                {machSorter(items.slice(), inputValue, {
+                  keys: ['value']
+                }).map((item: IItem, index: number) => (
+                  <li
+                    {...getItemProps({
+                      key: item.key,
+                      index,
+                      item,
+                      className: classNames('typeahead-field__menu__item', {
+                        'typeahead-field__menu__item--highlighted':
+                          highlightedIndex === index,
+                        'typeahead-field__menu__item--selected':
+                          selectedItem === item
+                      })
+                    })}
+                  >
+                    {item.value}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </div>
         )}
       </Downshift>
