@@ -305,10 +305,8 @@ export class RightPane extends React.Component<IProps, IState> {
           this.handleAppointmentOnBlur();
         }
       );
-      this.handleClientOnBlur();
-    } else {
-      this.handleClientOnBlur();
     }
+    this.handleClientOnBlur();
   };
 
   private handleClientOnBlur = () => {

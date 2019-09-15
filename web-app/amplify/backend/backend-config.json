@@ -15,10 +15,11 @@
 		}
 	},
 	"function": {
-		"userlambda": {
+		"salonsy7a73f002": {
 			"service": "Lambda",
 			"providerPlugin": "awscloudformation",
 			"build": true
 		}
-	}
+	},
+	"storage": {}
 }
