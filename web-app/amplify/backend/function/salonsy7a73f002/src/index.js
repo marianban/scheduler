@@ -1,7 +1,10 @@
 const AWS = require('aws-sdk');
 const sesConfig = require('./ses.secret');
+var dynamoConfig = require('./dynamo.secret');
 
 var ses = new AWS.SES(sesConfig);
+
+var dynamodb = new AWS.DynamoDB.DocumentClient(dynamoConfig);
 
 exports.handler = function(event, context, callback) {
   console.log(JSON.stringify(event, null, 2));
@@ -9,20 +12,35 @@ exports.handler = function(event, context, callback) {
     if (record.eventName === 'MODIFY') {
       const dbRecord = record.dynamodb;
       if (dbRecord.OldImage.clientId.NULL && dbRecord.NewImage.clientId.S) {
-        sendEmail(dbRecord.NewImage.clientId.S);
+        notifyUser(dbRecord.NewImage.clientId.S);
       }
     } else if (record.eventName === 'INSERT') {
       const dbRecord = record.dynamodb;
       if (dbRecord.NewImage.clientId.S) {
-        sendEmail(dbRecord.NewImage.clientId.S);
+        notifyUser(dbRecord.NewImage.clientId.S);
       }
     }
   });
   callback(null, 'message');
 };
 
-function sendEmail(clientId) {
-  console.log('Sending email to client with id: ' + clientId);
+function notifyUser(clientId) {
+  var params = {
+    TableName: 'User-ozqmzciqg5btvawgncd2vqri4e-dev',
+    Key: {
+      id: clientId
+    }
+  };
+  dynamodb.get(params, function(err, data) {
+    if (err) {
+      console.log(err, err.stack);
+    } else {
+      sendAppointmentEmail(data.Item);
+    }
+  });
+}
+
+function sendAppointmentEmail(user) {
   ses.sendEmail(
     {
       Source: sesConfig.adminEmail,
@@ -37,7 +55,11 @@ function sendEmail(clientId) {
         Body: {
           Html: {
             Charset: 'UTF-8',
-            Data: '<h3>New Appointment</h3>'
+            Data: `<h3>New Appointment</h3> <pre>${JSON.stringify(
+              user,
+              null,
+              2
+            )}</pre>`
           }
         }
       }

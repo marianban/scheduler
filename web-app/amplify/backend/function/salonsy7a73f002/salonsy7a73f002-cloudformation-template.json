@@ -71,7 +71,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "salonsy-dev-20190604194656-deployment",
-					"S3Key": "amplify-builds/salonsy7a73f002-1568564462-latest-build.zip"
+					"S3Key": "amplify-builds/salonsy7a73f002-1568654468-latest-build.zip"
 				}
 			}
 		},
