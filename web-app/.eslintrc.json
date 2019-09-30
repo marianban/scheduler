@@ -1,3 +1,4 @@
 {
+  "extends": ["react-app", "plugin:jsx-a11y/recommended"],
   "plugins": ["eslint-plugin-jsx-a11y"]
 }
