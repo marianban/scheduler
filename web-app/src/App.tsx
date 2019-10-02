@@ -3,6 +3,7 @@ import { Application } from 'Application';
 import Amplify, { Auth, Hub } from 'aws-amplify';
 import { ErrorBoundary } from 'components/ErrorBoundary';
 import { createUser, getUser, updateUser } from 'GraphQLOperations';
+import 'icons/icons.scss';
 import { Provider } from 'mobx-react';
 import { CurrentUser } from 'models/CurrentUser';
 import React, { lazy, Suspense } from 'react';
@@ -11,6 +12,7 @@ import './App.css';
 import * as awsmobile from './aws-exports';
 import Header from './header/Header';
 import { RootStore } from './RootStore';
+import { WelcomeModal } from './WelcomeModal';
 
 Amplify.configure((awsmobile as any).default);
 
@@ -162,6 +164,7 @@ class App extends React.Component<IAppProps, IAppState> {
             <Suspense fallback={null}>
               <DevTools />
             </Suspense>
+            <WelcomeModal />
           </div>
         </UserContext.Provider>
       </Provider>

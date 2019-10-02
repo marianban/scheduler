@@ -1,0 +1,12 @@
+.modal {
+  position: fixed;
+  background-color: #fff;
+  box-shadow: var(--layer-5-shadow);
+  min-width: 400px;
+  min-height: 300px;
+  z-index: var(--z-index-modal);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 3px;
+}
