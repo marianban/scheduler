@@ -15,5 +15,7 @@
   --layer-popover: 100;
   --layer-popover-menu: 101;
 
+  --layer-4-shadow: 0 15px 25px rgba(0, 0, 0, 0.15),
+    0 5px 10px rgba(0, 0, 0, 0.05);
   --layer-5-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
