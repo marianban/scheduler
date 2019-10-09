@@ -1,6 +1,6 @@
+import { fireEvent } from '@testing-library/react';
 import { addMonths, subMonths } from 'date-fns';
 import React from 'react';
-import { fireEvent } from 'react-testing-library';
 import { RootStore } from 'RootStore';
 import { renderWithProviders } from 'test/utils';
 import { Calendar } from './Calendar';

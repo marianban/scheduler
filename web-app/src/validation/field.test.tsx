@@ -1,26 +1,26 @@
-import { TextField } from "components/TextField";
-import React, { useState } from "react";
-import { fireEvent, render } from "react-testing-library";
-import { field, IValidationResult } from "./field";
+import { fireEvent, render } from '@testing-library/react';
+import { TextField } from 'components/TextField';
+import React, { useState } from 'react';
+import { field, IValidationResult } from './field';
 
-describe("field test", () => {
-  it("should validate input on blur", () => {
+describe('field test', () => {
+  it('should validate input on blur', () => {
     const { getByLabelText, getByRole, container } = render(<Form />);
-    const input = getByLabelText("Full Name") as HTMLInputElement;
+    const input = getByLabelText('Full Name') as HTMLInputElement;
 
     fireEvent.blur(input);
-    const alert = getByRole("alert") as HTMLDivElement;
-    expect(alert.textContent).toInclude("required");
+    const alert = getByRole('alert') as HTMLDivElement;
+    expect(alert.textContent).toInclude('required');
 
-    fireEvent.change(input, { target: { value: "name" } });
+    fireEvent.change(input, { target: { value: 'name' } });
 
     fireEvent.blur(input);
-    expect(container.textContent).not.toInclude("required");
+    expect(container.textContent).not.toInclude('required');
 
     function Form() {
-      const [fullName, setFullName] = useState("");
+      const [fullName, setFullName] = useState('');
       const [isValid, setIsValid] = useState(true);
-      const [message, setMessage] = useState("");
+      const [message, setMessage] = useState('');
 
       const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) =>
         setFullName(e.target.value);
@@ -41,7 +41,7 @@ describe("field test", () => {
             isValid={isValid}
             message={message}
             {...field(v => ({
-              validators: [v.isRequired("Full Name is required")],
+              validators: [v.isRequired('Full Name is required')],
               onValidated: handleOnValidated
             }))}
           />

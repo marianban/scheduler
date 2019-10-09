@@ -65,3 +65,9 @@ declare module '*.module.sass' {
 
 declare module 'match-sorter';
 declare module 'nprogress/nprogress.js';
+
+declare global {
+  interface Window {
+    Cypress: any;
+  }
+}

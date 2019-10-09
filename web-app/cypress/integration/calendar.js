@@ -25,7 +25,7 @@ describe('calendar', () => {
   });
   it('selects new date if clicked', () => {
     cy.visit('/')
-      .getByTestId(`day-${1}`)
+      .getByTestId(`day-${1}-${date.getMonth() + 1}`)
       .click()
       .should('have.class', 'calendar__day--selected');
   });

@@ -153,6 +153,7 @@ class App extends React.Component<IAppProps, IAppState> {
   public render() {
     const { user } = this.state;
     const { path } = this.props;
+    console.log(window);
     return (
       <Provider rootStore={rootStore}>
         <UserContext.Provider value={user}>
@@ -164,7 +165,7 @@ class App extends React.Component<IAppProps, IAppState> {
             <Suspense fallback={null}>
               <DevTools />
             </Suspense>
-            {!user && <WelcomeModal />}
+            {!user && !(window as any).Cypress && <WelcomeModal />}
           </div>
         </UserContext.Provider>
       </Provider>
