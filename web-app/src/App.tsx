@@ -164,7 +164,7 @@ class App extends React.Component<IAppProps, IAppState> {
             <Suspense fallback={null}>
               <DevTools />
             </Suspense>
-            <WelcomeModal />
+            {!user && <WelcomeModal />}
           </div>
         </UserContext.Provider>
       </Provider>

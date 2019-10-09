@@ -1,4 +1,3 @@
-import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib/types';
 import { UserContext } from 'App';
 import { Auth } from 'aws-amplify';
 import classNames from 'classnames';
@@ -79,17 +78,7 @@ const Header = ({ path }: IHeaderProps) => {
               )}
             </div>
           </>
-        ) : (
-          <button
-            onClick={() =>
-              Auth.federatedSignIn({
-                provider: CognitoHostedUIIdentityProvider.Facebook
-              })
-            }
-          >
-            Sign In
-          </button>
-        )}
+        ) : null}
       </div>
     </header>
   );
