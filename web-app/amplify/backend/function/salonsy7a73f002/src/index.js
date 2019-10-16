@@ -72,6 +72,8 @@ function sendAppointmentEmail(user) {
   );
 }
 
-// how to create lambda trigger
-// aws lambda create-event-source-mapping --function-name userfunc-dev \
-//  --batch-size 100 --starting-position LATEST --event-source arn:aws:dynamodb:eu-central-1:482339376943:table/Appointment-ozqmzciqg5btvawgncd2vqri4e-dev/stream/2019-07-06T07:26:08.857
+/* how to create lambda trigger
+aws lambda create-event-source-mapping --function-name newowner-dev \
+--batch-size 10 --starting-position LATEST \ 
+--event-source-arn arn:aws:dynamodb:eu-central-1:482339376943:table/User-ozqmzciqg5btvawgncd2vqri4e-dev/stream/2019-07-06T07:26:08.073
+*/

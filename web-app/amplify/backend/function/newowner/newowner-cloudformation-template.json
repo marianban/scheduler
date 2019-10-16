@@ -4,14 +4,6 @@
 	"Parameters": {
 		"env": {
 			"Type": "String"
-		},
-		"storagetesttableName": {
-			"Type": "String",
-			"Default": "Appointment-ozqmzciqg5btvawgncd2vqri4e-dev"
-		},
-		"storagetesttableArn": {
-			"Type": "String",
-			"Default": "arn:aws:dynamodb:eu-central-1:482339376943:table/Appointment-ozqmzciqg5btvawgncd2vqri4e-dev"
 		}
 	},
 	"Conditions": {
@@ -36,12 +28,12 @@
 				"FunctionName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"userfunc",
+						"newowner",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"userfunc",
+									"newowner",
 									"-",
 									{
 										"Ref": "env"
@@ -71,7 +63,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "salonsy-dev-20190604194656-deployment",
-					"S3Key": "amplify-builds/salonsy7a73f002-1570963051-latest-build.zip"
+					"S3Key": "amplify-builds/newowner-1571072230-latest-build.zip"
 				}
 			}
 		},
@@ -81,12 +73,12 @@
 				"RoleName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"salonsyLambdaRolea759115d",
+						"salonsyLambdaRole8cb8c74d",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"salonsyLambdaRolea759115d",
+									"salonsyLambdaRole8cb8c74d",
 									"-",
 									{
 										"Ref": "env"
@@ -161,20 +153,7 @@
 								"dynamodb:GetShardIterator",
 								"dynamodb:ListStreams"
 							],
-							"Resource": "arn:aws:dynamodb:eu-central-1:482339376943:table/Appointment-ozqmzciqg5btvawgncd2vqri4e-dev/stream/2019-07-06T07:26:08.857"
-						},
-						{
-							"Effect": "Allow",
-							"Action": [
-								"dynamodb:GetItem",
-								"dynamodb:Query",
-								"dynamodb:Scan"
-							],
-							"Resource": [
-								{
-									"Ref": "storagetesttableArn"
-								}
-							]
+							"Resource": "arn:aws:dynamodb:eu-central-1:482339376943:table/User-ozqmzciqg5btvawgncd2vqri4e-dev/stream/2019-07-06T07:26:08.073"
 						}
 					]
 				}
