@@ -4,6 +4,7 @@ const { region, UserPoolId } = require('./reset.secret');
 var dynamodb = new AWS.DynamoDB({ region });
 
 emptyDynamoDBTables();
+deleteCognitoUsers();
 
 function emptyDynamoDBTables() {
   dynamodb.listTables({}, function(err, data) {
