@@ -8,7 +8,6 @@ export type CreateUserInput = {
   phoneNumber?: string | null,
   createdAt: string,
   role: UserRole,
-  owner?: string | null,
   facebookUserId?: string | null,
   userFacilityId?: string | null,
 };
@@ -28,7 +27,6 @@ export type UpdateUserInput = {
   phoneNumber?: string | null,
   createdAt?: string | null,
   role?: UserRole | null,
-  owner?: string | null,
   facebookUserId?: string | null,
   userFacilityId?: string | null,
 };
@@ -39,16 +37,14 @@ export type DeleteUserInput = {
 
 export type CreateFacilityInput = {
   id?: string | null,
-  name: string,
+  name?: string | null,
   createdAt: string,
-  owner?: string | null,
 };
 
 export type UpdateFacilityInput = {
   id: string,
   name?: string | null,
   createdAt?: string | null,
-  owner?: string | null,
 };
 
 export type DeleteFacilityInput = {
@@ -88,7 +84,6 @@ export type ModelUserFilterInput = {
   phoneNumber?: ModelStringFilterInput | null,
   createdAt?: ModelStringFilterInput | null,
   role?: ModelUserRoleFilterInput | null,
-  owner?: ModelStringFilterInput | null,
   facebookUserId?: ModelStringFilterInput | null,
   and?: Array< ModelUserFilterInput | null > | null,
   or?: Array< ModelUserFilterInput | null > | null,
@@ -130,7 +125,6 @@ export type ModelFacilityFilterInput = {
   id?: ModelIDFilterInput | null,
   name?: ModelStringFilterInput | null,
   createdAt?: ModelStringFilterInput | null,
-  owner?: ModelStringFilterInput | null,
   and?: Array< ModelFacilityFilterInput | null > | null,
   or?: Array< ModelFacilityFilterInput | null > | null,
   not?: ModelFacilityFilterInput | null,
@@ -178,11 +172,9 @@ export type CreateUserMutation = {
     facility:  {
       __typename: "Facility",
       id: string,
-      name: string,
+      name: string | null,
       createdAt: string,
-      owner: string | null,
     } | null,
-    owner: string | null,
     facebookUserId: string | null,
   } | null,
 };
@@ -203,11 +195,9 @@ export type UpdateUserMutation = {
     facility:  {
       __typename: "Facility",
       id: string,
-      name: string,
+      name: string | null,
       createdAt: string,
-      owner: string | null,
     } | null,
-    owner: string | null,
     facebookUserId: string | null,
   } | null,
 };
@@ -228,11 +218,9 @@ export type DeleteUserMutation = {
     facility:  {
       __typename: "Facility",
       id: string,
-      name: string,
+      name: string | null,
       createdAt: string,
-      owner: string | null,
     } | null,
-    owner: string | null,
     facebookUserId: string | null,
   } | null,
 };
@@ -245,9 +233,8 @@ export type CreateFacilityMutation = {
   createFacility:  {
     __typename: "Facility",
     id: string,
-    name: string,
+    name: string | null,
     createdAt: string,
-    owner: string | null,
   } | null,
 };
 
@@ -259,9 +246,8 @@ export type UpdateFacilityMutation = {
   updateFacility:  {
     __typename: "Facility",
     id: string,
-    name: string,
+    name: string | null,
     createdAt: string,
-    owner: string | null,
   } | null,
 };
 
@@ -273,9 +259,8 @@ export type DeleteFacilityMutation = {
   deleteFacility:  {
     __typename: "Facility",
     id: string,
-    name: string,
+    name: string | null,
     createdAt: string,
-    owner: string | null,
   } | null,
 };
 
@@ -349,11 +334,9 @@ export type GetUserQuery = {
     facility:  {
       __typename: "Facility",
       id: string,
-      name: string,
+      name: string | null,
       createdAt: string,
-      owner: string | null,
     } | null,
-    owner: string | null,
     facebookUserId: string | null,
   } | null,
 };
@@ -378,11 +361,9 @@ export type ListUsersQuery = {
       facility:  {
         __typename: "Facility",
         id: string,
-        name: string,
+        name: string | null,
         createdAt: string,
-        owner: string | null,
       } | null,
-      owner: string | null,
       facebookUserId: string | null,
     } | null > | null,
     nextToken: string | null,
@@ -397,9 +378,8 @@ export type GetFacilityQuery = {
   getFacility:  {
     __typename: "Facility",
     id: string,
-    name: string,
+    name: string | null,
     createdAt: string,
-    owner: string | null,
   } | null,
 };
 
@@ -415,9 +395,8 @@ export type ListFacilitysQuery = {
     items:  Array< {
       __typename: "Facility",
       id: string,
-      name: string,
+      name: string | null,
       createdAt: string,
-      owner: string | null,
     } | null > | null,
     nextToken: string | null,
   } | null,
@@ -477,11 +456,9 @@ export type OnCreateUserSubscription = {
     facility:  {
       __typename: "Facility",
       id: string,
-      name: string,
+      name: string | null,
       createdAt: string,
-      owner: string | null,
     } | null,
-    owner: string | null,
     facebookUserId: string | null,
   } | null,
 };
@@ -498,11 +475,9 @@ export type OnUpdateUserSubscription = {
     facility:  {
       __typename: "Facility",
       id: string,
-      name: string,
+      name: string | null,
       createdAt: string,
-      owner: string | null,
     } | null,
-    owner: string | null,
     facebookUserId: string | null,
   } | null,
 };
@@ -519,11 +494,9 @@ export type OnDeleteUserSubscription = {
     facility:  {
       __typename: "Facility",
       id: string,
-      name: string,
+      name: string | null,
       createdAt: string,
-      owner: string | null,
     } | null,
-    owner: string | null,
     facebookUserId: string | null,
   } | null,
 };
@@ -532,9 +505,8 @@ export type OnCreateFacilitySubscription = {
   onCreateFacility:  {
     __typename: "Facility",
     id: string,
-    name: string,
+    name: string | null,
     createdAt: string,
-    owner: string | null,
   } | null,
 };
 
@@ -542,9 +514,8 @@ export type OnUpdateFacilitySubscription = {
   onUpdateFacility:  {
     __typename: "Facility",
     id: string,
-    name: string,
+    name: string | null,
     createdAt: string,
-    owner: string | null,
   } | null,
 };
 
@@ -552,9 +523,8 @@ export type OnDeleteFacilitySubscription = {
   onDeleteFacility:  {
     __typename: "Facility",
     id: string,
-    name: string,
+    name: string | null,
     createdAt: string,
-    owner: string | null,
   } | null,
 };
 

@@ -13,9 +13,7 @@ export const getUser = `query GetUser($id: ID!) {
       id
       name
       createdAt
-      owner
     }
-    owner
     facebookUserId
   }
 }
@@ -37,9 +35,7 @@ export const listUsers = `query ListUsers(
         id
         name
         createdAt
-        owner
       }
-      owner
       facebookUserId
     }
     nextToken
@@ -51,7 +47,6 @@ export const getFacility = `query GetFacility($id: ID!) {
     id
     name
     createdAt
-    owner
   }
 }
 `;
@@ -65,7 +60,6 @@ export const listFacilitys = `query ListFacilitys(
       id
       name
       createdAt
-      owner
     }
     nextToken
   }

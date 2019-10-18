@@ -13,9 +13,7 @@ export const onCreateUser = `subscription OnCreateUser {
       id
       name
       createdAt
-      owner
     }
-    owner
     facebookUserId
   }
 }
@@ -32,9 +30,7 @@ export const onUpdateUser = `subscription OnUpdateUser {
       id
       name
       createdAt
-      owner
     }
-    owner
     facebookUserId
   }
 }
@@ -51,9 +47,7 @@ export const onDeleteUser = `subscription OnDeleteUser {
       id
       name
       createdAt
-      owner
     }
-    owner
     facebookUserId
   }
 }
@@ -63,7 +57,6 @@ export const onCreateFacility = `subscription OnCreateFacility {
     id
     name
     createdAt
-    owner
   }
 }
 `;
@@ -72,7 +65,6 @@ export const onUpdateFacility = `subscription OnUpdateFacility {
     id
     name
     createdAt
-    owner
   }
 }
 `;
@@ -81,7 +73,6 @@ export const onDeleteFacility = `subscription OnDeleteFacility {
     id
     name
     createdAt
-    owner
   }
 }
 `;

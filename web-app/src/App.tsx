@@ -2,12 +2,18 @@ import { GetUserQuery, UserRole } from 'API';
 import { Application } from 'Application';
 import Amplify, { Auth, Hub } from 'aws-amplify';
 import { ErrorBoundary } from 'components/ErrorBoundary';
-import { createUser, getUser, updateUser } from 'GraphQLOperations';
+import {
+  createFacility,
+  createUser,
+  getUser,
+  updateUser
+} from 'GraphQLOperations';
 import 'icons/icons.scss';
 import { Provider } from 'mobx-react';
 import { CurrentUser } from 'models/CurrentUser';
 import React, { lazy, Suspense } from 'react';
 import { Routes } from 'Routes';
+import { v4 } from 'uuid';
 import './App.css';
 import * as awsmobile from './aws-exports';
 import Header from './header/Header';
@@ -124,36 +130,44 @@ class App extends React.Component<IAppProps, IAppState> {
   };
 
   private registerUser = async (id: any, user: any, facebookIdentity: any) => {
+    const createdAt = new Date().toISOString();
+    const facilityId = v4();
+    const createFacilityResult = await createFacility({
+      id: facilityId,
+      createdAt
+    });
+    if (!createFacilityResult.createFacility) {
+      throw new Error('Unable to register user facility');
+    }
     const createUserResult = await createUser({
       id,
       fullName: user.attributes.name,
       email: user.attributes.email,
       phoneNumber: '0908000000',
-      createdAt: new Date().toISOString(),
+      createdAt,
       role: UserRole.admin,
-      facebookUserId: facebookIdentity.userId
+      facebookUserId: facebookIdentity.userId,
+      userFacilityId: facilityId
     });
-    if (createUserResult.createUser) {
-      this.setState({
-        user: {
-          id: createUserResult.createUser.id,
-          fullName: createUserResult.createUser.fullName,
-          email: createUserResult.createUser.email || '',
-          phoneNumber: createUserResult.createUser.phoneNumber || '',
-          createdAt: createUserResult.createUser.createdAt,
-          role: createUserResult.createUser.role,
-          facebookUserId: createUserResult.createUser.facebookUserId
-        }
-      });
-    } else {
+    if (!createUserResult.createUser) {
       throw new Error('Unable to register user');
     }
+    this.setState({
+      user: {
+        id: createUserResult.createUser.id,
+        fullName: createUserResult.createUser.fullName,
+        email: createUserResult.createUser.email || '',
+        phoneNumber: createUserResult.createUser.phoneNumber || '',
+        createdAt: createUserResult.createUser.createdAt,
+        role: createUserResult.createUser.role,
+        facebookUserId: createUserResult.createUser.facebookUserId
+      }
+    });
   };
 
   public render() {
     const { user } = this.state;
     const { path } = this.props;
-    console.log(window);
     return (
       <Provider rootStore={rootStore}>
         <UserContext.Provider value={user}>

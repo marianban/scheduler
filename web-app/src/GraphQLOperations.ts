@@ -2,6 +2,8 @@ import { GraphQLResult } from '@aws-amplify/api/lib/types';
 import { API, graphqlOperation } from 'aws-amplify';
 import {
   CreateAppointmentInput,
+  CreateFacilityInput,
+  CreateFacilityMutation,
   CreateUserInput,
   CreateUserMutation,
   DeleteAppointmentInput,
@@ -91,4 +93,11 @@ export const deleteAppointment = async (input: DeleteAppointmentInput) => {
     graphqlOperation(mutations.deleteAppointment, { input })
   )) as GraphQLResult;
   return result.data as DeleteAppointmentMutation;
+};
+
+export const createFacility = async (input: CreateFacilityInput) => {
+  const result = (await API.graphql(
+    graphqlOperation(mutations.createFacility, { input })
+  )) as GraphQLResult;
+  return result.data as CreateFacilityMutation;
 };

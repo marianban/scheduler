@@ -13,9 +13,7 @@ export const createUser = `mutation CreateUser($input: CreateUserInput!) {
       id
       name
       createdAt
-      owner
     }
-    owner
     facebookUserId
   }
 }
@@ -32,9 +30,7 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
       id
       name
       createdAt
-      owner
     }
-    owner
     facebookUserId
   }
 }
@@ -51,9 +47,7 @@ export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
       id
       name
       createdAt
-      owner
     }
-    owner
     facebookUserId
   }
 }
@@ -63,7 +57,6 @@ export const createFacility = `mutation CreateFacility($input: CreateFacilityInp
     id
     name
     createdAt
-    owner
   }
 }
 `;
@@ -72,7 +65,6 @@ export const updateFacility = `mutation UpdateFacility($input: UpdateFacilityInp
     id
     name
     createdAt
-    owner
   }
 }
 `;
@@ -81,7 +73,6 @@ export const deleteFacility = `mutation DeleteFacility($input: DeleteFacilityInp
     id
     name
     createdAt
-    owner
   }
 }
 `;

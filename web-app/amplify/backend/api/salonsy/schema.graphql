@@ -7,15 +7,13 @@ type User @model {
   role: UserRole!
   # uniq id of the the facility (salon, barbershop)
   facility: Facility @connection
-  owner: String
   facebookUserId: String
 }
 
 type Facility @model {
   id: ID!
-  name: String!
+  name: String
   createdAt: String!
-  owner: String
 }
 
 enum UserRole {
