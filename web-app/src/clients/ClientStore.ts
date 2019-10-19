@@ -21,13 +21,15 @@ export class ClientStore {
     fullName,
     phoneNumber,
     email,
-    id = v4()
+    id = v4(),
+    role
   }: IClient & { id?: string }) {
     const client = new ClientModel(
       fullName,
       phoneNumber,
       email,
       // allow clients without facebookId
+      role,
       id
     );
     const exists = this.clients.some(c => c.id === client.id);
@@ -105,6 +107,7 @@ export class ClientStore {
           c.fullName,
           c.phoneNumber,
           c.email,
+          c.role,
           c.id,
           c.facebookUserId
         )

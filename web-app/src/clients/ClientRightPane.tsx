@@ -1,3 +1,4 @@
+import { UserRole } from 'API';
 import { Button } from 'components/Button';
 import { ButtonLink } from 'components/ButtonLink';
 import { TextField } from 'components/TextField';
@@ -11,6 +12,7 @@ interface IState {
   fullName: string;
   email: string;
   phoneNumber: string;
+  role: UserRole;
   clientVal: IClientValidationResult;
 }
 
@@ -28,6 +30,7 @@ export class ClientRightPane extends React.Component<
     fullName: '',
     email: '',
     phoneNumber: '',
+    role: UserRole.customer,
     clientVal: { isValid: true }
   };
 

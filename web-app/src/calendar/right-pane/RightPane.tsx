@@ -1,3 +1,4 @@
+import { UserRole } from 'API';
 import { AppointmentModel } from 'appointments/AppointmentModel';
 import { IWorkCalendarRefreshAppointment } from 'calendar/work-calendar/WorkCalendar';
 import { ClientModel, IClientValidationResult } from 'clients/ClientModel';
@@ -46,7 +47,8 @@ export class RightPane extends React.Component<IProps, IState> {
       email: '',
       date: '',
       time: '',
-      duration: DEFAULT_DURATION
+      duration: DEFAULT_DURATION,
+      role: UserRole.customer
     },
     clientVal: { isValid: true },
     editName: false
@@ -230,6 +232,7 @@ export class RightPane extends React.Component<IProps, IState> {
         phoneNumber: '',
         date: '',
         time: '',
+        role: UserRole.customer,
         duration: DEFAULT_DURATION
       }
     });
@@ -323,14 +326,19 @@ export class RightPane extends React.Component<IProps, IState> {
         clientStore.update(client, form);
         newClient = client;
       } else {
-        const { fullName, email, phoneNumber } = form;
+        const { fullName, email, phoneNumber, role } = form;
         if (clientStore.exists(form)) {
           newClient = clientStore.getByFullName(form.fullName);
           this.updateForm('fullName', newClient.fullName);
           this.updateForm('phoneNumber', newClient.phoneNumber);
           this.updateForm('email', newClient.email);
         } else {
-          newClient = clientStore.create({ fullName, phoneNumber, email });
+          newClient = clientStore.create({
+            fullName,
+            phoneNumber,
+            email,
+            role
+          });
         }
         this.setState({
           client: newClient
@@ -422,6 +430,7 @@ export class RightPane extends React.Component<IProps, IState> {
           phoneNumber: '',
           date: '',
           time: '',
+          role: UserRole.customer,
           duration: DEFAULT_DURATION
         },
         clientVal: { isValid: true }
@@ -464,7 +473,8 @@ export class RightPane extends React.Component<IProps, IState> {
         duration: appointment.duration,
         fullName: appointment.getClientFullName(rootStore),
         email: appointment.getClientEmail(rootStore),
-        phoneNumber: appointment.getClientPhoneNumber(rootStore)
+        phoneNumber: appointment.getClientPhoneNumber(rootStore),
+        role: UserRole.customer
       }
     });
   };

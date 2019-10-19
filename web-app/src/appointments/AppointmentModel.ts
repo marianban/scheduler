@@ -96,7 +96,7 @@ export class AppointmentModel implements IAppointment {
 
   private getClientField = (
     rootStore: RootStore,
-    field: 'fullName' | 'email' | 'phoneNumber'
+    field: 'fullName' | 'email' | 'phoneNumber' | 'role'
   ) => {
     if (this.clientId === undefined) {
       return '';

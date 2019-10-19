@@ -145,7 +145,7 @@ class App extends React.Component<IAppProps, IAppState> {
       email: user.attributes.email,
       phoneNumber: '0908000000',
       createdAt,
-      role: UserRole.admin,
+      role: UserRole.owner,
       facebookUserId: facebookIdentity.userId,
       userFacilityId: facilityId
     });

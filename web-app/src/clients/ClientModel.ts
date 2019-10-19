@@ -38,17 +38,17 @@ export class ClientModel implements IClientModel, IItem {
   public phoneNumber!: string;
   @observable
   public email!: string;
+  @observable
+  public role!: UserRole;
 
   public createdAt!: string;
   public facebookUserId: string | null = null;
-
-  // TODO: prevent editing on ui
-  public readonly role: UserRole = UserRole.admin;
 
   constructor(
     fullName: string,
     phoneNumber: string,
     email: string,
+    role: UserRole,
     id: string = v4(),
     facebookUserId: string | null = null
   ) {
@@ -57,6 +57,7 @@ export class ClientModel implements IClientModel, IItem {
       phoneNumber,
       email,
       id,
+      role,
       facebookUserId,
       createdAt: new Date().toISOString()
     });
@@ -102,6 +103,7 @@ export class ClientModel implements IClientModel, IItem {
     email,
     id,
     createdAt,
+    role,
     facebookUserId
   }: IClientModel) {
     this.fullName = fullName;
@@ -110,5 +112,6 @@ export class ClientModel implements IClientModel, IItem {
     this.id = id;
     this.createdAt = createdAt;
     this.facebookUserId = facebookUserId;
+    this.role = role;
   }
 }
