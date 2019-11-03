@@ -1,0 +1,45 @@
+products:
+  - product:
+      name: Vivo
+      url: https://merchant.vivo.co/
+      free: y
+      prices: $8 - $28
+      mobileApp: y
+      integration:
+        website: y
+        facebook: y
+      feedback: y
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: vivo.png
+  - product:
+      name: Planfy
+      url: https://www.planfy.com/
+      free: n
+      prices: $14 - $89
+      mobileApp: y
+      integration:
+        website: y
+        facebook: y
+      feedback: n
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: planfy.png
+  - product:
+      name: Planfy
+      url: https://www.planfy.com/
+      free: n
+      prices: $14 - $89
+      mobileApp: y
+      integration:
+        website: y
+        facebook: y
+      feedback: n
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
