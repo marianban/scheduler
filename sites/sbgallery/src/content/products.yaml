@@ -30,10 +30,70 @@ products:
       customerRetention: y
       img: planfy.png
   - product:
-      name: Planfy
-      url: https://www.planfy.com/
+      name: Shedul
+      url: https://www.shedul.com
+      free: y
+      prices: free
+      mobileApp: y
+      integration:
+        website: y
+        facebook: y
+      feedback: y
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: www.shedul.com_.png
+  - product:
+      name: Salonist
+      url: https://salonist.io
       free: n
-      prices: $14 - $89
+      prices: $49 - $99
+      mobileApp: n
+      integration:
+        website: y
+        facebook: x
+      feedback: y
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: salonist.io_.png
+  - product:
+      name: Plandok
+      url: https://www.plandok.com
+      free: y
+      prices: free
+      mobileApp: n
+      integration:
+        website: n
+        facebook: n
+      feedback: n
+      reminders: y
+      pos: n
+      onlinePayments: n
+      customerRetention: n
+      img: www.plandok.com_.png
+  - product:
+      name: Insight
+      url: https://www.salon-software.com
+      free: n
+      prices: $39 - $149
+      mobileApp: n
+      integration:
+        website: n
+        facebook: n
+      feedback: n
+      reminders: y
+      pos: y
+      onlinePayments: n
+      customerRetention: y
+      img: www.salon-software.com_.png
+  - product:
+      name: Konnect
+      url: https://www.konnect.software
+      free: n
+      prices: on request
       mobileApp: y
       integration:
         website: y
@@ -43,3 +103,154 @@ products:
       pos: y
       onlinePayments: y
       customerRetention: y
+      img: www.konnect.software_.png
+  - product:
+      name: Belliata
+      url: https://belliatasalonsoftware.com
+      free: y
+      prices: $4/user
+      mobileApp: n
+      integration:
+        website: y
+        facebook: y
+      feedback: y
+      reminders: y
+      pos: n
+      onlinePayments: n
+      customerRetention: y
+      img: belliatasalonsoftware.com_.png
+  - product:
+      name: Phorest
+      url: https://www.phorest.com
+      free: n
+      prices: on request
+      mobileApp: y
+      integration:
+        website: y
+        facebook: y
+      feedback: y
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: www.phorest.com_.png
+  - product:
+      name: Rosy
+      url: https://www.rosysalonsoftware.com
+      free: n
+      prices: $29 - $99
+      mobileApp: y
+      integration:
+        website: y
+        facebook: y
+      feedback: y
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: n
+      img: www.rosysalonsoftware.com_.png
+  - product:
+      name: Zenoti
+      url: https://www.zenoti.com/
+      free: n
+      prices: on request
+      mobileApp: y
+      integration:
+        website: n
+        facebook: n
+      feedback: y
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: www.zenoti.com_.png
+  - product:
+      name: BetterBookings
+      url: https://www.betterbookingsapp.com/salon-software/
+      free: n
+      prices: 19 - 69 AUD
+      mobileApp: n
+      integration:
+        website: y
+        facebook: n
+      feedback: n
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: www.betterbookingsapp.com_salon-software_.png
+  - product:
+      name: b2bscheduleit
+      url: https://b2bscheduleit.com
+      free: n
+      prices: £695 (on site)
+      mobileApp: y
+      integration:
+        website:
+        facebook:
+      feedback:
+      reminders:
+      pos:
+      onlinePayments:
+      customerRetention:
+      img: b2bscheduleit.com_.png
+  - product:
+      name: Bizlink
+      url: http://www.bizlinkms.com
+      free: n
+      prices: $39 - $89
+      mobileApp: y
+      integration:
+        website:
+        facebook:
+      feedback:
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention:
+      img: www.bizlinkms.com_.png
+  - product:
+      name: Acuityscheduling
+      url: https://acuityscheduling.com
+      free: y
+      prices: $15 - $50
+      mobileApp: y
+      integration:
+        website: y
+        facebook: y
+      feedback: n
+      reminders: y
+      pos: n
+      onlinePayments: y
+      customerRetention: y
+      img: acuityscheduling.com_.png
+  - product:
+      name: simplybook.me
+      url: https://simplybook.me/
+      free: y
+      prices: $8 - $50
+      mobileApp: n
+      integration:
+        website: y
+        facebook: y
+      feedback: y
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: simplybook.me_.png
+  - product:
+      name: Versum
+      url: https://www.versum.com/m/
+      free: n
+      prices: $25 - $109
+      mobileApp: n
+      integration:
+        website: y
+        facebook: y
+      feedback: y
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: www.versum.com_m_.png

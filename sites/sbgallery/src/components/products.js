@@ -8,7 +8,7 @@ export const Products = ({ images }) => (
       <div className="row">
         <div className="col-md-8 col-md-offset-2 col-xs-12">
           <div className="section-title text-center">
-            <h2>Check Out Our Projects</h2>
+            <h2>Discover Our Products</h2>
             <p>
               We carefully review new entries from our community one by one to
               make sure they meet high-quality products and functionality
@@ -17,6 +17,7 @@ export const Products = ({ images }) => (
           </div>
         </div>
       </div>
+      {/*
       <div className="row">
         <div className="col-xs-12">
           <div className="tab-menu text-center">
@@ -45,6 +46,7 @@ export const Products = ({ images }) => (
           </div>
         </div>
       </div>
+      */}
       <div className="row">
         <div className="col-xs-12">
           <div className="tab-content">
@@ -56,11 +58,6 @@ export const Products = ({ images }) => (
               </div>
             </div>
           </div>
-        </div>
-        <div className="col-xs-12 text-center">
-          <a href="#" className="btn-style">
-            Load More
-          </a>
         </div>
       </div>
     </div>

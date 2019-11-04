@@ -1,7 +1,6 @@
 import { graphql } from "gatsby"
 import React from "react"
 import Helmet from "react-helmet"
-import { FeaturedProducts } from "../components/featured-products"
 import Hero from "../components/hero"
 import Layout from "../components/layout"
 import { Newsletter } from "../components/newsletter"
@@ -15,7 +14,7 @@ export const query = graphql`
     images: allFile(
       filter: {
         extension: { regex: "/(jpeg|jpg|gif|png)/" }
-        sourceInstanceName: { eq: "products" }
+        sourceInstanceName: { eq: "products2" }
       }
     ) {
       edges {
@@ -49,7 +48,6 @@ const IndexPage = ({ data: { images } }) =>
       </Helmet>
       <Hero />
       <SearchArea />
-      <FeaturedProducts />
       <Products images={images} />
       <Newsletter />
     </Layout>

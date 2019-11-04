@@ -1,7 +1,7 @@
 import React from "react"
 
 export const SearchArea = () => (
-  <div className="search-area ptb-70 bg-3">
+  <div className="search-area ptb-70 bg-2">
     <div className="container">
       <div className="row">
         <div className="col-md-8 col-md-offset-2 col-xs-12">
