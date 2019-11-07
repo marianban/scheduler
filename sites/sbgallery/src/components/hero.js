@@ -16,10 +16,12 @@ const Hero = () => (
                 </p>
                 <ul>
                   <li>
-                    <a href="#">Explore Now</a>
+                    <a href="#Discover">Explore Now</a>
                   </li>
                   <li>
-                    <a href="#">Add Software</a>
+                    <a href="mailto:salon.barber.app.gallery@gmail.com?subject=New Software&body=Dear SBGallery,%0D%0A %0D%0A I would like to include the software described bellow (fill out missing info). %0D%0A %0D%0A Name: %0D%0A Web site: %0D%0A Free package: yes or no %0D%0A Price range: %0D%0A Mobile App: %0D%0A Website integration: %0D%0A Facebook integration: %0D%0A Clients can leave feedback: %0D%0A Reminders: %0D%0A POS: %0D%0A Online payments: %0D%0A Marketing: %0D%0A %0D%0A Thank you">
+                      Add Software
+                    </a>
                   </li>
                 </ul>
               </div>

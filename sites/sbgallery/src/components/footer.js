@@ -5,36 +5,26 @@ export const Footer = () => (
     <div className="footer-area bg-4 ptb-70">
       <div className="container">
         <div className="row">
-          <div className="col-md-3 col-sm-5 col-xs-12">
+          <div className="col-md-5 col-sm-5 col-xs-12">
             <div className="footer-widget">
               <img src="img/logo2.png" alt="" />
               <p>
                 Salon and Barber software gallery is a platform where you can
-                find the best software for you. All application were handpicked
-                and carefully considered before including to this page.
+                find the best software for you and your salon or barbershop. All
+                application were handpicked and carefully considered before
+                listed on this page.
               </p>
             </div>
           </div>
-          <div className="col-md-2 col-sm-3 col-xs-12">
+          <div className="col-md-7 col-sm-7 col-xs-12">
             <div className="footer-widget">
-              <h2 className="footer-title">Menu</h2>
-              <ul>
-                <li>
-                  <a href="#">Home</a>
-                </li>
-                <li>
-                  <a href="#">Contact</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="col-md-3 col-sm-4 col-xs-12">
-            <div className="footer-widget">
-              <h2 className="footer-title">Contact Us</h2>
+              <h2 className="footer-title" id="ContactUs">
+                Contact Us
+              </h2>
               <ul>
                 <li>
                   <i className="fa fa-envelope"></i>
-                  salonandbarbergallery@gmail.com
+                  salon.barber.app.gallery@gmail.com
                 </li>
               </ul>
             </div>

@@ -7,7 +7,7 @@ const Header = () => (
         <div className="row">
           <div className="col-md-3 col-xs-8">
             <div className="logo">
-              <a href="#">
+              <a href="/">
                 <img src="images/S&B_Gallery_logo.png" alt="" />
               </a>
             </div>
@@ -17,10 +17,10 @@ const Header = () => (
               <nav>
                 <ul id="navigation">
                   <li className="active">
-                    <a href="index.html">home</a>
+                    <a href="/">home</a>
                   </li>
                   <li>
-                    <a href="contact.html">contact</a>
+                    <a href="#ContactUs">contact</a>
                   </li>
                 </ul>
               </nav>

@@ -254,3 +254,215 @@ products:
       onlinePayments: y
       customerRetention: y
       img: www.versum.com_m_.png
+  - product:
+      name: Booker
+      url: https://www.booker.com
+      free: n
+      prices: $129 - $349
+      mobileApp: y
+      integration:
+        website: y
+        facebook: y
+      feedback: y
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: www.booker.com_.png
+  - product:
+      name: Envision
+      url: https://www.envisionsalon.com
+      free: n
+      prices: $25 - $290
+      mobileApp: y
+      integration:
+        website: y
+        facebook: y
+      feedback: n
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: www.envisionsalon.com_.png
+  - product:
+      name: Vagaro
+      url: https://sales.vagaro.com
+      free: n
+      prices: $25 - $85
+      mobileApp: y
+      integration:
+        website: y
+        facebook: y
+      feedback: y
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: sales.vagaro.com_.png
+  - product:
+      name: Salon Iris
+      url: https://www.saloniris.com/
+      free: n
+      prices: $29 - $109
+      mobileApp: y
+      integration:
+        website: y
+        facebook: y
+      feedback: y
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: www.saloniris.com_.png
+  - product:
+      name: SalonBiz
+      url: https://salonbizsoftware.com/
+      free: n
+      prices: $150+
+      mobileApp: y
+      integration:
+        website: y
+        facebook: y
+      feedback: y
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: salonbizsoftware.com_.png
+  - product:
+      name: Salon
+      url: https://www.premiersoftware.uk/products/salon/
+      free: n
+      prices: on request
+      mobileApp: y
+      integration:
+        website:
+        facebook:
+      feedback:
+      reminders:
+      pos:
+      onlinePayments:
+      customerRetention:
+      img: www.premiersoftware.uk_products_salon_.png
+  - product:
+      name: SmartCoiffeur
+      url: https://www.smartcoiffeur.com/
+      free: y
+      prices: free ($24.90 for apps)
+      mobileApp: y
+      integration:
+        website: y
+        facebook: y
+      feedback: y
+      reminders: y
+      pos:
+      onlinePayments: y
+      customerRetention:
+      img: www.smartcoiffeur.com.png
+  - product:
+      name: SimpleSpa
+      url: http://www.simplespa.com/salon/
+      free: n
+      prices: $10 - $80
+      mobileApp:
+      integration:
+        website: y
+        facebook: y
+      feedback: y
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: www.simplespa.com.png
+  - product:
+      name: Miosalon
+      url: http://www.simplespa.com/salon/
+      free: n
+      prices: $10 - $52
+      mobileApp: n
+      integration:
+        website: y
+        facebook: y
+      feedback: y
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: www.miosalon.com.png
+  - product:
+      name: Booker
+      url: https://www.mindbodyonline.com/salon-software
+      free: n
+      prices: $109 - $299
+      mobileApp: y
+      integration:
+        website: y
+        facebook: y
+      feedback: y
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: www.mindbodyonline.com_salon-software.png
+  - product:
+      name: Supersalon
+      url: https://supersalon.com/
+      free: n
+      prices: $125 - $299
+      mobileApp: y
+      integration:
+        website: y
+        facebook: y
+      feedback: y
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: supersalon.com_.png
+  - product:
+      name: Timely
+      url: https://gettimely.com/
+      free: n
+      prices: $15 - $200
+      mobileApp: y
+      integration:
+        website: y
+        facebook: y
+      feedback: y
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: gettimely.com_.png
+  - product:
+      name: Timely
+      url: https://10to8.com/salon-software/
+      free: yes
+      prices: $9.6 - $40
+      mobileApp: y
+      integration:
+        website: y
+        facebook: y
+      feedback: y
+      reminders: y
+      pos: n
+      onlinePayments: y
+      customerRetention: y
+      img: 10to8.com_salon-software_.png
+  - product:
+      name: Revel Systems
+      url: https://revelsystems.com/
+      free: yes
+      prices: $99
+      mobileApp: y
+      integration:
+        website: y
+        facebook: y
+      feedback:
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: revelsystems.com_ .png
+
+      // continue: https://www.softwareadvice.com/salon/

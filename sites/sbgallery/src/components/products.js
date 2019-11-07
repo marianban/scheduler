@@ -8,7 +8,7 @@ export const Products = ({ images }) => (
       <div className="row">
         <div className="col-md-8 col-md-offset-2 col-xs-12">
           <div className="section-title text-center">
-            <h2>Discover Our Products</h2>
+            <h2 id="Discover">Discover Our Products</h2>
             <p>
               We carefully review new entries from our community one by one to
               make sure they meet high-quality products and functionality

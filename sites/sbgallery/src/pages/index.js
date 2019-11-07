@@ -31,7 +31,7 @@ export const query = graphql`
 `
 
 const IndexPage = ({ data: { images } }) =>
-  console.log(images) || (
+ (
     <Layout>
       <SEO title="Salon And Barber Software Gallery" />
       <Helmet>
