@@ -1,4 +1,5 @@
 import React from "react"
+import ProductsData from "../content/products.yaml"
 
 export const SearchArea = () => (
   <div className="search-area ptb-70 bg-2">
@@ -6,11 +7,9 @@ export const SearchArea = () => (
       <div className="row">
         <div className="col-md-8 col-md-offset-2 col-xs-12">
           <div className="section-title text-center">
-            <h2>50 Software Products Starting From $0</h2>
-            <p>
-              Would like to be notified about new interesting products? Sing up
-              for our newsletter.
-            </p>
+            <h2>
+              {ProductsData.products.length} Salon and Barber Software Products
+            </h2>
           </div>
         </div>
       </div>

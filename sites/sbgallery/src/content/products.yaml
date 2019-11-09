@@ -376,7 +376,7 @@ products:
       img: www.simplespa.com.png
   - product:
       name: Miosalon
-      url: http://www.simplespa.com/salon/
+      url: https://www.miosalon.com/
       free: n
       prices: $10 - $52
       mobileApp: n
@@ -464,5 +464,50 @@ products:
       onlinePayments: y
       customerRetention: y
       img: revelsystems.com_ .png
+  - product:
+      name: Beauty Salon
+      url: https://www.vcita.com/ads/beauty-salon
+      free: n
+      prices: $19 - $239
+      mobileApp: y
+      integration:
+        website: y
+        facebook: y
+      feedback: y
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: www.vcita.com_ads_beauty-salon.png
+  - product:
+      name: Simple Salon
+      url: https://www.simplesalon.com/
+      free: n
+      prices: $21 - $113
+      mobileApp: y
+      integration:
+        website: y
+        facebook: y
+      feedback: y
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: www.simplesalon.com_.png
+  - product:
+      name: ChiDesk
+      url: https://www.chidesk.com/
+      free: n
+      prices: $40 - $120
+      mobileApp: y
+      integration:
+        website: y
+        facebook: y
+      feedback: y
+      reminders: y
+      pos: y
+      onlinePayments: y
+      customerRetention: y
+      img: www.chidesk.com_.png
 
-      // continue: https://www.softwareadvice.com/salon/
+      // continue: https://www.capterra.com/salon-software/

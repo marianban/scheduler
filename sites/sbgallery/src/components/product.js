@@ -3,7 +3,6 @@ import PropTypes from "prop-types"
 import React from "react"
 
 const findImage = (images, imgName) => {
-  console.log(imgName, images)
   let img = images.edges.find(
     ({
       node: {
@@ -11,8 +10,7 @@ const findImage = (images, imgName) => {
           fluid: { src },
         },
       },
-    }) =>
-      console.log("src", src, src.endsWith(imgName)) || src.endsWith(imgName)
+    }) => src.endsWith(imgName)
   )
   if (!img) {
     img = images.edges[0]
@@ -29,7 +27,7 @@ export const Product = ({ name, url, img, stars, prices, images }) => (
           style={{ minHeight: "150px" }}
           imgStyle={{ objectPosition: "0% 0%" }}
         />
-        <a href="#" className="link">
+        <a href={url} className="link" target="_blank">
           <i className="fa fa-link"></i>
         </a>
         <a href="#" className="wishlist">
