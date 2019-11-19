@@ -150,3 +150,11 @@ a.header__nav__item--active {
   height: 30px;
   box-shadow: inset 0 2px 4px 0 hsla(0, 0%, 0%, 0.2);
 }
+
+.header__nav__team {
+  svg {
+    .primary {
+      fill: #BBB1E4;
+    }
+  }
+}

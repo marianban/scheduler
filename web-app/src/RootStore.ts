@@ -4,6 +4,8 @@ import { DateSelectionModel } from 'calendar/DateSelectionModel';
 import { ClientSelectionModel } from 'clients/ClientSelectionModel';
 import { ClientStore } from 'clients/ClientStore';
 import { PubSub } from 'PubSub';
+import { TeamSelectionModel } from 'team/TeamSelectionModel';
+import { TeamStore } from 'team/TeamStore';
 
 export class RootStore {
   public calendarStore: CalendarStore;
@@ -12,12 +14,16 @@ export class RootStore {
   public dateSelectionModel: DateSelectionModel = new DateSelectionModel();
   public pubSub: PubSub = new PubSub();
   public clientSelectionModel: ClientSelectionModel;
+  public teamSelectionModel: TeamSelectionModel;
+  public teamStore: TeamStore;
 
   constructor(currentDate: Date) {
     this.clientStore = new ClientStore();
+    this.teamStore = new TeamStore();
     this.appointmentsModel = new AppointmentsModel();
     this.clientSelectionModel = new ClientSelectionModel();
     this.calendarStore = new CalendarStore(currentDate);
+    this.teamSelectionModel = new TeamSelectionModel();
     this.clientStore.onClientDeleted(this.cancelDeletedClientAppointments);
     this.clientStore.onClientDeleted(this.unselectDeletedClient);
   }

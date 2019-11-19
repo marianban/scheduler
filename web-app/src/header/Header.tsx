@@ -6,10 +6,11 @@ import { Link } from 'components/Link';
 import { TextBox } from 'components/TextBox';
 import { ReactComponent as CalendarAltIcon } from 'icons/calendar-alt-regular.svg';
 import { ReactComponent as CheveronDownIcon } from 'icons/icon-cheveron-down.svg';
+import { ReactComponent as UserGroupIcon } from 'icons/icon-user-couple.svg';
 import { ReactComponent as SmileIcon } from 'icons/smile-regular.svg';
 import React, { useContext, useState } from 'react';
 import { ReactComponent as BellIcon } from './bell-regular.svg';
-import './Header.css';
+import './Header.scss';
 import { ReactComponent as SearchIcon } from './search-solid.svg';
 
 interface IHeaderProps {
@@ -41,6 +42,15 @@ const Header = ({ path }: IHeaderProps) => {
         >
           <SmileIcon height="15px" /> Clients
         </Link>
+        <Link
+          href="/team"
+          title="Team"
+          className={classNames('header__nav__team', {
+            'header__nav__item--active': path === '/team'
+          })}
+        >
+          <UserGroupIcon height="18px" /> Team
+        </Link>
       </nav>
       <div className="header__utils">
         {user ? (
@@ -50,9 +60,7 @@ const Header = ({ path }: IHeaderProps) => {
             />
             <BellIcon />
             <img
-              src={`https://graph.facebook.com/v3.3/${
-                user.facebookUserId
-              }/picture`}
+              src={`https://graph.facebook.com/v3.3/${user.facebookUserId}/picture`}
               className="user__picture"
               alt={user.fullName}
             />
