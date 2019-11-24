@@ -1,6 +1,5 @@
 import { ListView, ListViewItem } from 'components/ListView';
 import { ReactComponent as EmailIcon } from 'icons/at-solid.svg';
-import { ReactComponent as CalendarIcon } from 'icons/calendar-alt-regular.svg';
 import UserMobileIcon from 'icons/icon-user.svg';
 import { ReactComponent as MobileIcon } from 'icons/mobile-alt-solid.svg';
 import { inject, observer } from 'mobx-react';
@@ -71,10 +70,6 @@ export class TeamMemberList extends React.Component<ITeamMemberListProps, {}> {
         </div>
         <span className="client-full-name">{fullName}</span>
         <div className="client-details">
-          <div className="client-detail">
-            <CalendarIcon className="client-icon" />
-            <a href="link/#">Tomorrow at 11:00</a>
-          </div>
           <div className="client-detail">
             <MobileIcon className="client-icon" />
             {phoneNumber}

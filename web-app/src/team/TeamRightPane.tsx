@@ -53,7 +53,7 @@ export class TeamRightPane extends React.Component<
           <ButtonLink
             className="h__btn-link app__right-pane__h"
             onClick={this.handleOnNewTeamMemberClick}
-            data-testid="new-client-btn"
+            data-testid="new-member-btn"
             disabled={this.isNewTeamMember}
           >
             new
@@ -89,7 +89,7 @@ export class TeamRightPane extends React.Component<
         <div className="pane__bottom">
           <Button
             className="btn--secondary"
-            data-testid="delete-client"
+            data-testid="delete-member"
             disabled={this.isNewTeamMember}
             onClick={this.handleOnDeleteTeamMember}
           >
