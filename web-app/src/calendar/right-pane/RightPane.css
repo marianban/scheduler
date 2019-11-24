@@ -30,6 +30,7 @@
   border: none;
   font-weight: bold;
   padding: 0;
+  box-shadow: none;
 }
 
 .typeahead__full-name .text-box__suffix {

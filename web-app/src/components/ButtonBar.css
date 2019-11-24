@@ -13,6 +13,7 @@
   height: var(--control-height);
   line-height: var(--control-height);
   border-right: none;
+  box-shadow: var(--inset-shadow-control-elevated);
 }
 
 .btn-bar__option:first-child {

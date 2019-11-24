@@ -54,7 +54,7 @@
 }
 
 .header__nav__item--active {
-  background-color: #fce588;
+  background-color: var(--color-highlight);
   font-weight: 600;
 }
 
@@ -154,7 +154,7 @@ a.header__nav__item--active {
 .header__nav__team {
   svg {
     .primary {
-      fill: #BBB1E4;
+      fill: #bbb1e4;
     }
   }
 }
