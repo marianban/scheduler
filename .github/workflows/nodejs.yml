@@ -28,10 +28,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-
       - name: Cypress run
         uses: cypress-io/github-action@v1
         with:
           start: npm start
+          working-directory: web-app
           wait-on: http://localhost:3000
-          working-directory: ./web-app
