@@ -1,13 +1,11 @@
-import 'cypress-testing-library/add-commands';
-
 Cypress.Commands.add(
   'teamTypeTeamMember',
   (fullName, email = '', phoneNumber = '') => {
-    cy.getByLabelText(/Full Name/i)
+    cy.findByLabelText(/Full Name/i)
       .type(fullName)
-      .getByLabelText(/Email/i)
+      .findByLabelText(/Email/i)
       .type(email)
-      .getByLabelText(/Phone Number/i)
+      .findByLabelText(/Phone Number/i)
       .type(phoneNumber)
       .blur();
   }
@@ -16,21 +14,21 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'teamExpectSelectedTeamMember',
   (fullName, email = '', phoneNumber = '') => {
-    cy.getByTestId('selected-list-item').within(() => {
-      cy.getByText(fullName)
-        .getByText(email)
-        .getByText(phoneNumber);
+    cy.findByTestId('selected-list-item').within(() => {
+      cy.findByText(fullName)
+        .findByText(email)
+        .findByText(phoneNumber);
     });
   }
 );
 
 Cypress.Commands.add('newTeamMember', () => {
-  cy.getByTestId(/new-member-btn/i)
+  cy.findByTestId(/new-member-btn/i)
     .click()
-    .getByLabelText(/full name/i)
+    .findByLabelText(/full name/i)
     .should('be.empty')
-    .getByLabelText(/email/i)
+    .findByLabelText(/email/i)
     .should('be.empty')
-    .getByLabelText(/phone number/i)
+    .findByLabelText(/phone number/i)
     .should('be.empty');
 });

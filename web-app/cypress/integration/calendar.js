@@ -14,18 +14,18 @@ describe('calendar', () => {
   });
   it('highlights current date', () => {
     cy.visit('/')
-      .getByText(new RegExp(`^${date.getDate()}$`))
+      .get(`[data-testid=day-${date.getDate()}-${date.getMonth()}]`)
       .should('have.class', 'calendar__day--today');
   });
   it('highlights current week', () => {
     cy.visit('/')
-      .getByText(new RegExp(`^${date.getDate()}$`))
+      .get(`[data-testid=day-${date.getDate()}-${date.getMonth()}]`)
       .parent()
       .should('have.class', 'calendar__week--this');
   });
   it('selects new date if clicked', () => {
     cy.visit('/')
-      .getByTestId(`day-${1}-${date.getMonth() + 1}`)
+      .findByTestId(`day-${1}-${date.getMonth() + 1}`)
       .click()
       .should('have.class', 'calendar__day--selected');
   });

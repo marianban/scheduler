@@ -23,31 +23,30 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
-import 'cypress-testing-library/add-commands';
 
 Cypress.Commands.add('typeAppointment', (dateTime, fullName = '') => {
   const [date, time] = dateTime.split(' ');
-  cy.getByLabelText(/date/i)
+  cy.findByLabelText(/date/i)
     .type(date)
-    .getByLabelText(/time/i)
+    .findByLabelText(/time/i)
     .type(time)
     .blur();
   if (fullName) {
-    cy.getByLabelText(/full name/i)
+    cy.findByLabelText(/full name/i)
       .type(fullName)
       .blur();
   }
-  cy.getByTestId('cancel-appointment').should('be.enabled');
+  cy.findByTestId('cancel-appointment').should('be.enabled');
 });
 
 Cypress.Commands.add('newAppointment', () => {
-  cy.getByTestId(/new-appointment/i)
+  cy.findByTestId(/new-appointment/i)
     .click()
-    .getByLabelText(/date/i)
+    .findByLabelText(/date/i)
     .should('be.empty')
-    .getByLabelText(/time/i)
+    .findByLabelText(/time/i)
     .should('be.empty')
-    .getByLabelText(/full name/i)
+    .findByLabelText(/full name/i)
     .should('be.empty');
 });
 
@@ -55,21 +54,21 @@ Cypress.Commands.add('cancelSelectedAppointment', dateTime => {
   const [date, time] = dateTime.split(' ');
   cy.get(`[data-appointment="${dateTime}"]`)
     .should('exist')
-    .getByTestId('cancel-appointment')
+    .findByTestId('cancel-appointment')
     .click()
-    .getByLabelText(/date/i)
+    .findByLabelText(/date/i)
     .should('be.empty')
-    .getByLabelText(/time/i)
+    .findByLabelText(/time/i)
     .should('be.empty')
-    .getByLabelText(/full name/i)
+    .findByLabelText(/full name/i)
     .should('be.empty')
-    .getByLabelText(/email/i)
+    .findByLabelText(/email/i)
     .should('be.empty')
-    .getByLabelText(/phone number/i)
+    .findByLabelText(/phone number/i)
     .should('be.empty')
-    .getByTestId('cancel-appointment')
+    .findByTestId('cancel-appointment')
     .should('be.disabled')
-    .getByTestId('new-appointment')
+    .findByTestId('new-appointment')
     .should('be.disabled')
     .get(`[data-appointment="${dateTime}"]`)
     .should('not.exist');
@@ -77,19 +76,19 @@ Cypress.Commands.add('cancelSelectedAppointment', dateTime => {
 
 Cypress.Commands.add('calendarCreateAppointment', dateTime => {
   const [date, time] = dateTime.split(' ');
-  cy.getByTestId(dateTime)
-    .within($date => cy.getByTestId('calendar-create-appointment').click())
-    .getByLabelText('Date')
+  cy.findByTestId(dateTime)
+    .within($date => cy.findByTestId('calendar-create-appointment').click())
+    .findByLabelText('Date')
     .should('have.value', date)
-    .getByLabelText('Time')
+    .findByLabelText('Time')
     .should('have.value', time)
-    .getByLabelText(/full name/i)
+    .findByLabelText(/full name/i)
     .should('be.empty')
-    .getByLabelText(/email/i)
+    .findByLabelText(/email/i)
     .should('be.empty')
-    .getByLabelText(/phone number/i)
+    .findByLabelText(/phone number/i)
     .should('be.empty')
-    .getByTestId('cancel-appointment')
+    .findByTestId('cancel-appointment')
     .should('be.enabled');
 });
 
@@ -98,13 +97,13 @@ Cypress.Commands.add('calendarSelectAppointment', (dateTime, fullName = '') => {
   cy.get(`[data-appointment="${dateTime}"]`)
     .should('exist')
     .click()
-    .getByLabelText(/date/i)
+    .findByLabelText(/date/i)
     .should('have.value', date)
-    .getByLabelText(/time/i)
+    .findByLabelText(/time/i)
     .should('have.value', time);
 
   if (fullName) {
-    cy.getByLabelText(/full name/i).should('have.value', fullName);
+    cy.findByLabelText(/full name/i).should('have.value', fullName);
   }
 });
 
@@ -115,7 +114,7 @@ Cypress.Commands.add('calendarHasAppointment', (dateTime, fullName = '') => {
     .get(`[data-appointment="${dateTime}"]`)
     .within(() => {
       if (fullName) {
-        cy.getByTestId('appointment-client').should('have.text', fullName);
+        cy.findByTestId('appointment-client').should('have.text', fullName);
       }
     });
 });
@@ -132,11 +131,11 @@ Cypress.Commands.add('calendarAppointmentsCount', count => {
 Cypress.Commands.add(
   'clientsTypeClient',
   (fullName, email = '', phoneNumber = '') => {
-    cy.getByLabelText(/Full Name/i)
+    cy.findByLabelText(/Full Name/i)
       .type(fullName)
-      .getByLabelText(/Email/i)
+      .findByLabelText(/Email/i)
       .type(email)
-      .getByLabelText(/Phone Number/i)
+      .findByLabelText(/Phone Number/i)
       .type(phoneNumber)
       .blur();
   }
@@ -145,21 +144,21 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'clientsExpectSelectedClient',
   (fullName, email = '', phoneNumber = '') => {
-    cy.getByTestId('selected-list-item').within(() => {
-      cy.getByText(fullName)
-        .getByText(email)
-        .getByText(phoneNumber);
+    cy.findByTestId('selected-list-item').within(() => {
+      cy.findByText(fullName)
+        .findByText(email)
+        .findByText(phoneNumber);
     });
   }
 );
 
 Cypress.Commands.add('newClient', () => {
-  cy.getByTestId(/new-client-btn/i)
+  cy.findByTestId(/new-client-btn/i)
     .click()
-    .getByLabelText(/full name/i)
+    .findByLabelText(/full name/i)
     .should('be.empty')
-    .getByLabelText(/email/i)
+    .findByLabelText(/email/i)
     .should('be.empty')
-    .getByLabelText(/phone number/i)
+    .findByLabelText(/phone number/i)
     .should('be.empty');
 });
