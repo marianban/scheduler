@@ -27,12 +27,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        working-directory: ./web-app
         uses: actions/checkout@v1
 
       - name: Cypress run
-        working-directory: ./web-app
         uses: cypress-io/github-action@v1
         with:
           start: npm start
           wait-on: http://localhost:3000
+          working-directory: ./web-app
