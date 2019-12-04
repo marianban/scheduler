@@ -24,7 +24,5 @@ jobs:
           CI: true
       - uses: cypress-io/github-action@v1
         with:
-          start: |
-            npm build
-            npm start-ci
+          start: npm run run-ci
           working-directory: web-app

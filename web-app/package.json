@@ -42,6 +42,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "start-ci": "serve -l 3000 -s build",
+    "run-ci": "npm run build && npm run start-ci",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cy:run": "cypress run",
