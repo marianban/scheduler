@@ -11,7 +11,7 @@ import {
 import 'icons/icons.scss';
 import { Provider } from 'mobx-react';
 import { CurrentUser } from 'models/CurrentUser';
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
 import { Routes } from 'Routes';
 import { v4 } from 'uuid';
 import './App.css';
@@ -21,12 +21,6 @@ import { RootStore } from './RootStore';
 import { WelcomeModal } from './WelcomeModal';
 
 Amplify.configure((awsmobile as any).default);
-
-const DevTools = lazy(() =>
-  process.env.NODE_ENV === 'production'
-    ? (import('mobx-react-devtools') as any)
-    : Promise.resolve({ default: () => null })
-);
 
 const rootStore = new RootStore(new Date());
 const application = new Application(rootStore);
@@ -176,9 +170,6 @@ class App extends React.Component<IAppProps, IAppState> {
             <ErrorBoundary>
               <Routes path={path} />
             </ErrorBoundary>
-            <Suspense fallback={null}>
-              <DevTools />
-            </Suspense>
             {!user && !(window as any).Cypress && <WelcomeModal />}
           </div>
         </UserContext.Provider>

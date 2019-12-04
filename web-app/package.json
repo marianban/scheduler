@@ -35,11 +35,13 @@
     "mobx-react-devtools": "^6.1.1",
     "node-sass": "^4.13.0",
     "prettier": "^1.19.1",
+    "serve": "^11.2.0",
     "typescript": "3.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "start-ci": "serve -l 3000 -s build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cy:run": "cypress run",

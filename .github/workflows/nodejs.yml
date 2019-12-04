@@ -18,19 +18,11 @@ jobs:
       - name: npm install and test
         working-directory: ./web-app
         run: |
-          npm install
+          npm ci
           npm test
         env:
           CI: true
-
-  cypress-run:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-      - name: Cypress run
-        uses: marianban/github-action@master
+      - uses: cypress-io/github-action@v1
         with:
-          start: npm start
-          package-directory: web-app
-          wait-on: http://localhost:3000
+          start: npm build && npm start-ci
+          working-directory: web-app
